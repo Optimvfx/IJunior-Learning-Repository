@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hospital stay calculator", "Hospital stay calculator\Hospital stay calculator.csproj", "{080C723C-0BB4-4195-B350-66E5B23C83BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{080C723C-0BB4-4195-B350-66E5B23C83BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080C723C-0BB4-4195-B350-66E5B23C83BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080C723C-0BB4-4195-B350-66E5B23C83BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080C723C-0BB4-4195-B350-66E5B23C83BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EAB1552-FF09-4E73-95CE-70666D087BC8}
+	EndGlobalSection
+EndGlobal

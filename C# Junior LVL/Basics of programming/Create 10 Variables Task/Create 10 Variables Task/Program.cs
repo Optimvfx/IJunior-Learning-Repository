@@ -1,5 +1,4 @@
-﻿
-// Task of https://lk.ijunior.ru/Homework/Detail/26
+﻿// Task of https://lk.ijunior.ru/Homework/Detail/26
 using System;
 
 namespace Create_10_Variables_Task
@@ -8,22 +7,22 @@ namespace Create_10_Variables_Task
     {
         static void Main(string[] args)
         {
-            uint MaximalHealth = 200;
-            int CurrentHealth = (int)MaximalHealth;
+            uint maximalHealth = 200;
+            int currentHealth = (int)maximalHealth;
 
-            byte CharByteCode = (byte)'h';
+            byte charByteCode = (byte)'h';
 
-            sbyte ColorPaletteRedForce = 42;
+            sbyte colorPaletteRedForce = 42;
 
-            long UserCardNumber = 4127631616283717;
-            string UserName = "Stepan Valeriev";
+            long userCardNumber = 4127631616283717;
+            string userName = "Stepan Valeriev";
 
-            float PlayerMoveSpeed = 15f;
-            double GrawityForce = 9.8;
+            float playerMoveSpeed = 15f;
+            double grawityForce = 9.8;
 
-            short ExceptedRegistrationConfirmationCode = 1526;
+            short exceptedRegistrationConfirmationCode = 1526;
             var registrationConfirmationCode = 1526;
-            bool RegistrationCompletedSuccessfully = registrationConfirmationCode == ExceptedRegistrationConfirmationCode;
+            bool isRegistrationCompletedSuccessfully = registrationConfirmationCode == exceptedRegistrationConfirmationCode;
         }
     }   
 }

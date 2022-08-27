@@ -1,5 +1,7 @@
 ﻿
 // Task of https://lk.ijunior.ru/Homework/Detail/26
+using System;
+
 namespace Create_10_Variables_Task
 {
     public static class Program

@@ -8,6 +8,9 @@
  * Console.WriteLine(c);
  * 
  * Solution:
+ * Priority
+ *         2222221111123333        
+ * int c = (31 – 5 * a) / b;
  * int c = (31 – 5 * 10) / 38;
  * int c = (31 – 50) / 38;
  * int c = -19 / 38;

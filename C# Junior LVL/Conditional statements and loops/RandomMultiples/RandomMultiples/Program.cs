@@ -20,7 +20,7 @@ namespace RandomMultiples
 
             for (int i = 0; i <= rangeOfNumbersLength; i++)
             {
-                if (i % multiplicityIndexFirst <= 0 || i % multiplicityIndexSecond <= 0)
+                if (i % multiplicityIndexFirst < 0 || i % multiplicityIndexSecond < 0)
                 {
                     sumOfAllMultiplicityNumbers += i;
                     Console.WriteLine(i);

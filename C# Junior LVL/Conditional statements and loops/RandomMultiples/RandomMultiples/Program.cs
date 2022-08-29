@@ -14,11 +14,11 @@ namespace RandomMultiples
 
             uint maximalRandomNumber = 100;
 
-            int rangeOfNumbersLength = random.Next((int)maximalRandomNumber);
+            int rangeOfNumbersLength = random.Next((int)maximalRandomNumber); 
 
             var sumOfAllMultiplicityNumbers = 0;
 
-            for (int i = 0; i < rangeOfNumbersLength; i++)
+            for (int i = 0; i <= rangeOfNumbersLength; i++)
             {
                 if (i % multiplicityIndexFirst <= 0 || i % multiplicityIndexSecond <= 0)
                 {

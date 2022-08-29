@@ -1,6 +1,6 @@
 ﻿using System;
 
-//Task of https://lk.ijunior.ru/Homework/Detail/33
+//Task of https://lk.ijunior.ru/Homework/Detail/34
 namespace MoneyConvertor
 {
     internal class Program
@@ -8,33 +8,34 @@ namespace MoneyConvertor
         static void Main(string[] args)
         {
             #region data
-            string exitCommad = "YES";
+            string exitCommand = "YES";
+            bool exitCommandEntered = false;
 
-            string USDCurrencieName = "USD";
-            string BTCCurrencieName = "BTC";
-            string ETHCurrencieName = "ETH";
-         
-            float USDtoBTC = 15326f,USDtoETH = 4500f;
-            float BTCtoUSD = 0.0001f, BTCtoETH = 0.20f;
-            float ETHtoBTC = 5f, ETHtoUSD = 0.002f;
+            string usdCurrencieName = "USD";
+            string btcCurrencieName = "BTC";
+            string ethCurrencieName = "ETH";
+
+            float usdToBtc = 15326f;
+            float usdToEth = 4500f;
+            float btcToUsd = 0.0001f;
+            float btcToEth = 0.20f;
+            float ethToBtc = 5f;
+            float ethToUsd = 0.002f;
             #endregion data
 
-            var USDBalance = 1000f;
-            var BTCBalance = 0.1f;
-            var ETHBalance = 4f;  
+            var usdBalance = 1000f;
+            var btcBalance = 0.1f;
+            var ethBalance = 4f;  
 
-            while(true)
+            while(exitCommandEntered == false)
             {
                 #region exit
                 Console.WriteLine("Exit? (YES or NO, other answer is NO)");
-                var exit = Console.ReadLine().ToUpper() == exitCommad;
-
-                if (exit)
-                    break;
+                exitCommandEntered = Console.ReadLine().ToUpper() == exitCommand;
                 #endregion exit
                 
                 #region userInput
-                Console.WriteLine("\n"+$"On balanse: {USDBalance} USD, {BTCBalance} BTC, {ETHBalance} ETH.");
+                Console.WriteLine("\n"+$"On balanse: {usdBalance} USD, {btcBalance} BTC, {ethBalance} ETH.");
 
                 Console.WriteLine("Currencies allowed for convetting: USD BTC ETH"); 
 
@@ -61,53 +62,53 @@ namespace MoneyConvertor
                     continue;
                 }
 
-                if (currencieFromConvett == USDCurrencieName && USDBalance < convetteSum)
+                if (currencieFromConvett == usdCurrencieName && usdBalance < convetteSum)
                 {
-                    Console.WriteLine($"Convette sum is larger then Balanse of {USDCurrencieName}");
+                    Console.WriteLine($"Convette sum is larger then Balanse of {usdCurrencieName}");
                     continue;
                 }
-                if (currencieFromConvett == BTCCurrencieName && BTCBalance < convetteSum)
+                if (currencieFromConvett == btcCurrencieName && btcBalance < convetteSum)
                 {
-                    Console.WriteLine($"Convette sum is larger then Balanse of {BTCCurrencieName}");
+                    Console.WriteLine($"Convette sum is larger then Balanse of {btcCurrencieName}");
                     continue;
                 }
-                if (currencieFromConvett == ETHCurrencieName && ETHBalance < convetteSum)
+                if (currencieFromConvett == ethCurrencieName && ethBalance < convetteSum)
                 {
-                    Console.WriteLine($"Convette sum is larger then Balanse of {ETHCurrencieName}");
+                    Console.WriteLine($"Convette sum is larger then Balanse of {ethCurrencieName}");
                     continue;
                 }
                 #endregion inVariant
 
                 #region logic
-                if (currencieFromConvett == USDCurrencieName && currencieToConvett == BTCCurrencieName)
+                if (currencieFromConvett == usdCurrencieName && currencieToConvett == btcCurrencieName)
                 {
-                    USDBalance -= convetteSum;
-                    BTCBalance += convetteSum / USDtoBTC;
+                    usdBalance -= convetteSum;
+                    btcBalance += convetteSum / usdToBtc;
                 }
-                else if (currencieFromConvett == USDCurrencieName && currencieToConvett == ETHCurrencieName)
+                else if (currencieFromConvett == usdCurrencieName && currencieToConvett == ethCurrencieName)
                 {
-                    USDBalance -= convetteSum;
-                    ETHBalance += convetteSum / USDtoETH;
+                    usdBalance -= convetteSum;
+                    ethBalance += convetteSum / usdToEth;
                 }
-                else if (currencieFromConvett == BTCCurrencieName && currencieToConvett == USDCurrencieName)
+                else if (currencieFromConvett == btcCurrencieName && currencieToConvett == usdCurrencieName)
                 {
-                    BTCBalance -= convetteSum;
-                    USDBalance += convetteSum / BTCtoUSD;
+                    btcBalance -= convetteSum;
+                    usdBalance += convetteSum / btcToUsd;
                 }
-                else if(currencieFromConvett == BTCCurrencieName && currencieToConvett == ETHCurrencieName)
+                else if(currencieFromConvett == btcCurrencieName && currencieToConvett == ethCurrencieName)
                 {
-                    BTCBalance -= convetteSum;
-                    ETHBalance += convetteSum / BTCtoETH;
+                    btcBalance -= convetteSum;
+                    ethBalance += convetteSum / btcToEth;
                 }
-                else if (currencieFromConvett == ETHCurrencieName && currencieToConvett == USDCurrencieName)
+                else if (currencieFromConvett == ethCurrencieName && currencieToConvett == usdCurrencieName)
                 {
-                    ETHBalance -= convetteSum;
-                    USDBalance += convetteSum / ETHtoUSD;
+                    ethBalance -= convetteSum;
+                    usdBalance += convetteSum / ethToUsd;
                 }
-                else if (currencieFromConvett == ETHCurrencieName && currencieToConvett == BTCCurrencieName)
+                else if (currencieFromConvett == ethCurrencieName && currencieToConvett == btcCurrencieName)
                 {
-                    ETHBalance -= convetteSum;
-                    BTCBalance += convetteSum / ETHtoBTC;
+                    ethBalance -= convetteSum;
+                    btcBalance += convetteSum / ethToBtc;
                 }
                 else
                 {

@@ -12,22 +12,22 @@ namespace RandomMultiples
             uint multiplicityIndex = 3;
             uint multiplicityMaximalRange = 0;
 
-            uint minimalRandomNumber = 0, maximalRandomNumber = 100;
+            uint maximalRandomNumber = 100;
 
-            int rangeOfNumbersLength = random.Next((int)minimalRandomNumber, (int)maximalRandomNumber);
+            int rangeOfNumbersLength = random.Next((int)maximalRandomNumber);
 
             var sumOfAllMultiplicityNumbers = 0;
 
-            for (int i = (int)minimalRandomNumber; i < rangeOfNumbersLength; i++)
+            for (int i = 0; i < rangeOfNumbersLength; i++)
             {
                 if (i % multiplicityIndex > multiplicityMaximalRange)
-                    continue;
-
-                sumOfAllMultiplicityNumbers += i;
-                Console.WriteLine(i);
+                {
+                    sumOfAllMultiplicityNumbers += i;
+                    Console.WriteLine(i);
+                }
             }
 
-            Console.WriteLine($"Sum of all numbers which multiplicity {multiplicityIndex} in range from {minimalRandomNumber} to {rangeOfNumbersLength} is {sumOfAllMultiplicityNumbers}.");
+            Console.WriteLine($"Sum of all numbers which multiplicity {multiplicityIndex} in range from 0 to {rangeOfNumbersLength} is {sumOfAllMultiplicityNumbers}.");
             Console.ReadKey();
         }
     }

@@ -9,8 +9,8 @@ namespace RandomMultiples
         {
             Random random = new Random();
 
-            uint multiplicityIndex = 3;
-            uint multiplicityMaximalRange = 0;
+            uint multiplicityIndexFirst = 3;
+            uint multiplicityIndexSecond = 5;
 
             uint maximalRandomNumber = 100;
 
@@ -20,14 +20,14 @@ namespace RandomMultiples
 
             for (int i = 0; i < rangeOfNumbersLength; i++)
             {
-                if (i % multiplicityIndex > multiplicityMaximalRange)
+                if (i % multiplicityIndexFirst <= 0 || i % multiplicityIndexSecond <= 0)
                 {
                     sumOfAllMultiplicityNumbers += i;
                     Console.WriteLine(i);
                 }
             }
 
-            Console.WriteLine($"Sum of all numbers which multiplicity {multiplicityIndex} in range from 0 to {rangeOfNumbersLength} is {sumOfAllMultiplicityNumbers}.");
+            Console.WriteLine($"Sum of all numbers which multiplicity {multiplicityIndexFirst} and {multiplicityIndexSecond} in range from 0 to {rangeOfNumbersLength} is {sumOfAllMultiplicityNumbers}.");
             Console.ReadKey();
         }
     }

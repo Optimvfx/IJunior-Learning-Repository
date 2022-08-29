@@ -6,7 +6,9 @@ namespace StringCube
     {
         static void Main(string[] args)
         {
+            Console.Write("Enter string: ");
             string userInput = Console.ReadLine();
+            Console.Write("Enter stroke: ");
             char strokeChar = Console.ReadLine()[0];
 
             for (int y = -1; y <= 1; y++)

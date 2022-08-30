@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace Boss_Fight
 {
     internal class Program

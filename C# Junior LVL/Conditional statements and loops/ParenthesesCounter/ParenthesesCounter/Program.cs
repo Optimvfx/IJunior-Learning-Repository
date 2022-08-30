@@ -16,13 +16,13 @@ namespace ParenthesesCounter
             var dephtMaximum = 0;
             var userInputIsInvalid = false;
 
-            foreach (var chr in userInputBrackets)
+            foreach (var bracket in userInputBrackets)
             {
-                if (chr == leftbracket)
+                if (bracket == leftbracket)
                 {
                     offsetWeightBrackets++;
                 }
-                else if (chr == rightbracket)
+                else if (bracket == rightbracket)
                 {
                     offsetWeightBrackets--;
                 }

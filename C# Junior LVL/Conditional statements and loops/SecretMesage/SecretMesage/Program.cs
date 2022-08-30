@@ -9,21 +9,27 @@ namespace SecretMesage
             string secretMessage = $"47°41'32.2\"N 31°30'10.8\"E";
             string passworld = "helix";
 
-            uint tryCount = 3;
+            uint leftTryCount = 3;
 
-            for(int currentTry = 1; currentTry <= tryCount; currentTry++)
+            Console.Write("Enter passworld: ");
+            var userInput = Console.ReadLine();
+            leftTryCount--;
+
+            while (userInput != passworld && leftTryCount > 0)
             {
-                Console.Write("Enter passworld: ");
-                var userInput = Console.ReadLine(); 
-                if(userInput == passworld)
-                {
-                    Console.WriteLine($"SecretMessage is {secretMessage}");
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine($"Wrong passworld, left try count {tryCount - currentTry}");
-                }
+                Console.Write($"Wrong passworld,left try count {leftTryCount},enter passworld: ");
+                userInput = Console.ReadLine();
+
+                leftTryCount--;
+            }
+
+            if(leftTryCount > 0)
+            {
+                Console.WriteLine($"Secret message: {secretMessage}.");
+            }
+            else
+            {
+                Console.WriteLine($"You passed all trys to enter passworld!");
             }
 
             Console.ReadKey();

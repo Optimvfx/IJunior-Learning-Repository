@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace StringCube
 {
@@ -11,21 +12,16 @@ namespace StringCube
             Console.Write("Enter stroke: ");
             char strokeChar = Console.ReadLine()[0];
 
-            for (int y = -1; y <= 1; y++)
+            StringBuilder stroke = new StringBuilder();
+
+            for (int i = 0; i < userInput.Length + 2; i++)
             {
-                for (int x = -1; x <= userInput.Length; x++)
-                {
-                    if (x >= 0 && x < userInput.Length && y == 0)
-                    {
-                        Console.Write(userInput[x]);
-                    }
-                    else
-                    {
-                        Console.Write(strokeChar);
-                    }
-                }
-                Console.Write("\n");
+               stroke.Append(strokeChar);
             }
+
+            Console.WriteLine(stroke.ToString());
+            Console.WriteLine(strokeChar + userInput + strokeChar);
+            Console.WriteLine(stroke.ToString());
 
             Console.ReadKey();
         }

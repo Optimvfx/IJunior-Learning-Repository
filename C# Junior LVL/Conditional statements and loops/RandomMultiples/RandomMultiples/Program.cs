@@ -1,6 +1,6 @@
 ﻿using System;
 
-//Task of https://lk.ijunior.ru/Homework/Detail/202
+//Task of https://lk.ijunior.ru/Homework/Detail/204
 namespace RandomMultiples
 {
     internal class Program
@@ -16,9 +16,12 @@ namespace RandomMultiples
 
             var naturalNumbersThetMultiplicityCount = 0;
 
-            for (int i = 0; i < 1000; i += multiplicityIndex) 
+            var minimalNumberForAccounting = 100;
+            var maximalNumberForAccounting = 1000;
+
+            for (int i = 0; i < maximalNumberForAccounting; i += multiplicityIndex) 
             {
-               if(i >= 100)
+               if(i >= minimalNumberForAccounting)
                 {
                     Console.WriteLine(i);
                     naturalNumbersThetMultiplicityCount++;

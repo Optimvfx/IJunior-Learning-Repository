@@ -23,7 +23,7 @@ namespace SecretMesage
                 leftTryCount--;
             }
 
-            if(leftTryCount > 0)
+            if(leftTryCount > 0 && userInput == passworld)
             {
                 Console.WriteLine($"Secret message: {secretMessage}.");
             }

@@ -9,25 +9,23 @@ namespace RandomMultiples
         {
             Random random = new Random();
 
-            uint multiplicityIndexFirst = 3;
-            uint multiplicityIndexSecond = 5;
+            uint minimalMultiplicityIndex = 1;
+            uint maximalMultiplicityIndex = 27;
 
-            uint maximalRandomNumber = 100;
+            var multiplicityIndex = random.Next((int)minimalMultiplicityIndex,(int)maximalMultiplicityIndex);
 
-            int rangeOfNumbersLength = random.Next((int)maximalRandomNumber); 
+            var naturalNumbersThetMultiplicityCount = 0;
 
-            var sumOfAllMultiplicityNumbers = 0;
-
-            for (int i = 0; i <= rangeOfNumbersLength; i++)
+            for (int i = 0; i < 1000; i += multiplicityIndex) 
             {
-                if (i % multiplicityIndexFirst == 0 || i % multiplicityIndexSecond == 0)
+               if(i >= 100)
                 {
-                    sumOfAllMultiplicityNumbers += i;
                     Console.WriteLine(i);
+                    naturalNumbersThetMultiplicityCount++;
                 }
             }
 
-            Console.WriteLine($"Sum of all numbers which multiplicity {multiplicityIndexFirst} and {multiplicityIndexSecond} in range from 0 to {rangeOfNumbersLength} is {sumOfAllMultiplicityNumbers}.");
+            Console.WriteLine($"Natural numbers thet multiplicity {multiplicityIndex} count {naturalNumbersThetMultiplicityCount}");
             Console.ReadKey();
         }
     }

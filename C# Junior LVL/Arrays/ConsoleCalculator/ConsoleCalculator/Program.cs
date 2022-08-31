@@ -5,30 +5,32 @@ namespace ConsoleCalculator
 {
     internal class Program
     {
+        const string ExitCommand = "EXIT";
+        const string SumCommand = "SUM";
+
         static void Main(string[] args)
         {
             var userInputArray = new int[0];
 
             var isOpen = true;
-           
+
             while(isOpen)
             {
                 Console.WriteLine($"\nEneter command, commands:" +
                     $"\nenter number(write a number)." +
-                    $"\nSUM - summar all numbers." +
-                    $"\nEXIT - exit a program");
+                    $"\n{SumCommand} - summar all numbers." +
+                    $"\n{ExitCommand} - exit a program.");
 
                 string userInput;
 
                 switch (userInput = Console.ReadLine().ToUpper())
                 {
-                    case "EXIT":
+                    case ExitCommand:
                         isOpen = false;
                         break;
-                    case "SUM":
+                    case SumCommand:
                         var sumOfAllUserInput = userInputArray.Sum();
                         Console.WriteLine($"Sum of all user input is {sumOfAllUserInput}.");
-                        userInputArray  = new int[0];
                         break;
                     //Add a new element.
                     default:

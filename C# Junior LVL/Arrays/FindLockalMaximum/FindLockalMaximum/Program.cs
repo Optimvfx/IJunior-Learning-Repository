@@ -23,34 +23,33 @@ namespace FindLockalMaximum
             var localMaximumColor = ConsoleColor.Green;
             var notLocalMaximumColor = ConsoleColor.Red;
 
-            for (int i = 0; i < array.Length; i++)
+            #region firstElement
+            if (array[0] > array[1])
+                Console.ForegroundColor = localMaximumColor;
+            else
+                Console.ForegroundColor = notLocalMaximumColor;
+
+            Console.WriteLine(array[0]);
+            #endregion firstElement
+
+            for (int i = 1; i < array.Length - 1; i++)
             {
-                bool elementIsLocalMaximum;
-
-                if (i <= 0 && i >= array.Length)
-                {
-                    elementIsLocalMaximum = true;
-                }
-                else if (i <= 0)
-                {
-                    elementIsLocalMaximum = array[i] > array[i + 1];
-                }
-                else if (i >= array.Length - 1)
-                {
-                    elementIsLocalMaximum = array[i] > array[i - 1];
-                } 
-                else
-                {
-                    elementIsLocalMaximum = array[i] > array[i + 1] && array[i] > array[i - 1];
-                }
-
-                if (elementIsLocalMaximum)
+                if (array[i] > array[i + 1] && array[i] > array[i - 1])
                     Console.ForegroundColor = localMaximumColor;
                 else
                     Console.ForegroundColor = notLocalMaximumColor;
 
                 Console.WriteLine(array[i]);
             }
+
+            #region lastElement
+            if (array[array.Length - 1] > array[array.Length - 2])
+                Console.ForegroundColor = localMaximumColor;
+            else
+                Console.ForegroundColor = notLocalMaximumColor;
+
+            Console.WriteLine(array[array.Length - 1]);
+            #endregion lastElement
 
             Console.ReadKey();
         }

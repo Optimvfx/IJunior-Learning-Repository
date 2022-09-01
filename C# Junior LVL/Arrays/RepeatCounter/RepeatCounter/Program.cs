@@ -11,7 +11,7 @@ namespace RepeatCounter
             #region randomFillArray
             var random = new Random();
 
-            var maximalRandomNumber = 5;
+            int maximalRandomNumber = 5;
 
             for (int i = 0; i < array.Length; i++)
             {
@@ -22,7 +22,7 @@ namespace RepeatCounter
             int mostRepeatedNumber = 0;
             int mostRepeatedNumberRepeatCount = int.MinValue;
 
-            var currentNumberRepeatCount = 0;
+            int currentNumberRepeatCount = 0;
 
             for (int i = 0; i < array.Length - 1; i++)
             {

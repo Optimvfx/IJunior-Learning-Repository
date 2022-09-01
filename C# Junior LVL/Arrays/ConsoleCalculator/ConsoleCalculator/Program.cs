@@ -5,12 +5,12 @@ namespace ConsoleCalculator
 {
     internal class Program
     {
-        const string ExitCommand = "EXIT";
-        const string SumCommand = "SUM";
-
         static void Main(string[] args)
         {
-            var userInputArray = new int[0];
+            const string ExitCommand = "EXIT";
+            const string SumCommand = "SUM";
+
+            var numbers = new int[0];
 
             var isOpen = true;
 
@@ -21,33 +21,35 @@ namespace ConsoleCalculator
                     $"\n{SumCommand} - summar all numbers." +
                     $"\n{ExitCommand} - exit a program.");
 
-                string userInput;
+                string userInput = Console.ReadLine().ToUpper();
 
-                switch (userInput = Console.ReadLine().ToUpper())
+                switch (userInput)
                 {
                     case ExitCommand:
                         isOpen = false;
                         break;
                     case SumCommand:
-                        var sumOfAllUserInput = userInputArray.Sum();
-                        Console.WriteLine($"Sum of all user input is {sumOfAllUserInput}.");
+                        var sumOfAllNumbers = 0;
+                        foreach (var number in numbers)
+                            sumOfAllNumbers += number;
+                        Console.WriteLine($"Sum of all user input is {sumOfAllNumbers}.");
                         break;
                     //Add a new element.
                     default:
                         var userInputNumber = Convert.ToInt32(userInput);
 
                         #region extentArray
-                        var newUserInputArray = new int[userInputArray.Length + 1];
+                        var newUserInputArray = new int[numbers.Length + 1];
 
-                        for(int i = 0; i < userInputArray.Length; i++)
+                        for(int i = 0; i < numbers.Length; i++)
                         {
-                            newUserInputArray[i] = userInputArray[i];
+                            newUserInputArray[i] = numbers[i];
                         }
 
-                        userInputArray = newUserInputArray;
+                        numbers = newUserInputArray;
                         #endregion extentArray
 
-                        userInputArray[userInputArray.Length - 1] = userInputNumber;
+                        numbers[numbers.Length - 1] = userInputNumber;
                         break;
                 }
             }

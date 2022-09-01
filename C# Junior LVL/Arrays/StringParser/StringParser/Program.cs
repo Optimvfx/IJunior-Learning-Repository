@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StringParser
 {
@@ -10,6 +7,16 @@ namespace StringParser
     {
         static void Main(string[] args)
         {
+            var userInputString = Console.ReadLine();
+
+            var splitChar = ' ';
+
+            var userInputWorlds = userInputString.Split(splitChar).Where(world => world != "");
+
+            foreach(var world in userInputWorlds)
+                Console.WriteLine(world + " ");
+
+            Console.ReadKey();
         }
     }
 }

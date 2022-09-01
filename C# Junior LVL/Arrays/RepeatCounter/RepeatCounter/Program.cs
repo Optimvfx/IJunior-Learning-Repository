@@ -34,13 +34,13 @@ namespace RepeatCounter
                 }
                 else
                 {
-                    currentNumberRepeatCount = 0;
+                    currentNumberRepeatCount = 1;
                 }
    
                 if (mostRepeatedNumberRepeatCount < currentNumberRepeatCount)
                 {
                     mostRepeatedNumber = array[i];
-                    mostRepeatedNumberRepeatCount = currentNumberRepeatCount + 1;
+                    mostRepeatedNumberRepeatCount = currentNumberRepeatCount;
                 }
             }
 

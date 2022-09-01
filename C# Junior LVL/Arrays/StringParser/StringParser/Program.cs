@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace StringParser
 {
@@ -11,7 +10,7 @@ namespace StringParser
 
             var splitChar = ' ';
 
-            var userInputWorlds = userInputString.Split(splitChar).Where(world => world != "");
+            var userInputWorlds = userInputString.Split(new[] { splitChar },StringSplitOptions.RemoveEmptyEntries);
 
             foreach(var world in userInputWorlds)
                 Console.WriteLine(world + " ");

@@ -10,10 +10,10 @@ namespace StringParser
 
             var splitChar = ' ';
 
-            var userInputWorlds = userInputString.Split(new[] { splitChar },StringSplitOptions.RemoveEmptyEntries);
+            var userInputWords = userInputString.Split(new[] { splitChar },StringSplitOptions.RemoveEmptyEntries);
 
-            foreach(var world in userInputWorlds)
-                Console.WriteLine(world + " ");
+            foreach(var word in userInputWords)
+                Console.WriteLine(word + " ");
 
             Console.ReadKey();
         }

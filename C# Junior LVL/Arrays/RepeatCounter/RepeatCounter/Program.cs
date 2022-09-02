@@ -6,7 +6,19 @@ namespace RepeatCounter
     {
         static void Main(string[] args)
         {
-            var array = new int[] {4,4,4,5,1,1,3,5,1,5,7,4,6,3,8,3,6,27,73,87,16,2,6,17,1,7,8,2,8,2,7,2,8,1,8,2,8,3,7,4,6,7,8,2,6,7,8,2,6,7};
+            var array = new int[30];
+
+            #region randomFillArray
+            var random = new Random();
+
+            int maximalRandomNumber = 100;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = random.Next(maximalRandomNumber);
+            }
+            #endregion randomFillArray
+
 
             int mostRepeatedNumber = 0;
             int mostRepeatedNumberRepeatCount = int.MinValue;

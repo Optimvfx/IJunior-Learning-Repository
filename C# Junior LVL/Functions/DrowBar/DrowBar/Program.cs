@@ -12,13 +12,13 @@ namespace DrowBar
             Console.ReadKey();
         }
 
-        public static void DrawBar(float fillProcent,uint barLength, ConsoleColor fillColor, ConsoleColor unFillColor = ConsoleColor.Black,int positionX = 0,int PositionY = 0, char fillChar = '#',char unFillChar = '_')
+        private static void DrawBar(float fillProcent,uint barLength, ConsoleColor fillColor, ConsoleColor unFillColor = ConsoleColor.Black,int positionX = 0,int PositionY = 0, char fillChar = '#',char unFillChar = '_')
         {
             float minimalFillProcent = 0f;
             float maximalFillProcent = 100f;
 
             fillProcent = Math.Max(Math.Min(fillProcent, maximalFillProcent), minimalFillProcent);
-            int relativeProcent = (int)(fillProcent / 100 * barLength);
+            int relativeFillProcent = (int)(fillProcent / 100 * barLength);
 
             Console.SetCursorPosition(positionX, PositionY);
 
@@ -27,7 +27,7 @@ namespace DrowBar
             
             for(int i = 0; i < barLength; i++)
             {
-                if(relativeProcent > i)
+                if(relativeFillProcent > i)
                 {
                     Console.BackgroundColor = fillColor;
                     Console.Write(fillChar);

@@ -11,7 +11,7 @@ namespace InputToIntConvertor
             Console.ReadKey();
         }
 
-        public static int GetUserInputInt()
+        private static int GetUserInputInt()
         {
             int userInput;
             Console.Write("Enter a number:");

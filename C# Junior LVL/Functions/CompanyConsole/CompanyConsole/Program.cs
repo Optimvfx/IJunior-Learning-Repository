@@ -31,25 +31,13 @@ namespace CompanyConsole
                 switch (userCommand)
                 {
                     case AddWorkerCommand:
-                        Console.Write("Enter new worker name: ");
-                        var newWorkerName = Console.ReadLine();
-
-                        Console.Write("Enter new worker post: ");
-                        var newWorkerPost = Console.ReadLine();
-
-                        AddWorker(ref workersNames, ref workersPosts, newWorkerName, newWorkerPost);
+                        ApplyAddWorkerCommand(ref workersNames, ref workersPosts);
                         break;
                     case SeeAllWorkersCommand:
                         WriteAllWorkersInfo(workersNames, workersPosts);
                         break;
                     case RemoveWorkerCommand:
-                        Console.Write("Removing worker removing Index: ");
-                        var removingWorkerIndex = Convert.ToInt32(Console.ReadLine());
-
-                        if (TryRemoveWorker(ref workersNames, ref workersPosts, removingWorkerIndex) == false)
-                        {
-                            WriteExteption($"Cant remove worker at removing Index {removingWorkerIndex}!");
-                        }
+                        ApplayRemoveWorkerCommand(ref workersNames, ref workersPosts);
                         break;
                     case ExitCommand:
                         isOpen = false;
@@ -61,12 +49,26 @@ namespace CompanyConsole
             }
         }
 
+        #region help
         public static void WriteExteption(string exteption)
         {
             var prewiusColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(exteption);
             Console.ForegroundColor = prewiusColor;
+        }
+        #endregion help
+
+        #region add
+        public static void ApplyAddWorkerCommand(ref string[] workersNames, ref string[] workersPosts)
+        {
+            Console.Write("Enter new worker name: ");
+            var newWorkerName = Console.ReadLine();
+
+            Console.Write("Enter new worker post: ");
+            var newWorkerPost = Console.ReadLine();
+
+            AddWorker(ref workersNames, ref workersPosts, newWorkerName, newWorkerPost);
         }
 
         public static void AddWorker(ref string[] workersNames,ref string[] workersPosts,string newWorkerName,string newWorkerPost)
@@ -77,8 +79,26 @@ namespace CompanyConsole
 
         public static void AddElementInArray(ref string[] array, string element)
         {
-            Array.Resize(ref array, array.Length + 1);
-            array[array.Length - 1] = element;
+            var newArray = new string[array.Length + 1];
+    
+            for(int i = 0; i < array.Length; i++)
+                newArray[i] = array[i];
+
+           newArray[newArray.Length - 1] = element;
+            array = newArray;
+        }
+        #endregion add
+
+        #region remove
+        public static void ApplayRemoveWorkerCommand(ref string[] workersNames, ref string[] workersPosts)
+        {
+            Console.Write("Removing worker removing Index: ");
+            var removingWorkerIndex = Convert.ToInt32(Console.ReadLine());
+
+            if (TryRemoveWorker(ref workersNames, ref workersPosts, removingWorkerIndex) == false)
+            {
+                WriteExteption($"Cant remove worker at removing Index {removingWorkerIndex}!");
+            }
         }
 
         public static bool TryRemoveWorker(ref string[] workersNames,ref string[] workersPosts, int removingWorkerIndex)
@@ -97,20 +117,23 @@ namespace CompanyConsole
 
         public static void RemoveElementInArray(ref string[] array, int removeIndex)
         {
-            var removeResult = new string[array.Length - 1];
-            int j = 0;
+            var croppedArray = new string[array.Length - 1];
+            int croppedArrayIndex = 0;
 
-            for (int i = 0; i < array.Length; i++)
+            for (int arrayIndex = 0; arrayIndex < array.Length; arrayIndex++)
             {
-                if (removeIndex!= i)
+                if (removeIndex!= arrayIndex)
                 {
-                    removeResult[j] = array[i];
-                    j++;
+                    croppedArray[croppedArrayIndex] = array[arrayIndex];
+                    croppedArrayIndex++;
                 }
             }
-            array = removeResult;
-        }
 
+            array = croppedArray;
+        }
+        #endregion remove
+
+        #region writeAll
         public static void WriteAllWorkersInfo(string[] workersNames, string[] workersPosts)
         {
             var workersInfo = GetAllWorkersInfo(workersNames, workersPosts);
@@ -133,5 +156,6 @@ namespace CompanyConsole
 
             return workersInfo;
         }
+        #endregion writeAll
     }
 }

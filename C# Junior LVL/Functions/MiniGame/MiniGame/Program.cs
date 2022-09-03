@@ -29,7 +29,9 @@ namespace MiniGame
 
             while (isOpen)
             {
-                MoveMapEntitys(map, ref playerPositionX, ref playerPositionY);
+                GetPlayerMoveDirection(out int playerMoveDirectionY, out int playerMoveDirectionX);
+                TryMovePlayer(map, ref playerPositionX, ref playerPositionY, playerMoveDirectionX, playerMoveDirectionY);
+
                 DrawGame(map, playerPositionX, playerPositionY);
 
                 System.Threading.Thread.Sleep(frameScrolSpeed);
@@ -101,15 +103,8 @@ namespace MiniGame
         #endregion draw
 
         #region move
-        private static void MoveMapEntitys(char[,] map,ref int playerPositionX,ref int playerPositionY)
+        private static void TryMovePlayer(char[,] map,ref int playerPositionX,ref int playerPositionY, int playerMoveDirectionX, int playerMoveDirectionY)
         {
-            MovePlayer(map, ref playerPositionX, ref playerPositionY);
-        }
-
-        private static void MovePlayer(char[,] map,ref int playerPositionX,ref int playerPositionY)
-        {
-            GetPlayerMoveDirection(out int playerMoveDirectionY, out int playerMoveDirectionX);
-
             if(IsWall(map,playerPositionX + playerMoveDirectionX,playerPositionY + playerMoveDirectionY) == false)
             {
                 playerPositionX += playerMoveDirectionX;

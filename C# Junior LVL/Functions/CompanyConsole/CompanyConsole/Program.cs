@@ -11,7 +11,7 @@ namespace CompanyConsole
             const string RemoveWorkerCommand = "REMOVE";
             const string ExitCommand = "EXIT";
 
-            var workersFio = new string[0];
+            var workersFullNames = new string[0];
             var workersPosts = new string[0];
 
             var isOpen = true;
@@ -31,13 +31,13 @@ namespace CompanyConsole
                 switch (userCommand)
                 {
                     case AddWorkerCommand:
-                        ApplyAddWorkerCommand(ref workersFio, ref workersPosts);
+                        AddWorker(ref workersFullNames, ref workersPosts);
                         break;
                     case SeeAllWorkersCommand:
-                        WriteAllWorkersInfo(workersFio, workersPosts);
+                        WriteAllWorkersInfo(workersFullNames, workersPosts);
                         break;
                     case RemoveWorkerCommand:
-                        ApplayRemoveWorkerCommand(ref workersFio, ref workersPosts);
+                        RemoveWorker(ref workersFullNames, ref workersPosts);
                         break;
                     case ExitCommand:
                         isOpen = false;
@@ -60,20 +60,15 @@ namespace CompanyConsole
         #endregion help
 
         #region add
-        private static void ApplyAddWorkerCommand(ref string[] workersFio, ref string[] workersPosts)
+        private static void AddWorker(ref string[] workersFullNames, ref string[] workersPosts)
         {
-            Console.Write("Enter new worker FIO: ");
+            Console.Write("Enter new worker full name: ");
             var newWorkerName = Console.ReadLine();
 
             Console.Write("Enter new worker post: ");
             var newWorkerPost = Console.ReadLine();
 
-            AddWorker(ref workersFio, ref workersPosts, newWorkerName, newWorkerPost);
-        }
-
-        private static void AddWorker(ref string[] workersFio, ref string[] workersPosts,string newWorkerFio, string newWorkerPost)
-        {
-            AddElementInArray(ref workersFio, newWorkerFio);
+            AddElementInArray(ref workersFullNames, newWorkerName);
             AddElementInArray(ref workersPosts, newWorkerPost);
         }
 
@@ -90,29 +85,92 @@ namespace CompanyConsole
         #endregion add
 
         #region remove
-        private static void ApplayRemoveWorkerCommand(ref string[] workersFio, ref string[] workersPosts)
+        private static void RemoveWorker(ref string[] workersFullNames, ref string[] workersPosts)
         {
-            Console.Write("Removing worker removing Index: ");
-            var removingWorkerIndex = Convert.ToInt32(Console.ReadLine());
+            const string RemoveByIndexCommand = "INDEX";
+            const string RemoveByFullNameCommand = "FULLNAME";
+            const string RemoveByPostCommand = "POST";
 
-            if (TryRemoveWorker(ref workersFio, ref workersPosts, removingWorkerIndex) == false)
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"\nPosible remove commands:" +
+                $"\n{RemoveByIndexCommand}" +
+                $"\n{RemoveByFullNameCommand}" +
+                $"\n{RemoveByPostCommand}");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+
+            var removeCommand = Console.ReadLine().ToUpper();
+
+            switch (removeCommand)
             {
-                WriteExteption($"Cant remove worker at removing Index {removingWorkerIndex}!");
+                case RemoveByIndexCommand:
+                    RemoveWorkerByIndex(ref workersFullNames, ref workersPosts);
+                    break;
+                case RemoveByFullNameCommand:
+                    RemoveWorkerByFullName(ref workersFullNames, ref workersPosts);
+                    break;
+                case RemoveByPostCommand:
+                    RemoveWorkerByPost(ref workersFullNames, ref workersPosts);
+                    break;
+
+                default:
+                    WriteExteption("Uncnovn command!");
+                    break; 
             }
         }
 
-        private static bool TryRemoveWorker(ref string[] workersFio, ref string[] workersPosts, int removingWorkerIndex)
+        private static void RemoveWorker(ref string[] workersFullNames, ref string[] workersPosts, int removingWorkerIndex)
         {
-            if (workersFio.Length != workersPosts.Length)
-                return false;
+            if (workersFullNames.Length <= removingWorkerIndex || removingWorkerIndex < 0)
+            {
+                WriteExteption($"Cant remove worker at removing index {removingWorkerIndex}!");
+            }
+            else
+            {
+                RemoveElementInArray(ref workersFullNames, removingWorkerIndex);
+                RemoveElementInArray(ref workersPosts, removingWorkerIndex);
+            }
+        }
 
-            if(workersFio.Length <= removingWorkerIndex || removingWorkerIndex < 0)
-                return false;
+        private static void RemoveWorkerByIndex(ref string[] workersFullNames, ref string[] workersPosts)
+        {
+            Console.Write("Removing worker index: ");
+            var removingWorkerIndex = Convert.ToInt32(Console.ReadLine());
 
-            RemoveElementInArray(ref workersFio, removingWorkerIndex);
-            RemoveElementInArray(ref workersPosts, removingWorkerIndex);
+            RemoveWorker(ref workersFullNames, ref workersPosts,removingWorkerIndex);
+        }
 
-            return true;
+        private static void RemoveWorkerByFullName(ref string[] workersFullNames, ref string[] workersPosts)
+        {
+            Console.Write("Removing worker full name: ");
+            var removingWorkerFullName = Console.ReadLine();
+
+            for (int i = 0; i < workersFullNames.Length; i++)
+            {
+                if (workersFullNames[i] == removingWorkerFullName)
+                {
+                    RemoveWorker(ref workersFullNames, ref workersPosts, i);
+                    return;
+                }
+            }
+
+            WriteExteption($"No worker vs full name {removingWorkerFullName}!");
+        }
+
+        private static void RemoveWorkerByPost(ref string[] workersFullNames, ref string[] workersPosts)
+        {
+            Console.Write("Removing worker post: ");
+            var removingWorkerPost = Console.ReadLine();
+
+            for (int i = 0; i < workersPosts.Length; i++)
+            {
+                if (workersPosts[i] == removingWorkerPost)
+                {
+                    RemoveWorker(ref workersFullNames, ref workersPosts, i);
+                    return;
+                }
+            }
+
+            WriteExteption($"No worker vs post {removingWorkerPost}!");
         }
 
         private static void RemoveElementInArray(ref string[] array, int removeIndex)
@@ -134,24 +192,24 @@ namespace CompanyConsole
         #endregion remove
 
         #region writeAll
-        private static void WriteAllWorkersInfo(string[] workersFio, string[] workersPosts)
+        private static void WriteAllWorkersInfo(string[] workersFullNames, string[] workersPosts)
         {
-            var workersInfo = GetAllWorkersInfo(workersFio, workersPosts);
+            var workersInfo = GetAllWorkersInfo(workersFullNames, workersPosts);
 
             foreach (var workerInfo in workersInfo)
                 Console.WriteLine(workerInfo);
         }
 
-        private static string[] GetAllWorkersInfo(string[] workersFio, string[] workersPosts)
+        private static string[] GetAllWorkersInfo(string[] workersFullNames, string[] workersPosts)
         {
-            if (workersFio.Length != workersPosts.Length)
+            if (workersFullNames.Length != workersPosts.Length)
                 return null;
 
-            var workersInfo = new string[workersFio.Length];
+            var workersInfo = new string[workersFullNames.Length];
 
-            for (int i = 0; i < workersFio.Length; i++)
+            for (int i = 0; i < workersFullNames.Length; i++)
             {
-                workersInfo[i] = $"#{i} // {workersFio[i]} - {workersPosts[i]}";
+                workersInfo[i] = $"#{i} // {workersFullNames[i]} - {workersPosts[i]}";
             }
 
             return workersInfo;

@@ -6,14 +6,14 @@ namespace MiniGame
 {
     internal class Program
     {
-        const char filePlayerChar = '@';
-        const char mapPlayerChar = '@';
+        private const char FilePlayerChar = '@';
+        private const char MapPlayerChar = '@';
 
-        const char fileEmptyChar = '0';
-        const char mapEmptyChar = ' ';
+        private const char FileEmptyChar = '0';
+        private const char MapEmptyChar = ' ';
 
-        const char fileWallChar = '#';
-        const char mapWallChar = '#';
+        private const char FileWallChar = '#';
+        private const char MapWallChar = '#';
 
         static void Main(string[] args)
         {
@@ -30,7 +30,7 @@ namespace MiniGame
             
             while(isOpen)
             {
-                DoMapMovments(ref map, ref playerPositionX, ref playerPositionY);
+                DoMapMovments(map, ref playerPositionX, ref playerPositionY);
                 DrawMap(map, playerPositionX, playerPositionY);
 
                 System.Threading.Thread.Sleep(frameScrolSpeed);
@@ -52,15 +52,15 @@ namespace MiniGame
             {
                 for(int j = 0; j < mapPrintFromFile[i].Length; j++)
                 {
-                    if (mapPrintFromFile[i][j] == fileEmptyChar)
+                    if (mapPrintFromFile[i][j] == FileEmptyChar)
                     {
-                        map[i, j] = mapEmptyChar;
+                        map[i, j] = MapEmptyChar;
                     }
-                    else if (mapPrintFromFile[i][j] == fileWallChar)
+                    else if (mapPrintFromFile[i][j] == FileWallChar)
                     {
-                        map[i, j] = mapWallChar;
+                        map[i, j] = MapWallChar;
                     }
-                    else if (mapPrintFromFile[i][j] == filePlayerChar)
+                    else if (mapPrintFromFile[i][j] == FilePlayerChar)
                     {
                         playerPositionX = i;
                         playerPositionY = j;
@@ -83,7 +83,7 @@ namespace MiniGame
 
                     if (x == playerPositionX && y == playerPositionY)
                     {
-                        Console.Write(mapPlayerChar);
+                        Console.Write(MapPlayerChar);
                     }
                     else
                     {
@@ -95,7 +95,7 @@ namespace MiniGame
         #endregion draw
 
         #region move
-        private static void DoMapMovments(ref char[,] map,ref int playerPositionX,ref int playerPositionY)
+        private static void DoMapMovments(char[,] map,ref int playerPositionX,ref int playerPositionY)
         {
             DoPlayerMovments(map, ref playerPositionX, ref playerPositionY);
         }
@@ -150,7 +150,7 @@ namespace MiniGame
             if (x < 0 || y < 0 || x >= map.GetLength(0) || y >= map.GetLength(1))
                 return true;
 
-            return map[x, y] == mapWallChar;
+            return map[x, y] == MapWallChar;
         }
         #endregion helping
     }

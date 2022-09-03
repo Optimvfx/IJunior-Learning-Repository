@@ -80,14 +80,14 @@ namespace MiniGame
 
         private static void DrawMap(char[,] map, int playerPositionX, int playerPositionY)
         {
-            for (int positionX = 0; positionX < map.GetLength(0); positionX++)
+            for (int drawPositionX = 0; drawPositionX < map.GetLength(0); drawPositionX++)
             {
-                for (int positionY = 0; positionY < map.GetLength(1); positionY++)
+                for (int drawPositionY = 0; drawPositionY < map.GetLength(1); drawPositionY++)
                 {
-                    if (playerPositionX != positionX || playerPositionY != positionY)
+                    if (playerPositionX != drawPositionX || playerPositionY != drawPositionY)
                     {
-                        Console.SetCursorPosition(positionY, positionX);
-                        Console.Write(map[positionX, positionY]);
+                        Console.SetCursorPosition(drawPositionY, drawPositionX);
+                        Console.Write(map[drawPositionX, drawPositionY]);
                     }
                 }
             }

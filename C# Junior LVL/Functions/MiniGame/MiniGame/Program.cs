@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 
 namespace MiniGame
 {
@@ -27,11 +26,11 @@ namespace MiniGame
             var map = ReadMapFromFile("Map", out playerPositionX, out playerPositionY);
 
             bool isOpen = true;
-            
-            while(isOpen)
+
+            while (isOpen)
             {
-                DoMapMovments(map, ref playerPositionX, ref playerPositionY);
-                DrawMap(map, playerPositionX, playerPositionY);
+                MoveMapEntitys(map, ref playerPositionX, ref playerPositionY);
+                DrawGame(map, playerPositionX, playerPositionY);
 
                 System.Threading.Thread.Sleep(frameScrolSpeed);
             }
@@ -39,7 +38,7 @@ namespace MiniGame
         }
 
         #region read
-        private static char[,] ReadMapFromFile(string mapFileName,out int playerPositionX,out int playerPositionY)
+        private static char[,] ReadMapFromFile(string mapFileName, out int playerPositionX, out int playerPositionY)
         {
             playerPositionX = 0;
             playerPositionY = 0;
@@ -48,9 +47,9 @@ namespace MiniGame
 
             var map = new char[mapPrintFromFile.Length, mapPrintFromFile[0].Length];
 
-            for(int i = 0; i < mapPrintFromFile.Length; i++)
+            for (int i = 0; i < mapPrintFromFile.Length; i++)
             {
-                for(int j = 0; j < mapPrintFromFile[i].Length; j++)
+                for (int j = 0; j < mapPrintFromFile[i].Length; j++)
                 {
                     if (mapPrintFromFile[i][j] == FileEmptyChar)
                     {
@@ -73,34 +72,41 @@ namespace MiniGame
         #endregion read
 
         #region draw
+        private static void DrawGame(char[,] map, int playerPositionX, int playerPositionY)
+        {
+            DrawMap(map, playerPositionX, playerPositionY);
+            DrawPlayer(playerPositionX, playerPositionY); 
+        }
+
         private static void DrawMap(char[,] map, int playerPositionX, int playerPositionY)
         {
-            for(int x = 0; x < map.GetLength(0); x++)
+            for (int positionX = 0; positionX < map.GetLength(0); positionX++)
             {
-                for (int y = 0; y < map.GetLength(1); y++)
+                for (int positionY = 0; positionY < map.GetLength(1); positionY++)
                 {
-                    Console.SetCursorPosition(y, x);
-
-                    if (x == playerPositionX && y == playerPositionY)
+                    if (playerPositionX != positionX || playerPositionY != positionY)
                     {
-                        Console.Write(MapPlayerChar);
-                    }
-                    else
-                    {
-                        Console.Write(map[x, y]);
+                        Console.SetCursorPosition(positionY, positionX);
+                        Console.Write(map[positionX, positionY]);
                     }
                 }
             }
         }
+        private static void DrawPlayer(int playerPositionX, int playerPositionY)
+        {
+            Console.SetCursorPosition(playerPositionY, playerPositionX);
+            Console.Write(MapPlayerChar);
+        }
+
         #endregion draw
 
         #region move
-        private static void DoMapMovments(char[,] map,ref int playerPositionX,ref int playerPositionY)
+        private static void MoveMapEntitys(char[,] map,ref int playerPositionX,ref int playerPositionY)
         {
-            DoPlayerMovments(map, ref playerPositionX, ref playerPositionY);
+            MovePlayer(map, ref playerPositionX, ref playerPositionY);
         }
 
-        private static void DoPlayerMovments(char[,] map,ref int playerPositionX,ref int playerPositionY)
+        private static void MovePlayer(char[,] map,ref int playerPositionX,ref int playerPositionY)
         {
             GetPlayerMoveDirection(out int playerMoveDirectionY, out int playerMoveDirectionX);
 

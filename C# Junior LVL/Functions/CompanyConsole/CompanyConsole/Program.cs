@@ -93,7 +93,7 @@ namespace CompanyConsole
                 return new FullName(name,surname,patronymic);
             }
 
-            public bool SurfNameIsEquals(string surname)
+            public bool SurnameIsEquals(string surname)
             {
                 return Surname.ToUpper() == surname.ToUpper();
             }
@@ -180,7 +180,7 @@ namespace CompanyConsole
 
             for (int i = 0; i < workersFullNames.Length; i++)
             {
-                if (workersFullNames[i].SurfNameIsEquals(searchingSurfname))
+                if (workersFullNames[i].SurnameIsEquals(searchingSurfname))
                 {
                     Console.WriteLine($"#{i} // {workersFullNames[i]} - {workersPosts[i]}");
                 }

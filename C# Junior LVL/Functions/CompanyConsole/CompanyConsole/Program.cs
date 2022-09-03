@@ -165,8 +165,6 @@ namespace CompanyConsole
         #region write
         private static void WriteAllWorkersInfo(FullName[] workersFullNames, string[] workersPosts)
         {
-            var workersInfo = new string[workersFullNames.Length];
-
             for (int i = 0; i < workersFullNames.Length; i++)
             {
                 Console.WriteLine($"#{i} // {workersFullNames[i]} - {workersPosts[i]}");

@@ -75,11 +75,11 @@ namespace CompanyConsole
         private static void AddElementInArray(ref string[] array, string element)
         {
             var newArray = new string[array.Length + 1];
-    
-            for(int i = 0; i < array.Length; i++)
+
+            for (int i = 0; i < array.Length; i++)
                 newArray[i] = array[i];
 
-           newArray[newArray.Length - 1] = element;
+            newArray[newArray.Length - 1] = element;
             array = newArray;
         }
         #endregion add
@@ -111,7 +111,6 @@ namespace CompanyConsole
                 case RemoveByPostCommand:
                     RemoveWorkerByPost(ref workersFullNames, ref workersPosts);
                     break;
-
                 default:
                     WriteExteption("Uncnovn command!");
                     break; 
@@ -153,7 +152,7 @@ namespace CompanyConsole
                 }
             }
 
-            WriteExteption($"No worker vs full name {removingWorkerFullName}!");
+            WriteExteption($"No worker with full name {removingWorkerFullName}!");
         }
 
         private static void RemoveWorkerByPost(ref string[] workersFullNames, ref string[] workersPosts)
@@ -170,7 +169,7 @@ namespace CompanyConsole
                 }
             }
 
-            WriteExteption($"No worker vs post {removingWorkerPost}!");
+            WriteExteption($"No worker with post {removingWorkerPost}!");
         }
 
         private static void RemoveElementInArray(ref string[] array, int removeIndex)

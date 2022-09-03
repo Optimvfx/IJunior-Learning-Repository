@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShuffleArray", "ShuffleArray\ShuffleArray.csproj", "{20E4FCC4-4090-49BA-BAF5-F2AFC48A302F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20E4FCC4-4090-49BA-BAF5-F2AFC48A302F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20E4FCC4-4090-49BA-BAF5-F2AFC48A302F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20E4FCC4-4090-49BA-BAF5-F2AFC48A302F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20E4FCC4-4090-49BA-BAF5-F2AFC48A302F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26B9E166-DC1D-49BC-9B95-473382849B95}
+	EndGlobalSection
+EndGlobal

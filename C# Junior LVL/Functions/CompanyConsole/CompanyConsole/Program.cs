@@ -77,7 +77,7 @@ namespace CompanyConsole
             AddElementInArray(ref workersPosts, newWorkerPost);
         }
 
-        public static void AddElementInArray(ref string[] array, string element)
+        private static void AddElementInArray(ref string[] array, string element)
         {
             var newArray = new string[array.Length + 1];
     

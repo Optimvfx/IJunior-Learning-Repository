@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Linq;
 
 namespace CompanyConsole
 {
     internal class Program
     {
+        private const char fullnameSplitChar = '-';
+
         static void Main(string[] args)
         {
             const string AddWorkerCommand = "ADD";
@@ -13,7 +14,7 @@ namespace CompanyConsole
             const string SeeAllWorkersWitchSurnameCommand = "SEARCH";
             const string ExitCommand = "EXIT";
 
-            var workersFullNames = new FullName[0];
+            var workersFullNames = new string[0];
             var workersPosts = new string[0];
 
             var isOpen = true;
@@ -65,48 +66,33 @@ namespace CompanyConsole
         }
         #endregion help
 
-        #region add
-        private class FullName
+        #region fullname
+        private static string GenerateFullName()
         {
-            public string Name {get; private set; }
-            public string Surname { get; private set; }
-            public string Patronymic { get; private set; }
+            Console.Write("Enter new worker name: ");
+            var name = Console.ReadLine();
 
-            public FullName(string name, string surname, string patronymic)
-            {
-                Name = name;
-                Surname = surname;
-                Patronymic = patronymic;
-            }
+            Console.Write("Enter new worker surname: ");
+            var surname = Console.ReadLine();
 
-            public static FullName GetFullNameByUserInput()
-            {
-                Console.Write("Enter new worker name: ");
-                var name = Console.ReadLine();
+            Console.Write("Enter new worker patronymic: ");
+            var patronymic = Console.ReadLine();
 
-                Console.Write("Enter new worker surname: ");
-                var surname = Console.ReadLine();
-
-                Console.Write("Enter new worker patronymic: ");
-                var patronymic = Console.ReadLine();
-
-                return new FullName(name,surname,patronymic);
-            }
-
-            public bool SurnameIsEquals(string surname)
-            {
-                return Surname.ToUpper() == surname.ToUpper();
-            }
-
-            public override string ToString()
-            {
-                return $"{Name} {Surname} {Patronymic}";
-            }
+            return $"{name}{fullnameSplitChar}{surname}{fullnameSplitChar}{patronymic}";
         }
-
-        private static void AddWorker(ref FullName[] workersFullNames, ref string[] workersPosts)
+        private static string GetSurname(string fullname)
         {
-            var newWorkerFullName = FullName.GetFullNameByUserInput();
+            const int SurnameIndex = 1;
+
+            Console.WriteLine(fullname.Split(fullnameSplitChar)[0]);
+            return fullname.Split(fullnameSplitChar)[SurnameIndex];
+        }
+        #endregion fullname
+
+        #region add
+        private static void AddWorker(ref string[] workersFullNames, ref string[] workersPosts)
+        {
+            var newWorkerFullName = GenerateFullName();
 
             Console.Write("Enter new worker post: ");
             var newWorkerPost = Console.ReadLine();
@@ -128,7 +114,7 @@ namespace CompanyConsole
         #endregion add
 
         #region remove
-        private static void RemoveWorker(ref FullName[] workersFullNames, ref string[] workersPosts)
+        private static void RemoveWorker(ref string[] workersFullNames, ref string[] workersPosts)
         {
             Console.Write($"Enter removing worker index: ");
             var removingWorkerIndex = Convert.ToInt32(Console.ReadLine());
@@ -163,7 +149,7 @@ namespace CompanyConsole
         #endregion remove
 
         #region write
-        private static void WriteAllWorkersInfo(FullName[] workersFullNames, string[] workersPosts)
+        private static void WriteAllWorkersInfo(string[] workersFullNames, string[] workersPosts)
         {
             for (int i = 0; i < workersFullNames.Length; i++)
             {
@@ -171,16 +157,16 @@ namespace CompanyConsole
             }
         }
 
-        private static void WriteWorkersWitchSurname(FullName[] workersFullNames, string[] workersPosts)
+        private static void WriteWorkersWitchSurname(string[] workersFullNames, string[] workersPosts)
         {
             Console.Write("Search by surfname: ");
-            var searchingSurfname = Console.ReadLine();
+            var searchingSurfname = Console.ReadLine().ToUpper();
 
             Console.WriteLine($"All workers witch surfname {searchingSurfname}: ");
 
             for (int i = 0; i < workersFullNames.Length; i++)
             {
-                if (workersFullNames[i].SurnameIsEquals(searchingSurfname))
+                if (GetSurname(workersFullNames[i]).ToUpper() == searchingSurfname)
                 {
                     Console.WriteLine($"#{i} // {workersFullNames[i]} - {workersPosts[i]}");
                 }

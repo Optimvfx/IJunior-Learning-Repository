@@ -80,6 +80,7 @@ namespace CompanyConsole
 
             return $"{name}{fullnameSplitChar}{surname}{fullnameSplitChar}{patronymic}";
         }
+
         private static string GetSurname(string fullname)
         {
             const int SurnameIndex = 1;

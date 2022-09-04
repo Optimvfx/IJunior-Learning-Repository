@@ -17,6 +17,7 @@ namespace ConsoleCalculatorList
 
             while (isOpen)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"\nEneter command, commands:" +
                     $"\nenter number(write a number)." +
                     $"\n{SumCommand} - summar all numbers." +
@@ -34,24 +35,18 @@ namespace ConsoleCalculatorList
                         isOpen = false;
                         break;
                     default:
-                        var userInputNumber = GetUserInputInt(userInput);
-                        numbers.Add(userInputNumber);
+                        if (int.TryParse(userInput, out int userInputNumber))
+                        {
+                            numbers.Add(userInputNumber);
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Cant sellect a command type!");
+                        }
                         break;
                 }
             }
-        }
-
-        private static int GetUserInputInt(string userInput = "")
-        {
-            var userInputInt = 0;
-
-            while (int.TryParse(userInput, out userInputInt) == false)
-            {
-                Console.Write("Invalid Input, enter a number:");
-                userInput = Console.ReadLine();
-            }
-
-            return userInputInt;
         }
     }
 }

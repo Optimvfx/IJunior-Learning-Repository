@@ -12,30 +12,31 @@ namespace ArrayMerage
 
             Console.WriteLine("First array:");
 
-            foreach (var element in first)
-               Console.WriteLine(element);
+            ShowCollection(first);
 
             Console.WriteLine("Second array:");
 
-            foreach (var element in second)
-                Console.WriteLine(element);
+            ShowCollection(second);
 
             Console.WriteLine("Mireged list:");
-            var miragedList = MerageCollectionsWithRemovalRepetitions(first, second);
+            var miragedList = RemovalRepetitions(MerageCollections(first, second));
 
-            foreach (var element in miragedList)
-                Console.WriteLine(element);
+            ShowCollection(miragedList);
 
             Console.ReadKey();
         }
 
-        private static List<T> MerageCollectionsWithRemovalRepetitions<T>(IEnumerable<T> first, IEnumerable<T> second)
+        private static void ShowCollection<T>(IEnumerable<T> collection)
         {
-            var meragedCollection = MerageCollections(first, second);
+            foreach (var element in collection)
+                Console.WriteLine(element);
+        }
 
+        private static List<T> RemovalRepetitions<T>(IEnumerable<T> collection)
+        {
             var individualElementsInCollections = new List<T>();    
 
-            foreach(var element in meragedCollection)
+            foreach(var element in collection)
             {
                 if(individualElementsInCollections.Contains(element) == false)
                 {

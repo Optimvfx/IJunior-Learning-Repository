@@ -21,12 +21,40 @@ namespace ArrayMerage
                 Console.WriteLine(element);
 
             Console.WriteLine("Mireged list:");
-            var miragedList = MerageCollections(first, second);
+            var miragedList = MerageCollectionsWithRemovalRepetitions(first, second);
 
             foreach (var element in miragedList)
                 Console.WriteLine(element);
 
             Console.ReadKey();
+        }
+
+        private static List<T> MerageCollectionsWithRemovalRepetitions<T>(IEnumerable<T> first, IEnumerable<T> second)
+        {
+            var meragedCollection = MerageCollections(first, second);
+            var individualElementsInCollections = new List<T>();    
+
+            foreach(var element in meragedCollection)
+            {
+                if(individualElementsInCollections.Contains(element) == false)
+                {
+                    individualElementsInCollections.Add(element);
+                }
+            }
+
+            var meragedCollectionWitchIndividualElements = new List<T>();
+
+            foreach(var element in meragedCollection)
+            {
+                if(individualElementsInCollections.Contains(element))
+                {
+                    individualElementsInCollections.Remove(element);
+
+                    meragedCollectionWitchIndividualElements.Add(element);
+                }
+            }
+
+            return meragedCollectionWitchIndividualElements;
         }
 
         private static List<T> MerageCollections<T>(IEnumerable<T> first,IEnumerable<T> second)

@@ -32,6 +32,7 @@ namespace ArrayMerage
         private static List<T> MerageCollectionsWithRemovalRepetitions<T>(IEnumerable<T> first, IEnumerable<T> second)
         {
             var meragedCollection = MerageCollections(first, second);
+
             var individualElementsInCollections = new List<T>();    
 
             foreach(var element in meragedCollection)
@@ -42,19 +43,7 @@ namespace ArrayMerage
                 }
             }
 
-            var meragedCollectionWitchIndividualElements = new List<T>();
-
-            foreach(var element in meragedCollection)
-            {
-                if(individualElementsInCollections.Contains(element))
-                {
-                    individualElementsInCollections.Remove(element);
-
-                    meragedCollectionWitchIndividualElements.Add(element);
-                }
-            }
-
-            return meragedCollectionWitchIndividualElements;
+            return individualElementsInCollections;
         }
 
         private static List<T> MerageCollections<T>(IEnumerable<T> first,IEnumerable<T> second)

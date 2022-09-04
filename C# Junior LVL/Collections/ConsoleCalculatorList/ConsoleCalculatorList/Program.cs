@@ -30,12 +30,12 @@ namespace ConsoleCalculatorList
                         var sumOfAllNumbers = numbers.Sum();
                         Console.WriteLine($"Sum of all user input is {sumOfAllNumbers}.");
                         break;
+                    case ExitCommand:
+                        isOpen = false;
+                        break;
                     default:
                         var userInputNumber = GetUserInputInt(userInput);
                         numbers.Add(userInputNumber);
-                        break;
-                    case ExitCommand:
-                        isOpen = false;
                         break;
                 }
             }

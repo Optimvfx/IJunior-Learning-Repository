@@ -19,7 +19,10 @@ namespace ArrayMerage
             ShowCollection(second);
 
             Console.WriteLine("Mireged list:");
-            var miragedList = RemovalRepetitions(MerageCollections(first, second));
+            var miragedList = new List<int>();
+
+            Add(miragedList,first);
+            Add(miragedList, second);
 
             ShowCollection(miragedList);
 
@@ -32,32 +35,23 @@ namespace ArrayMerage
                 Console.WriteLine(element);
         }
 
-        private static List<T> RemovalRepetitions<T>(IEnumerable<T> collection)
+        private static void Add<T>(List<T> collection, IEnumerable<T> first)
         {
-            var individualElementsInCollections = new List<T>();    
+            var individualElementsInCollections = new List<T>();
 
             foreach(var element in collection)
             {
-                if(individualElementsInCollections.Contains(element) == false)
-                {
-                    individualElementsInCollections.Add(element);
-                }
+                individualElementsInCollections.Add(element);
             }
 
-            return individualElementsInCollections;
-        }
-
-        private static List<T> MerageCollections<T>(IEnumerable<T> first,IEnumerable<T> second)
-        {
-            var meragedCollection = new List<T>();
-
-            foreach(var element in first)
-                meragedCollection.Add(element);
-
-            foreach (var element in second)
-                meragedCollection.Add(element);
-
-            return meragedCollection;
+            foreach (var element in first)
+            {
+                if (individualElementsInCollections.Contains(element) == false)
+                {
+                    individualElementsInCollections.Add(element);
+                    collection.Add(element);
+                }
+            }
         }
     }
 }

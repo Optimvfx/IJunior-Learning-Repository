@@ -7,6 +7,10 @@ namespace PlayerClass
         static void Main(string[] args)
         {
             var player = new Player("Joo", 100, 50);
+
+            player.ShowInfo();
+
+            Console.ReadKey();
         }
 
         private class Player
@@ -28,6 +32,14 @@ namespace PlayerClass
 
                 MaximalEnergy = maximalEnergy;
                 CurrentEnergy = maximalEnergy;
+            }
+
+            public void ShowInfo()
+            {
+                Console.WriteLine($"Player:" +
+                    $"\nName: {Name}" +
+                    $"\nHPMAX: {MaximalHealth}, HP: {CurrentHealth}" +
+                    $"\nENGMAX: {MaximalEnergy}, ENG: {CurrentEnergy}");
             }
         }
     }

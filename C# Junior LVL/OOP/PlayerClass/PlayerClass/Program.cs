@@ -15,13 +15,13 @@ namespace PlayerClass
 
         private class Player
         {
-            public string Name { get; private set; }
+            private string Name;
 
-            public int MaximalHealth { get; private set; }
-            public int CurrentHealth { get; private set; }
+            private int MaximalHealth;
+            private int CurrentHealth;
 
-            public int MaximalEnergy { get; private set; }
-            public int CurrentEnergy { get; private set; }
+            private int MaximalEnergy;
+            private int CurrentEnergy;
 
             public Player(string name, int maximalHealth, int maximalEnergy)
             {

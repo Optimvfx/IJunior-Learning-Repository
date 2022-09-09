@@ -12,35 +12,35 @@ namespace PlayerClass
 
             Console.ReadKey();
         }
+    }
 
-        private class Player
+    public class Player
+    {
+        private string _name;
+
+        private int _maximalHealth;
+        private int _currentHealth;
+
+        private int _maximalEnergy;
+        private int _currentEnergy;
+
+        public Player(string name, int maximalHealth, int maximalEnergy)
         {
-            private string Name;
+            _name = name;
 
-            private int MaximalHealth;
-            private int CurrentHealth;
+            _maximalHealth = maximalHealth;
+            _currentHealth = maximalHealth;
 
-            private int MaximalEnergy;
-            private int CurrentEnergy;
+            _maximalEnergy = maximalEnergy;
+            _currentEnergy = maximalEnergy;
+        }
 
-            public Player(string name, int maximalHealth, int maximalEnergy)
-            {
-                Name = name;
-
-                MaximalHealth = maximalHealth;
-                CurrentHealth = maximalHealth;
-
-                MaximalEnergy = maximalEnergy;
-                CurrentEnergy = maximalEnergy;
-            }
-
-            public void ShowInfo()
-            {
-                Console.WriteLine($"Player:" +
-                    $"\nName: {Name}" +
-                    $"\nHPMAX: {MaximalHealth}, HP: {CurrentHealth}" +
-                    $"\nENGMAX: {MaximalEnergy}, ENG: {CurrentEnergy}");
-            }
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Player:" +
+                $"\nName: {_name}" +
+                $"\nHPMAX: {_maximalHealth}, HP: {_currentHealth}" +
+                $"\nENGMAX: {_maximalEnergy}, ENG: {_currentEnergy}");
         }
     }
 }

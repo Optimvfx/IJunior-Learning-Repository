@@ -117,7 +117,7 @@ namespace PlayerDataBase
             Console.Write("Enter baning player unique key: ");
             var baningPlayerUniqueKey = Convert.ToInt32(Console.ReadLine());
 
-            if ((TryGetPlayerIndexByUniqueKey(baningPlayerUniqueKey, out int baningPlayerIndex) && _players[baningPlayerIndex].TryBan()) == false)
+            if (TryGetPlayerIndexByUniqueKey(baningPlayerUniqueKey, out int baningPlayerIndex) ==  false || _players[baningPlayerIndex].TryBan() == false)
             {
                 ConsoleExtention.WriteLine($"Cant ban player witch unique key {baningPlayerUniqueKey}!", ConsoleColor.Red);
             }
@@ -128,7 +128,7 @@ namespace PlayerDataBase
             Console.Write("Enter unbaning player unique key: ");
             var unBaningPlayerUniqueKey = Convert.ToInt32(Console.ReadLine());
 
-            if ((TryGetPlayerIndexByUniqueKey(unBaningPlayerUniqueKey, out int unBaningPlayerIndex) && _players[unBaningPlayerIndex].TryUnBan()) == false)
+            if (TryGetPlayerIndexByUniqueKey(unBaningPlayerUniqueKey, out int unBaningPlayerIndex) == false || _players[unBaningPlayerIndex].TryUnBan() == false)
             { 
                 ConsoleExtention.WriteLine($"Cant unban player witch unique key {unBaningPlayerUniqueKey}!", ConsoleColor.Red);
             }

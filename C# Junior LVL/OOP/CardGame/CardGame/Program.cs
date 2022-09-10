@@ -8,17 +8,38 @@ namespace CardGame
     {
         static void Main(string[] args)
         {
+            uint deckLenght = 64;
+
             Player player = new Player();
 
-            Deck fromAssign = Deck.GenerateRandom(20);
+            Croupier croupier = new Croupier(deckLenght);
 
-            player.AssignCards(fromAssign, 10);
-
-            player.AssignCards(fromAssign);
-
-            Console.WriteLine(player.GetInfo());
+            player.PlayGame(croupier);
 
             Console.ReadKey();
+        }
+    }
+
+    public class Croupier
+    {
+        private Deck _deck;
+
+        public Croupier(uint deckLenght)
+        {
+            _deck = Deck.Create((int)deckLenght, new Random());
+        }
+
+        public bool AskForCards(Deck to, uint requiredСardsCount)
+        {
+            if (requiredСardsCount > _deck.Count)
+                return false;
+
+            for (int i = 0; i < requiredСardsCount; i++)
+            {
+                to.TryTakeAwayCard(_deck);
+            }
+
+            return true;
         }
     }
 
@@ -31,51 +52,72 @@ namespace CardGame
             _deck = new Deck();
         }
 
-        public void AssignCards(Deck fromAssign, uint cardsToAssign)
+        public void PlayGame(Croupier croupier)
         {
-            while (_deck.TryAssignCard(fromAssign, out Card assignedCard) && cardsToAssign > 0)
+            const string AskForCardsCommand = "ASK";
+            const string ShowPlayerCardsCommand = "SHOW";
+            const string ExitCommand = "EXIT";
+
+            var isPlaying = true;
+
+            while (isPlaying)
             {
-                cardsToAssign--;
+                Console.Write($"\nEnter command: " +
+                    $"\n{AskForCardsCommand}" +
+                    $"\n{ShowPlayerCardsCommand}" +
+                    $"\n{ExitCommand}\n");
+                var userCommand = Console.ReadLine().ToUpper();
 
-                Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
-                Console.WriteLine($"Cards to assign left {cardsToAssign}");
-                Console.WriteLine("Prass any key to get next card.");
-
-                Console.ReadKey();
-            }
-        }
-
-        public void AssignCards(Deck fromAssign)
-        {
-            const string ExitCommand = "YES";
-
-            bool contimeGetCards = true;
-
-            while (_deck.TryAssignCard(fromAssign, out Card assignedCard) && contimeGetCards)
-            {
-                Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
-                Console.WriteLine("Stop geting cards? YES NO");
-
-                var userInput = Console.ReadLine().ToUpper();
-
-                switch (userInput)
+                switch (userCommand)
                 {
+                    case AskForCardsCommand:
+                        AskForCards(croupier);
+                        break;
+                    case ShowPlayerCardsCommand:
+                        ShowCards();
+                        break;
                     case ExitCommand:
-                        contimeGetCards = false;
+                        isPlaying = false;
+                        break;
+                    default:
+                        Console.WriteLine("Uncnovn command!");
                         break;
                 }
             }
         }
 
-        public string GetInfo()
+        private void AskForCards(Croupier croupier)
         {
-            return "\n" + _deck.GetInfo();
+            Console.Write("Required cards count: ");
+
+            if (int.TryParse(Console.ReadLine(), out int requiredСardsCount) && requiredСardsCount > 0)
+            {
+                if(croupier.AskForCards(_deck, (uint)requiredСardsCount))
+                {
+                    Console.WriteLine("You get new cards frow croupier.");
+                }
+                else
+                {
+                    Console.WriteLine("Croupier did not give you a cards.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid required cards count input!");
+            }
+        }
+
+        private void ShowCards()
+        {
+            Console.WriteLine("\n" + _deck.GetInfo());
         }
     }
 
     public class Deck
     {
         private Stack<Card> _cards;
+
+        public int Count => _cards.Count;
 
         public Deck()
         {
@@ -92,32 +134,28 @@ namespace CardGame
             }
         }
 
-        public static Deck GenerateRandom(int lenght)
+        public static Deck Create(int lenght, Random random)
         {
             var cards = new List<Card>();
 
-            var random = new Random();
-
             for (int i = 0; i < lenght; i++)
             {
-                cards.Add(Card.GetRandom(random));
+                cards.Add(Card.Create(random));
             }
 
             return new Deck(cards);
         }
 
-        public bool TryAssignCard(Deck fromAssign, out Card assignedCard)
+        public bool TryTakeAwayCard(Deck from)
         {
-            assignedCard = Card.StandartCard;
-
-            if (fromAssign == this)
+            if (from == this)
             {
                 return false;
             }
 
-            if (fromAssign.TryTakeCard(out assignedCard))
+            if (from.TryTakeCard(out Card takedCard))
             {
-                _cards.Push(assignedCard);
+                _cards.Push(takedCard);
                 return true;
             }
 
@@ -162,7 +200,7 @@ namespace CardGame
             Fraction = fraction;
         }
 
-        public static Card GetRandom(Random random)
+        public static Card Create(Random random)
         {
             var randomCardType = (CardType)random.Next((int)CardType.One, (int)CardType.Jester);
             var randomCardFraction = (CardFraction)random.Next((int)CardFraction.Heart, (int)CardFraction.Club);

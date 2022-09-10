@@ -128,9 +128,14 @@ namespace Library
         private void ShowBooksByYearOfIssue()
         {
             Console.WriteLine("Enter searching year of issue");
+
             if (int.TryParse(Console.ReadLine(), out int searchingYearOfIssue))
             {
                 ShowBooks(_repository.FindBooksByYearOfIssue(searchingYearOfIssue));
+            }
+            else
+            {
+                Console.WriteLine("Invalid searching year of issue input!");
             }
         }
     }

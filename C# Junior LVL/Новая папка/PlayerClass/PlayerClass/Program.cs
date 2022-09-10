@@ -38,9 +38,9 @@ namespace PlayerClass
         public void ShowInfo()
         {
             Console.WriteLine($"Player:" +
-                $"\nName: {_name}" +
-                $"\nHPMAX: {_maximalHealth}, HP: {_currentHealth}" +
-                $"\nENGMAX: {_maximalEnergy}, ENG: {_currentEnergy}");
+                              $"\nName: {_name}" +
+                              $"\nHPMAX: {_maximalHealth}, HP: {_currentHealth}" +
+                              $"\nENGMAX: {_maximalEnergy}, ENG: {_currentEnergy}");
         }
     }
 }

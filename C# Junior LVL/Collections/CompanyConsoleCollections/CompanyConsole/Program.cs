@@ -5,7 +5,7 @@ namespace CompanyConsole
 {
     internal class Program
     {
-        private const char fullnameSplitChar = '-';
+        private const char _fullnameSplitChar = '-';
 
         static void Main(string[] args)
         {
@@ -15,7 +15,7 @@ namespace CompanyConsole
             const string ExitCommand = "EXIT";
 
             var workersFullNames = new List<string>();
-            var workersPosts = new List<string>();
+            var wos = new List<string>();
 
             var isOpen = true;
 

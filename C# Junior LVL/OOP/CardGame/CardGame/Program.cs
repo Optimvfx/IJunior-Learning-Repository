@@ -31,7 +31,7 @@ namespace CardGame
 
         public bool AskForCards(Deck to, uint requiredСardsCount)
         {
-            if (requiredСardsCount > _deck.Count)
+            if (requiredСardsCount > _deck.CardCount)
                 return false;
 
             for (int i = 0; i < requiredСardsCount; i++)
@@ -66,6 +66,7 @@ namespace CardGame
                     $"\n{AskForCardsCommand}" +
                     $"\n{ShowPlayerCardsCommand}" +
                     $"\n{ExitCommand}\n");
+
                 var userCommand = Console.ReadLine().ToUpper();
 
                 switch (userCommand)
@@ -117,7 +118,7 @@ namespace CardGame
     {
         private Stack<Card> _cards;
 
-        public int Count => _cards.Count;
+        public int CardCount => _cards.Count;
 
         public Deck()
         {

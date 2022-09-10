@@ -18,11 +18,11 @@ namespace PlayerDraw
 
     public class GameFieldDrawer
     {
-        private readonly uint _minimalPosibleDrawPosition;
-        private readonly uint _maximalPosibleDrawPosition;
-
         private readonly static int _horizontalPositionOfPlayerInfo = 0;
         private readonly static int _offsetGameFieldToPlayerInfo = 2;
+
+        private readonly uint _minimalPosibleDrawPosition;
+        private readonly uint _maximalPosibleDrawPosition;
 
         public GameFieldDrawer(uint minimalDrawPosition = 0, uint maximalDrawPosition = 100)
         {
@@ -55,11 +55,11 @@ namespace PlayerDraw
 
     public class Player
     {
-        public Vector2Int Position { get; private set; }
-
         public readonly char DrawChar;
 
         private readonly string _name;
+
+        public Vector2Int Position { get; private set; }
 
         public Player(char drawChar, Vector2Int position, string name)
         { 

@@ -94,6 +94,10 @@ namespace PlayerDataBase
                 var newPlayer = new Player(newPlayerName, newPlayerLevel);
                 _players.Add(newPlayer);
             }
+            else
+            {
+                ConsoleExtention.WriteLine("Cant convert to int player level input!", ConsoleColor.Red);
+            }    
         }
 
         public void RemovePlayer()
@@ -111,6 +115,10 @@ namespace PlayerDataBase
                     ConsoleExtention.WriteLine($"Cant remove player witch unique key {removingPlayerUniqueKey}!", ConsoleColor.Red);
                 }
             }
+            else
+            {
+                ConsoleExtention.WriteLine("Cant convert to int  removing player unique key input!", ConsoleColor.Red);
+            }
         }
 
         public void BanPlayer()
@@ -124,6 +132,10 @@ namespace PlayerDataBase
                     ConsoleExtention.WriteLine($"Cant ban player witch unique key {baningPlayerUniqueKey}!", ConsoleColor.Red);
                 }
             }
+            else
+            {
+                ConsoleExtention.WriteLine("Cant convert to int baning player unique key input!", ConsoleColor.Red);
+            }
         }
 
         public void UnbanPlayer()
@@ -136,6 +148,10 @@ namespace PlayerDataBase
                 {
                     ConsoleExtention.WriteLine($"Cant unban player witch unique key {unBaningPlayerUniqueKey}!", ConsoleColor.Red);
                 }
+            }
+            else
+            {
+                ConsoleExtention.WriteLine("Cant convert to int unbaning player unique key input!", ConsoleColor.Red);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace CardGame
 {
@@ -7,23 +8,67 @@ namespace CardGame
     {
         static void Main(string[] args)
         {
+            Player player = new Player();
+
+            Deck fromAssign = Deck.GenerateRandom(20);
+
+            player.AssignCards(fromAssign, 10);
+
+            player.AssignCards(fromAssign);
+
+            Console.WriteLine(player.GetInfo());
+
+            Console.ReadKey();
         }
 
         public class Player
         {
-            private Deck _playerDeck;
+            private Deck _deck;
 
             public Player()
             {
-                _playerDeck = new Deck();
+                _deck = new Deck();
             }
 
-            public void GetCards(Deck fromAssign)
+            public void AssignCards(Deck fromAssign, uint cardsToAssign)
             {
-                while(_playerDeck.TryAssignCard(fromAssign, out Card assignedCard))
+                while(_deck.TryAssignCard(fromAssign, out Card assignedCard) && cardsToAssign > 0)
                 {
-                    Console.WriteLine(assignedCard.GetCardInfo());          
+                    cardsToAssign--;
+
+                    Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
+                    Console.WriteLine($"Cards to assign left {cardsToAssign}");
+                    Console.WriteLine("Prass any key to get next card.");
+
+                    Console.ReadKey();
                 }
+            }
+
+            public void AssignCards(Deck fromAssign)
+            {
+                const string ExitCommand = "YES";
+
+                bool contimeGetCards = true;
+
+                while (_deck.TryAssignCard(fromAssign, out Card assignedCard) && contimeGetCards)
+                {
+                    Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
+                    Console.WriteLine("Stop geting cards? YES NO");
+
+                    var userInput = Console.ReadLine().ToUpper();
+
+                    switch (userInput)
+                    {
+                        case ExitCommand:
+                            contimeGetCards = false;
+                            break;
+                    }
+                }
+            }
+
+            public string GetInfo()
+            {
+                return "\n" + _deck.GetInfo();
             }
         }
 
@@ -46,18 +91,18 @@ namespace CardGame
                 }
             }
 
-            public static Deck GenerateRandomDeck(int lenght)
+            public static Deck GenerateRandom(int lenght)
             {
-                var carsd = new List<Card>();
+                var cards = new List<Card>();
 
                 var random = new Random();
 
                 for(int i = 0; i < lenght; i++)
                 {
-                    carsd.Add(Card.GetRandomCard(new Random()));
+                    cards.Add(Card.GetRandom(random));
                 }
 
-                return new Deck(carsd);
+                return new Deck(cards);
             }
 
             public bool TryAssignCard(Deck fromAssign, out Card assignedCard)
@@ -88,6 +133,19 @@ namespace CardGame
                 card = _cards.Pop();
                 return true;
             }
+
+            public string GetInfo()
+            {
+                var stringBuilder = new StringBuilder();
+
+                foreach (var card in _cards)
+                {
+                    stringBuilder.AppendLine(card.GetInfo());
+                }
+
+                return stringBuilder.ToString();
+            }
+
         }
 
         public struct Card
@@ -103,14 +161,15 @@ namespace CardGame
                 Fraction = fraction;
             }
 
-            public static Card GetRandomCard(Random random)
+            public static Card GetRandom(Random random)
             {
                 var randomCardType = (CardType)random.Next((int)CardType.One, (int)CardType.Jester);
                 var randomCardFraction = (CardFraction)random.Next((int)CardFraction.Heart, (int)CardFraction.Club);
+
                 return new Card(randomCardType, randomCardFraction);
             }
 
-            public string GetCardInfo()
+            public string GetInfo()
             {
                 return $"{Type} {Fraction}";
             }

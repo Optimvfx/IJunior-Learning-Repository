@@ -117,9 +117,9 @@ namespace PlayerDataBase
             Console.Write("Enter baning player unique key: ");
             var baningPlayerUniqueKey = Convert.ToInt32(Console.ReadLine());
 
-            if (TryGetPlayerIndexByUniqueKey(baningPlayerUniqueKey, out int baningPlayerIndex) && _players[baningPlayerIndex].IsBaned == false)
+            if (TryGetPlayerIndexByUniqueKey(baningPlayerUniqueKey, out int baningPlayerIndex) && _players[baningPlayerIndex].TryBan())
             {
-                _players[baningPlayerIndex].Ban();
+              
             }
             else
             {
@@ -132,9 +132,8 @@ namespace PlayerDataBase
             Console.Write("Enter unbaning player unique key: ");
             var unBaningPlayerUniqueKey = Convert.ToInt32(Console.ReadLine());
 
-            if (TryGetPlayerIndexByUniqueKey(unBaningPlayerUniqueKey, out int unBaningPlayerIndex) && _players[unBaningPlayerIndex].IsBaned == true)
+            if (TryGetPlayerIndexByUniqueKey(unBaningPlayerUniqueKey, out int unBaningPlayerIndex) && _players[unBaningPlayerIndex].TryUnBan())
             {
-                _players[unBaningPlayerIndex].UnBan();
             }
             else
             {
@@ -181,14 +180,22 @@ namespace PlayerDataBase
         }
 
         //Делаю методы для большей понятности.
-        public void Ban()
+        public bool TryBan()
         {
+            if (IsBaned)
+                return false;
+
             IsBaned = true;
+            return true;
         }
         
-        public void UnBan()
+        public bool TryUnBan()
         {
+            if (IsBaned == false)
+                return false;
+
             IsBaned = false;
+            return true;
         }
     }
 

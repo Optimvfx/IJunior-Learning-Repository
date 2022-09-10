@@ -20,185 +20,186 @@ namespace CardGame
 
             Console.ReadKey();
         }
+    }
 
-        public class Player
+    public class Player
+    {
+        private Deck _deck;
+
+        public Player()
         {
-            private Deck _deck;
+            _deck = new Deck();
+        }
 
-            public Player()
+        public void AssignCards(Deck fromAssign, uint cardsToAssign)
+        {
+            while (_deck.TryAssignCard(fromAssign, out Card assignedCard) && cardsToAssign > 0)
             {
-                _deck = new Deck();
-            }
+                cardsToAssign--;
 
-            public void AssignCards(Deck fromAssign, uint cardsToAssign)
-            {
-                while(_deck.TryAssignCard(fromAssign, out Card assignedCard) && cardsToAssign > 0)
-                {
-                    cardsToAssign--;
+                Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
+                Console.WriteLine($"Cards to assign left {cardsToAssign}");
+                Console.WriteLine("Prass any key to get next card.");
 
-                    Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
-                    Console.WriteLine($"Cards to assign left {cardsToAssign}");
-                    Console.WriteLine("Prass any key to get next card.");
-
-                    Console.ReadKey();
-                }
-            }
-
-            public void AssignCards(Deck fromAssign)
-            {
-                const string ExitCommand = "YES";
-
-                bool contimeGetCards = true;
-
-                while (_deck.TryAssignCard(fromAssign, out Card assignedCard) && contimeGetCards)
-                {
-                    Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
-                    Console.WriteLine("Stop geting cards? YES NO");
-
-                    var userInput = Console.ReadLine().ToUpper();
-
-                    switch (userInput)
-                    {
-                        case ExitCommand:
-                            contimeGetCards = false;
-                            break;
-                    }
-                }
-            }
-
-            public string GetInfo()
-            {
-                return "\n" + _deck.GetInfo();
+                Console.ReadKey();
             }
         }
 
-        public class Deck
+        public void AssignCards(Deck fromAssign)
         {
-            private Stack<Card> _cards;
+            const string ExitCommand = "YES";
 
-            public Deck()
+            bool contimeGetCards = true;
+
+            while (_deck.TryAssignCard(fromAssign, out Card assignedCard) && contimeGetCards)
             {
-                _cards = new Stack<Card>();
-            }
+                Console.WriteLine("\nYou take a new card:" + assignedCard.GetInfo());
+                Console.WriteLine("Stop geting cards? YES NO");
 
-            public Deck(IEnumerable<Card> cards)
-            {
-                _cards = new Stack<Card>();
+                var userInput = Console.ReadLine().ToUpper();
 
-                foreach (var card in cards)
+                switch (userInput)
                 {
-                    _cards.Push(card);
+                    case ExitCommand:
+                        contimeGetCards = false;
+                        break;
                 }
             }
+        }
 
-            public static Deck GenerateRandom(int lenght)
+        public string GetInfo()
+        {
+            return "\n" + _deck.GetInfo();
+        }
+    }
+
+    public class Deck
+    {
+        private Stack<Card> _cards;
+
+        public Deck()
+        {
+            _cards = new Stack<Card>();
+        }
+
+        public Deck(IEnumerable<Card> cards)
+        {
+            _cards = new Stack<Card>();
+
+            foreach (var card in cards)
             {
-                var cards = new List<Card>();
+                _cards.Push(card);
+            }
+        }
 
-                var random = new Random();
+        public static Deck GenerateRandom(int lenght)
+        {
+            var cards = new List<Card>();
 
-                for(int i = 0; i < lenght; i++)
-                {
-                    cards.Add(Card.GetRandom(random));
-                }
+            var random = new Random();
 
-                return new Deck(cards);
+            for (int i = 0; i < lenght; i++)
+            {
+                cards.Add(Card.GetRandom(random));
             }
 
-            public bool TryAssignCard(Deck fromAssign, out Card assignedCard)
+            return new Deck(cards);
+        }
+
+        public bool TryAssignCard(Deck fromAssign, out Card assignedCard)
+        {
+            assignedCard = Card.StandartCard;
+
+            if (fromAssign == this)
             {
-                assignedCard = Card.StandartCard;
-
-                if (fromAssign == this)
-                {
-                    return false;
-                }
-
-                if(fromAssign.TryTakeCard(out assignedCard))
-                {
-                    _cards.Push(assignedCard);
-                    return true;
-                }
-
                 return false;
             }
 
-            public bool TryTakeCard(out Card card)
+            if (fromAssign.TryTakeCard(out assignedCard))
             {
-                card = Card.StandartCard;
-
-                if(_cards.Count == 0)
-                    return false;
-
-                card = _cards.Pop();
+                _cards.Push(assignedCard);
                 return true;
             }
 
-            public string GetInfo()
-            {
-                var stringBuilder = new StringBuilder();
-
-                foreach (var card in _cards)
-                {
-                    stringBuilder.AppendLine(card.GetInfo());
-                }
-
-                return stringBuilder.ToString();
-            }
-
+            return false;
         }
 
-        public struct Card
+        public bool TryTakeCard(out Card card)
         {
-            public static readonly Card StandartCard = new Card(CardType.One, CardFraction.Heart);
+            card = Card.StandartCard;
 
-            public readonly CardType Type;
-            public readonly CardFraction Fraction;
+            if (_cards.Count == 0)
+                return false;
 
-            public Card(CardType type, CardFraction fraction)
+            card = _cards.Pop();
+            return true;
+        }
+
+        public string GetInfo()
+        {
+            var stringBuilder = new StringBuilder();
+
+            foreach (var card in _cards)
             {
-                Type = type;
-                Fraction = fraction;
+                stringBuilder.AppendLine(card.GetInfo());
             }
 
-            public static Card GetRandom(Random random)
-            {
-                var randomCardType = (CardType)random.Next((int)CardType.One, (int)CardType.Jester);
-                var randomCardFraction = (CardFraction)random.Next((int)CardFraction.Heart, (int)CardFraction.Club);
+            return stringBuilder.ToString();
+        }
 
-                return new Card(randomCardType, randomCardFraction);
-            }
+    }
 
-            public string GetInfo()
-            {
-                return $"{Type} {Fraction}";
-            }
+    public struct Card
+    {
+        public static readonly Card StandartCard = new Card(CardType.One, CardFraction.Heart);
 
-            public enum CardType
-            {
-                One,
-                Two,
-                Three,
-                Four,
-                Five,
-                Six,
-                Seven,
-                Eight,
-                Nine,
-                Ten,
-                Jack,
-                Lady,
-                King,
-                Jester
-            }
+        public readonly CardType Type;
+        public readonly CardFraction Fraction;
 
-            public enum CardFraction
-            {
-                Heart,
-                Spades,
-                Diamond,
-                Club
-            }
+        public Card(CardType type, CardFraction fraction)
+        {
+            Type = type;
+            Fraction = fraction;
+        }
+
+        public static Card GetRandom(Random random)
+        {
+            var randomCardType = (CardType)random.Next((int)CardType.One, (int)CardType.Jester);
+            var randomCardFraction = (CardFraction)random.Next((int)CardFraction.Heart, (int)CardFraction.Club);
+
+            return new Card(randomCardType, randomCardFraction);
+        }
+
+        public string GetInfo()
+        {
+            return $"{Type} {Fraction}";
+        }
+
+        public enum CardType
+        {
+            One,
+            Two,
+            Three,
+            Four,
+            Five,
+            Six,
+            Seven,
+            Eight,
+            Nine,
+            Ten,
+            Jack,
+            Lady,
+            King,
+            Jester
+        }
+
+        public enum CardFraction
+        {
+            Heart,
+            Spades,
+            Diamond,
+            Club
         }
     }
 }
+

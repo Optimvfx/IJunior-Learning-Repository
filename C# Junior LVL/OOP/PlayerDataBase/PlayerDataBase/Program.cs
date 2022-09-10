@@ -14,7 +14,7 @@ namespace PlayerDataBase
             const string UnBanCommand = "UNBAN";
             const string ExitCommand = "EXIT";
 
-            var playersDataBase = new PlayersDataBase();
+            var database = new Database();
 
             bool isOpen = true;
 
@@ -33,19 +33,19 @@ namespace PlayerDataBase
                 switch(userInput)
                 {
                     case ShowAllCommand:
-                        playersDataBase.ShowAllPlayers();
+                        database.ShowAllPlayers();
                         break;
                     case AddCommand:
-                        playersDataBase.AddPlayer();
+                        database.AddPlayer();
                         break;
                     case RemoveCommand:
-                        playersDataBase.RemovePlayer();
+                        database.RemovePlayer();
                         break;
                     case BanCommand:
-                        playersDataBase.BanPlayer();
+                        database.BanPlayer();
                         break;
                     case UnBanCommand:
-                        playersDataBase.UnbanPlayer();
+                        database.UnbanPlayer();
                         break;
                     case ExitCommand:
                         isOpen = false;
@@ -58,30 +58,27 @@ namespace PlayerDataBase
         }
     }
 
-    public class PlayersDataBase
+    public class Database
     {
         private List<Player> _players;
 
-        public PlayersDataBase()
+        public Database()
         {
             _players = new List<Player>();
         }
     
         public void ShowAllPlayers()
         {
-            const ConsoleColor BanedColor = ConsoleColor.Red;
-            const ConsoleColor UnbanedColor = ConsoleColor.Green;
-
-            foreach(var player in _players)
+            foreach (var player in _players)
             {
+                var playerInfoColor = ConsoleColor.Green;
+
                 if (player.IsBaned)
                 {
-                    ConsoleExtention.WriteLine($"User {player.Name} lvl {player.Level}.\nUniqueKey {{{player.UniqueKey}}}", BanedColor);
+                    playerInfoColor = ConsoleColor.Red;
                 }
-                else
-                {
-                    ConsoleExtention.WriteLine($"User {player.Name} lvl {player.Level}.\nUniqueKey {{{player.UniqueKey}}}", UnbanedColor);
-                }
+
+                ConsoleExtention.WriteLine($"User {player.Name} lvl {player.Level}.\nUniqueKey {{{player.UniqueKey}}}", playerInfoColor);
             }
         }
 
@@ -91,46 +88,54 @@ namespace PlayerDataBase
             var newPlayerName = Console.ReadLine();
 
             Console.Write("New player level: ");
-            var newPlayerLevel = Convert.ToInt32(Console.ReadLine());
 
-            var newPlayer = new Player(newPlayerName, newPlayerLevel);
-            _players.Add(newPlayer);
+            if (int.TryParse(Console.ReadLine(), out int newPlayerLevel))
+            {
+                var newPlayer = new Player(newPlayerName, newPlayerLevel);
+                _players.Add(newPlayer);
+            }
         }
 
         public void RemovePlayer()
         {
             Console.Write("Enter removing player unique key: ");
-            var removingPlayerUniqueKey = Convert.ToInt32(Console.ReadLine());
 
-            if(TryGetPlayerIndexByUniqueKey(removingPlayerUniqueKey, out int removingPlayerIndex))
+            if (int.TryParse(Console.ReadLine(), out int removingPlayerUniqueKey))
             {
-                _players.RemoveAt(removingPlayerIndex);
-            }
-            else
-            {
-                ConsoleExtention.WriteLine($"Cant remove player witch unique key {removingPlayerUniqueKey}!", ConsoleColor.Red);
+                if (TryGetPlayerIndexByUniqueKey(removingPlayerUniqueKey, out int removingPlayerIndex))
+                {
+                    _players.RemoveAt(removingPlayerIndex);
+                }
+                else
+                {
+                    ConsoleExtention.WriteLine($"Cant remove player witch unique key {removingPlayerUniqueKey}!", ConsoleColor.Red);
+                }
             }
         }
 
         public void BanPlayer()
         {
             Console.Write("Enter baning player unique key: ");
-            var baningPlayerUniqueKey = Convert.ToInt32(Console.ReadLine());
 
-            if (TryGetPlayerIndexByUniqueKey(baningPlayerUniqueKey, out int baningPlayerIndex) ==  false || _players[baningPlayerIndex].TryBan() == false)
+            if (int.TryParse(Console.ReadLine(), out int baningPlayerUniqueKey))
             {
-                ConsoleExtention.WriteLine($"Cant ban player witch unique key {baningPlayerUniqueKey}!", ConsoleColor.Red);
+                if (TryGetPlayerIndexByUniqueKey(baningPlayerUniqueKey, out int baningPlayerIndex) == false || _players[baningPlayerIndex].TryBan() == false)
+                {
+                    ConsoleExtention.WriteLine($"Cant ban player witch unique key {baningPlayerUniqueKey}!", ConsoleColor.Red);
+                }
             }
         }
 
         public void UnbanPlayer()
         {
             Console.Write("Enter unbaning player unique key: ");
-            var unBaningPlayerUniqueKey = Convert.ToInt32(Console.ReadLine());
 
-            if (TryGetPlayerIndexByUniqueKey(unBaningPlayerUniqueKey, out int unBaningPlayerIndex) == false || _players[unBaningPlayerIndex].TryUnBan() == false)
-            { 
-                ConsoleExtention.WriteLine($"Cant unban player witch unique key {unBaningPlayerUniqueKey}!", ConsoleColor.Red);
+            if (int.TryParse(Console.ReadLine(), out int unBaningPlayerUniqueKey))
+            {
+                if (TryGetPlayerIndexByUniqueKey(unBaningPlayerUniqueKey, out int unBaningPlayerIndex) == false || _players[unBaningPlayerIndex].TryUnBan() == false)
+                {
+                    ConsoleExtention.WriteLine($"Cant unban player witch unique key {unBaningPlayerUniqueKey}!", ConsoleColor.Red);
+                }
             }
         }
 

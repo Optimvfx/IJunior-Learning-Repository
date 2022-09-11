@@ -42,6 +42,8 @@ namespace CardGame
             {
                 if(_deck.TryTakeCard(out Card card) == false)
                 {
+                    _deck.AddCards(cards);
+
                     return false;
                 }    
 

@@ -29,15 +29,21 @@ namespace CardGame
             _deck = Deck.Create((int)deckLenght, new Random());
         }
 
-        public bool AskForCards(Deck to, uint requiredСardsCount)
+        public bool TryAskForCards(uint requiredСardsCount, out IEnumerable<Card> getedCards)
         {
+            getedCards = new List<Card>();
+
+            var cards = new Stack<Card>();
+
             if (requiredСardsCount > _deck.CardCount)
                 return false;
 
             for (int i = 0; i < requiredСardsCount; i++)
             {
-                to.TryTakeAwayCard(_deck);
+                cards.Push(new Card());
             }
+
+            getedCards = cards;
 
             return true;
         }
@@ -93,9 +99,11 @@ namespace CardGame
 
             if (int.TryParse(Console.ReadLine(), out int requiredСardsCount) && requiredСardsCount > 0)
             {
-                if(croupier.AskForCards(_deck, (uint)requiredСardsCount))
+                if(croupier.TryAskForCards((uint)requiredСardsCount, out IEnumerable<Card> cards))
                 {
                     Console.WriteLine("You get new cards frow croupier.");
+
+                    _deck.AddCards(cards);
                 }
                 else
                 {
@@ -147,22 +155,6 @@ namespace CardGame
             return new Deck(cards);
         }
 
-        public bool TryTakeAwayCard(Deck from)
-        {
-            if (from == this)
-            {
-                return false;
-            }
-
-            if (from.TryTakeCard(out Card takedCard))
-            {
-                _cards.Push(takedCard);
-                return true;
-            }
-
-            return false;
-        }
-
         public bool TryTakeCard(out Card card)
         {
             card = Card.StandartCard;
@@ -172,6 +164,19 @@ namespace CardGame
 
             card = _cards.Pop();
             return true;
+        }
+
+        public void AddCards(IEnumerable<Card> cards)
+        {
+            foreach(var card in cards)
+            {
+                AddCard(card);
+            }
+        }
+
+        public void AddCard(Card card)
+        {
+            _cards.Push(card);
         }
 
         public string GetInfo()

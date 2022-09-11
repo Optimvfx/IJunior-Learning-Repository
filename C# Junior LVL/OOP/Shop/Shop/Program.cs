@@ -8,56 +8,87 @@ namespace Shop
     {
         static void Main(string[] args)
         {
-            uint playerMoney = 125;
+            int playerMoney = 125;
 
-            var goods = new Good[] {new Good(new Item("Sword","Bladles"), 100),new Good(new Item("Posion","black and toxic"),15), new Good(new Item("HealPosion", "red and sweat"),25), new Good(new Item("Legendary Sword", "Glow red"), 10000)};
-            var shop = new Shop(goods);
+            var product = new Product[] { new Product(new Item("Sword"), 100), new Product(new Item("Posion"), 15), new Product(new Item("HealPosion"), 25), new Product(new Item("Legendary Sword"), 10000) };
+            var shop = new Shop(product);
 
-            var player = new Player(playerMoney);
-            player.StartTraiding(shop);
+            var buyer = new Buyer(playerMoney);
+
+            shop.StartTraiding(buyer);
         }
     }
 
-    public class Player
+    public class Buyer
     {
         private Invectory _invectory;
         private Wallet _wallet;
          
-        public Player(uint money)
+        public Buyer(int money)
         {
             _invectory = new Invectory();
             _wallet = new Wallet(money);
         }
 
-        public void StartTraiding(Shop shop)
+        public bool TrySpendMoney(int moneyToSpend)
         {
-            const string SeePlayerInfoCommand = "SEEPLAYERINFO";
-            const string SeeAllGoodsInfoCommand = "SEEALLGOODS";
-            const string BuyGoodCommand = "BUY";
+            return _wallet.TrySpend(moneyToSpend);  
+        }
+
+        public void AddItem(Item item)
+        {
+            _invectory.Add(item);
+        }
+
+        public void SeeInfo()
+        {
+            Console.WriteLine($"\nMoney {_wallet.Money}.\n");
+
+            foreach(var item in _invectory.GetAllItems())
+            {
+                Console.WriteLine(item.GetInfo());
+            }    
+        }
+    }
+
+    public class Shop
+    {
+        private readonly Traider _traider;
+
+        public Shop(IEnumerable<Product> products)
+        {
+            _traider = new Traider(products);
+        }
+
+        public void StartTraiding(Buyer buyer)
+        {
+            const string SeeBuyerInfoCommand = "SEEBUYERINFO";
+            const string SeeAllProductInfoCommand = "SEEALLPRODUCTS";
+            const string BuyProductCommand = "BUY";
             const string ExitCommand = "EXIT";
 
             bool isTraiding = true;
 
-            while(isTraiding)
+            while (isTraiding)
             {
                 Console.WriteLine($"\nPosible commands:" +
-                    $"\n{SeePlayerInfoCommand}" +
-                    $"\n{SeeAllGoodsInfoCommand}" +
-                    $"\n{BuyGoodCommand}" +
+                    $"\n{SeeBuyerInfoCommand}" +
+                    $"\n{SeeAllProductInfoCommand}" +
+                    $"\n{BuyProductCommand}" +
                     $"\n{ExitCommand}\n");
 
                 var userInput = Console.ReadLine().ToUpper();
 
                 switch (userInput)
                 {
-                    case SeePlayerInfoCommand:
-                        SeePlayerInfo();
+                    case SeeBuyerInfoCommand:
+                        SeeBuyerInfo(buyer);
                         break;
-                    case SeeAllGoodsInfoCommand:
-                        SeeAllGoods(shop);
+                    case SeeAllProductInfoCommand:
+                        SeeAllProduct();
                         break;
-                    case BuyGoodCommand:
-                        BuyGoods(shop);
+                    case BuyProductCommand:
+                        BuyProduct(buyer);
                         break;
                     case ExitCommand:
                         isTraiding = false;
@@ -72,61 +103,65 @@ namespace Shop
             Console.Clear();
         }
 
-        private void SeePlayerInfo()
+        private void SeeBuyerInfo(Buyer buyer)
         {
-            Console.WriteLine($"\nMoney {_wallet.Money}.\n");
-
-            foreach(var item in _invectory.GetAllItems())
-            {
-                Console.WriteLine(item.GetInfo());
-            }    
+            buyer.SeeInfo();
         }
 
-        private void SeeAllGoods(Shop shop)
+        private void SeeAllProduct()
         {
-            foreach(var good in shop.GetAllGoods())
+            int indexOfProduct = 0;
+
+            foreach (var product in _traider.GetAllProducts())
             {
-                Console.WriteLine(good.GetInfo());
+                Console.WriteLine($"{indexOfProduct} : {product.GetInfo()}");
+                indexOfProduct++;
             }
         }
 
-        private void BuyGoods(Shop shop)
+        private void BuyProduct(Buyer buyer)
         {
-            Console.WriteLine("Item to buy: ");
-            var itemToBuy = Item.CreateItem();
+            Console.Write("Index of produduct: ");
 
-            if (shop.TryBuyGood(itemToBuy, _invectory, _wallet))
+            if (int.TryParse(Console.ReadLine(), out int requiredProductIndex) && _traider.TryGetProductPrice(requiredProductIndex, out int price))
             {
-                Console.WriteLine("Good buyed.");
+                if (buyer.TrySpendMoney(price) && _traider.TryAddMoney(price))
+                {
+                    Console.WriteLine("Product buyed.");
+
+                    _traider.TryGiveAwayItem(requiredProductIndex, out Item buyedItem);
+                    buyer.AddItem(buyedItem);
+                }
+                else
+                {
+                    Console.WriteLine("Product buy invalid!");
+                }
             }
             else
             {
-                Console.WriteLine("Good buy invalid!");
+                Console.WriteLine("Index of product invalid!");
             }
         }
-    }
 
-    public class Shop
-    {
-        private readonly List<Good> _goods; 
-        private readonly Wallet _wallet;
-
-        public Shop(IEnumerable<Good> goods)
+        private class Traider
         {
-            _goods = goods.ToList();
-            _wallet = new Wallet();
-        }
+            private readonly List<Product> _products;
+            private readonly Wallet _wallet;
 
-        public bool TryBuyGood(Item desiredItem, Invectory to, Wallet paymentWallet)
-        {
-            if (_goods.Any(good => good.Item.EqualsName(desiredItem)))
+            public Traider(IEnumerable<Product> products)
             {
-                var desiredGood = _goods.FirstOrDefault(good => good.Item.EqualsName(desiredItem));
+                _products = products.ToList();
+                _wallet = new Wallet();
+            }
 
-                if (_wallet.TryGetMoney(paymentWallet, desiredGood.Price))
+            public bool TryGiveAwayItem(int index, out Item item)
+            {
+                item = new Item();
+
+                if (ItemIndexInBounds(index))
                 {
-                    to.Add(desiredGood.Item);
-                    _goods.Remove(desiredGood);
+                    item = _products[index].Item;
+                    _products.RemoveAt(index);
 
                     return true;
                 }
@@ -134,12 +169,34 @@ namespace Shop
                 return false;
             }
 
-            return false;
-        }
+            public bool TryGetProductPrice(int index, out int price)
+            {
+                price = 0;
 
-        public IEnumerable<Good> GetAllGoods()
-        {
-            return _goods;
+                if (ItemIndexInBounds(index))
+                {
+                    price = _products[index].Price;
+
+                    return true;
+                }
+
+                return false;
+            }
+
+            public bool TryAddMoney(int money)
+            {
+                return _wallet.TryAddMoney(money);
+            }
+
+            public IEnumerable<Product> GetAllProducts()
+            {
+                return _products;
+            }
+
+            private bool ItemIndexInBounds(int indexOfItem)
+            {
+                return indexOfItem >= 0 && indexOfItem < _products.Count;
+            }
         }
     }
 
@@ -170,23 +227,21 @@ namespace Shop
 
     public class Wallet
     {
-        private readonly static uint _defaultMoney = 0;
-
-        public uint Money { get; private set; }
+        public int Money { get; private set; }
 
         public Wallet()
         {
-            Money = _defaultMoney;
+            Money = 0;
         }
 
-        public Wallet(uint money)
+        public Wallet(int money)
         {
-            Money = money;
+            Money = Math.Max(money, 0);
         }
 
-        public bool TrySpend(uint moneyToSpend)
+        public bool TrySpend(int moneyToSpend)
         {
-            if (Money >= moneyToSpend)
+            if (moneyToSpend >= 0 && Money >= moneyToSpend)
             {
                 Money -= moneyToSpend;
                 return true;
@@ -197,27 +252,25 @@ namespace Shop
             }
         }
 
-        public bool TryGetMoney(Wallet from, uint requiredMoney)
+        public bool TryAddMoney(int addingMoney)
         {
-            if(from.TrySpend(requiredMoney))
-            {
-                Money += requiredMoney;
-                return true;
-            }
+            if (addingMoney < 0)
+                return false;
 
-            return false;
+            Money += addingMoney;
+            return true;
         }
     }
 
-    public struct Good
+    public struct Product
     {
         public readonly Item Item;
-        public readonly uint Price;
+        public readonly int Price;
 
-        public Good(Item item, uint price)
+        public Product(Item item, int price)
         {
             Item = item;
-            Price = price;
+            Price = Math.Max(price, 0);
         }
 
         public string GetInfo()
@@ -229,33 +282,15 @@ namespace Shop
     public struct Item
     {
         public readonly string Name;
-        public readonly string Description;
 
-        public Item(string name, string description)
+        public Item(string name)
         {
             Name = name;
-            Description = description;
-        }
-
-        public static Item CreateItem()
-        {
-            Console.Write("Item name: ");
-            var itemName = Console.ReadLine();
-
-            Console.Write("Item description: ");
-            var itemDescription = Console.ReadLine();
-
-            return new Item(itemName, itemDescription);
-        }
-
-        public bool EqualsName(Item other)
-        {
-            return Name.ToUpper() == other.Name.ToUpper();
         }
 
         public string GetInfo()
         {
-            return Name + " " + Description;
+            return Name;
         }
     }
 }

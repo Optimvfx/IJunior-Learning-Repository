@@ -17,6 +17,109 @@ namespace TrainAdministrator
         }
     }
 
+    public static class CreateByUserInput
+    {
+        public static void Create(int requiredСapacity, out TrainPlan train)
+        {
+            var carriages = new Stack<Carriage>();
+
+            while (Carriage.GetCarriagesCapacitysSum(carriages) < requiredСapacity)
+            {
+                int leftFill = requiredСapacity - Carriage.GetCarriagesCapacitysSum(carriages);
+
+                Console.WriteLine($"Left to fill {leftFill}." +
+                    $"\nNext train carriage:");
+
+                if (TryCreate(out Carriage createdCarriage))
+                {
+                    carriages.Push(createdCarriage);
+                }
+                else
+                {
+                    Console.WriteLine("Carriage create is invalid!");
+                }
+            }
+
+            train = new TrainPlan(carriages);
+        }
+
+        public static bool TryCreate(out TrainRoute trainRoute)
+        {
+            trainRoute = new TrainRoute();
+
+            Console.WriteLine("From:");
+
+            if (TryCreate(out InhabitedLocality from))
+            {
+                Console.WriteLine("To:");
+
+                if (TryCreate(out InhabitedLocality to))
+                {
+                    trainRoute = new TrainRoute(from, to);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool TryCreate(out Carriage carriage)
+        {
+            carriage = new Carriage();
+
+            Console.Write("Capacity: ");
+
+            if (int.TryParse(Console.ReadLine(), out int capacity) && capacity >= Carriage.MinimalCapacity)
+            {
+                carriage = new Carriage(capacity);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryCreate(out InhabitedLocality inhabitedLocality)
+        {
+            inhabitedLocality = new InhabitedLocality();
+
+            Console.Write("Name: ");
+            var name = Console.ReadLine();
+
+            Console.WriteLine("Postion: ");
+
+            if (TryCreate(out Vector2 positon))
+            {
+                inhabitedLocality = new InhabitedLocality(name, positon);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool TryCreate(out Vector2 vector)
+        {
+            vector = new Vector2();
+
+            Console.Write("X: ");
+
+            if (float.TryParse(Console.ReadLine(), out float x))
+            {
+                Console.Write("Y: ");
+
+                if (float.TryParse(Console.ReadLine(), out float y))
+                {
+                    vector = new Vector2(x, y);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
     public class RailwayStationTerminal
     {
         private readonly static int _minimalPassengersCount = 0;
@@ -93,7 +196,7 @@ namespace TrainAdministrator
             Console.WriteLine("Train route:");
             TrainRoute trainRoute;
 
-            while (TrainRoute.TryCreate(out trainRoute) == false)
+            while (CreateByUserInput.TryCreate(out trainRoute) == false)
             {
                 Console.WriteLine("Create invalid, to retry press any key!");
                 Console.ReadKey(true);
@@ -115,7 +218,9 @@ namespace TrainAdministrator
 
         private TrainPlan CreateTrainPlane(int selledTicetsCount)
         {
-            return TrainPlan.Create(selledTicetsCount);
+            TrainPlan trainPlan;
+            CreateByUserInput.Create(selledTicetsCount, out trainPlan);
+            return trainPlan;
         }
 
         private void AddRailWayVoyage(TrainRoute route, TrainPlan plan)
@@ -156,30 +261,6 @@ namespace TrainAdministrator
             _carriages = carriages.ToList();
         }   
 
-        public static TrainPlan Create(int requiredСapacity)
-        {
-            var carriages = new Stack<Carriage>();
-
-            while(Carriage.GetCarriagesCapacitysSum(carriages) < requiredСapacity)
-            {
-                int leftFill = requiredСapacity - Carriage.GetCarriagesCapacitysSum(carriages);
-
-                Console.WriteLine($"Left to fill {leftFill}." +
-                    $"\nNext train carriage:");
-
-                if (Carriage.TryCreate(out Carriage createdCarriage))
-                {
-                    carriages.Push(createdCarriage);
-                }
-                else
-                {
-                    Console.WriteLine("Carriage create is invalid!");
-                }
-            }
-
-            return new TrainPlan(carriages);
-        }
-
         public string GetInfo()
         {
             StringBuilder stringBuilder = new StringBuilder();
@@ -198,29 +279,13 @@ namespace TrainAdministrator
 
     public struct Carriage
     {
-        private readonly static int _minimalCapacity = 1;
+        public readonly static int MinimalCapacity = 1;
 
         public readonly int Capacity;
 
         public Carriage(int capactiy)
         {
-            Capacity = Math.Max(capactiy, _minimalCapacity);
-        }
-        
-        public static bool TryCreate(out Carriage carriage)
-        {
-            carriage = new Carriage();
-
-            Console.Write("Capacity: ");
-
-            if(int.TryParse(Console.ReadLine(), out int capacity) && capacity >= _minimalCapacity)
-            {
-                carriage = new Carriage(capacity);
-
-                return true;
-            }
-
-            return false;
+            Capacity = Math.Max(capactiy, MinimalCapacity);
         }
 
         public static int GetCarriagesCapacitysSum(IEnumerable<Carriage> carriages)
@@ -245,27 +310,6 @@ namespace TrainAdministrator
         {
             From = from;
             To = to;
-        }
-
-        public static bool TryCreate(out TrainRoute trainRoute)
-        {
-            trainRoute = new TrainRoute();
-
-            Console.WriteLine("From:");
-
-            if (InhabitedLocality.TryCreate(out InhabitedLocality from))
-            {
-                Console.WriteLine("To:");
-
-                if (InhabitedLocality.TryCreate(out InhabitedLocality to))
-                {
-                    trainRoute = new TrainRoute(from, to);
-
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public string GetInfo()
@@ -294,24 +338,6 @@ namespace TrainAdministrator
             Position = position;
         }
 
-        public static bool TryCreate(out InhabitedLocality inhabitedLocality)
-        {
-            inhabitedLocality = new InhabitedLocality();
-
-            Console.Write("Name: ");
-            var name = Console.ReadLine();
-
-            Console.WriteLine("Postion: ");
-
-            if(Vector2.TryCreate(out Vector2 positon))
-            {
-                inhabitedLocality = new InhabitedLocality(name, positon);
-                return true;
-            }
-
-            return false;
-        }
-
         public float GetDistance(InhabitedLocality to)
         {
             return Position.GetDistance(to.Position); 
@@ -333,27 +359,6 @@ namespace TrainAdministrator
         {
             X = x;
             Y = y;
-        }
-
-        public static bool TryCreate(out Vector2 vector)
-        {
-            vector = new Vector2();
-
-            Console.Write("X: ");
-
-            if (float.TryParse(Console.ReadLine(), out float x))
-            {
-                Console.Write("Y: ");
-
-                if (float.TryParse(Console.ReadLine(), out float y))
-                {
-                    vector = new Vector2(x, y);
-
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         public float GetDistance(Vector2 other)

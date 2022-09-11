@@ -40,7 +40,12 @@ namespace CardGame
 
             for (int i = 0; i < requiredСardsCount; i++)
             {
-                cards.Push(new Card());
+                if(_deck.TryTakeCard(out Card card) == false)
+                {
+                    return false;
+                }    
+
+                cards.Push(card);
             }
 
             getedCards = cards;
@@ -99,11 +104,17 @@ namespace CardGame
 
             if (int.TryParse(Console.ReadLine(), out int requiredСardsCount) && requiredСardsCount > 0)
             {
-                if(croupier.TryAskForCards((uint)requiredСardsCount, out IEnumerable<Card> cards))
+                if(croupier.TryAskForCards((uint)requiredСardsCount, out IEnumerable<Card> getedCards))
                 {
-                    Console.WriteLine("You get new cards frow croupier.");
+                    Console.WriteLine("You get new cards frow croupier." +
+                        "\nGeted cards:");
 
-                    _deck.AddCards(cards);
+                    foreach(var card in getedCards)
+                    {
+                        Console.WriteLine(card.GetInfo());
+                    }
+
+                    _deck.AddCards(getedCards);
                 }
                 else
                 {
@@ -112,7 +123,7 @@ namespace CardGame
             }
             else
             {
-                Console.WriteLine("Invalid required cards count input!");
+                Console.WriteLine("Invalid required getedCards count input!");
             }
         }
 

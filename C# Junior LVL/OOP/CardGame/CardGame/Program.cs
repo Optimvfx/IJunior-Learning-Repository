@@ -8,7 +8,7 @@ namespace CardGame
     {
         static void Main(string[] args)
         {
-            uint deckLenght = 64;
+            int deckLenght = 64;
 
             Player player = new Player();
 
@@ -20,13 +20,44 @@ namespace CardGame
         }
     }
 
+    public static class CreateByRandom
+    {
+        private static readonly Random _random;
+
+        static CreateByRandom()
+        {
+            _random = new Random();
+        }
+
+        public static void Create(out Card card)
+        {
+            var randomCardType = (Card.CardType)_random.Next((int)Card.CardType.One, (int)Card.CardType.Jester);
+            var randomCardFraction = (Card.CardFraction)_random.Next((int)Card.CardFraction.Heart, (int)Card.CardFraction.Club);
+
+            card = new Card(randomCardType, randomCardFraction);
+        }
+
+        public static void Create(int lenght, out Deck deck)
+        {
+            var cards = new List<Card>();
+
+            for (int i = 0; i < lenght; i++)
+            {
+                CreateByRandom.Create(out Card randomCard);
+                cards.Add(randomCard);
+            }
+
+            deck = new Deck(cards);
+        }
+    }
+
     public class Croupier
     {
         private Deck _deck;
 
-        public Croupier(uint deckLenght)
+        public Croupier(int deckLenght)
         {
-            _deck = Deck.Create((int)deckLenght, new Random());
+            CreateByRandom.Create(Math.Max(deckLenght, 0), out Deck _deck);
         }
 
         public bool TryAskForCards(uint requiredСardsCount, out IEnumerable<Card> getedCards)
@@ -156,18 +187,6 @@ namespace CardGame
             }
         }
 
-        public static Deck Create(int lenght, Random random)
-        {
-            var cards = new List<Card>();
-
-            for (int i = 0; i < lenght; i++)
-            {
-                cards.Add(Card.Create(random));
-            }
-
-            return new Deck(cards);
-        }
-
         public bool TryTakeCard(out Card card)
         {
             card = Card.StandartCard;
@@ -217,14 +236,6 @@ namespace CardGame
         {
             Type = type;
             Fraction = fraction;
-        }
-
-        public static Card Create(Random random)
-        {
-            var randomCardType = (CardType)random.Next((int)CardType.One, (int)CardType.Jester);
-            var randomCardFraction = (CardFraction)random.Next((int)CardFraction.Heart, (int)CardFraction.Club);
-
-            return new Card(randomCardType, randomCardFraction);
         }
 
         public string GetInfo()

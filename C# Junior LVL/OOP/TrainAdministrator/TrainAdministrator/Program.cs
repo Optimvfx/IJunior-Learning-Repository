@@ -43,7 +43,7 @@ namespace TrainAdministrator
             train = new TrainPlan(carriages);
         }
 
-        public static bool TryCreate(out TrainRoute trainRoute)
+        public bool TryCreate(out TrainRoute trainRoute)
         {
             trainRoute = new TrainRoute();
 
@@ -64,7 +64,7 @@ namespace TrainAdministrator
             return false;
         }
 
-        private static bool TryCreate(out Carriage carriage)
+        private bool TryCreate(out Carriage carriage)
         {
             carriage = new Carriage();
 
@@ -80,7 +80,7 @@ namespace TrainAdministrator
             return false;
         }
 
-        private static bool TryCreate(out InhabitedLocality inhabitedLocality)
+        private bool TryCreate(out InhabitedLocality inhabitedLocality)
         {
             inhabitedLocality = new InhabitedLocality();
 
@@ -98,7 +98,7 @@ namespace TrainAdministrator
             return false;
         }
 
-        private static bool TryCreate(out Vector2 vector)
+        private bool TryCreate(out Vector2 vector)
         {
             vector = new Vector2();
 
@@ -196,7 +196,9 @@ namespace TrainAdministrator
             Console.WriteLine("Train route:");
             TrainRoute trainRoute;
 
-            while (CreatorByUserInput.TryCreate(out trainRoute) == false)
+            CreatorByUserInput creatorByUserInput = new CreatorByUserInput();
+
+            while (creatorByUserInput.TryCreate(out trainRoute) == false)
             {
                 Console.WriteLine("Create invalid, to retry press any key!");
                 Console.ReadKey(true);

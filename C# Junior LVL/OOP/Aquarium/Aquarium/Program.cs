@@ -121,7 +121,7 @@ namespace Aquarium
 
             Console.Write("Remove index:");
 
-            while(int.TryParse(Console.ReadLine(), out removeIndex))
+            while(int.TryParse(Console.ReadLine(), out removeIndex) == false)
             {
                 Console.Write("Invalid index, remove index:");
             }
@@ -174,7 +174,7 @@ namespace Aquarium
 
             public bool TryRemoveFish(int index)
             {
-                if (IsInBounds(index))
+                if (IsInBounds(index) == false)
                     return false;
 
                 _fishes.RemoveAt(index);

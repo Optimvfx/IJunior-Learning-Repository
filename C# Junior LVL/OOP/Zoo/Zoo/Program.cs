@@ -17,9 +17,9 @@ namespace Zoo
         }
     }
 
-    public class CreateByUserInput
+    public class CreatorByUserInput
     {
-        public static bool TryCreate(out AquariumTerminal.Aquarium.Fish fish)
+        public bool TryCreate(out AquariumTerminal.Aquarium.Fish fish)
         {
             fish = default(AquariumTerminal.Aquarium.Fish);
 
@@ -100,7 +100,9 @@ namespace Zoo
 
             Console.WriteLine("Creat fish:");
 
-            while (CreateByUserInput.TryCreate(out fish) == false)
+            CreatorByUserInput createByUserInput = new CreatorByUserInput();
+
+            while (createByUserInput.TryCreate(out fish) == false)
             {
                 Console.WriteLine("Create fish unseccess, re create:");
             }
@@ -121,7 +123,7 @@ namespace Zoo
 
             Console.Write("Remove index:");
 
-            while (int.TryParse(Console.ReadLine(), out removeIndex))
+            while (int.TryParse(Console.ReadLine(), out removeIndex) == false)
             {
                 Console.Write("Invalid index, remove index:");
             }
@@ -174,7 +176,7 @@ namespace Zoo
 
             public bool TryRemoveFish(int index)
             {
-                if (IsInBounds(index))
+                if (IsInBounds(index) == false)
                     return false;
 
                 _fishes.RemoveAt(index);

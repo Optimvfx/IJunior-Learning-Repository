@@ -17,7 +17,7 @@ namespace BoxingClub
             boxers.Add(new BoxingTournament.DodgyBoxer("Drih", 200, 20, new Procent(95)));
 
             var tournament = new BoxingTournament(boxers);
-            tournament.StartTournament();
+            tournament.Start();
 
             Console.ReadKey();
         }
@@ -49,7 +49,7 @@ namespace BoxingClub
             _boxers = boxers.ToList();
         }
 
-        public void StartTournament()
+        public void Start()
         {
             ShowAllBoxers();
 

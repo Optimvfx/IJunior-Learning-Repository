@@ -251,7 +251,7 @@ namespace TrainAdministrator
 
     public class TrainPlan
     {
-        private readonly List<Carriage> _carriages;
+        private readonly IReadOnlyList<Carriage> _carriages;
 
         private int Capacity => Carriage.GetCarriagesCapacitysSum(_carriages);
         private int Length => _carriages.Count;

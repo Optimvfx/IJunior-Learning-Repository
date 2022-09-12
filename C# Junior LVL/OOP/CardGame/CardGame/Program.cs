@@ -20,34 +20,33 @@ namespace CardGame
         }
     }
 
-    public static class CreateByRandom
+    public class CreatorByRandom
     {
-        private static readonly Random _random;
+        private readonly Random _random;
 
-        static CreateByRandom()
+        public CreatorByRandom()
         {
             _random = new Random();
         }
 
-        public static void Create(out Card card)
+        public Card CreateCard()
         {
             var randomCardType = (Card.CardType)_random.Next((int)Card.CardType.One, (int)Card.CardType.Jester);
             var randomCardFraction = (Card.CardFraction)_random.Next((int)Card.CardFraction.Heart, (int)Card.CardFraction.Club);
 
-            card = new Card(randomCardType, randomCardFraction);
+            return new Card(randomCardType, randomCardFraction);
         }
 
-        public static void Create(int lenght, out Deck deck)
+        public Deck CreateDeck(int lenght)
         {
             var cards = new List<Card>();
 
             for (int i = 0; i < lenght; i++)
             {
-                CreateByRandom.Create(out Card randomCard);
-                cards.Add(randomCard);
+                cards.Add(CreateCard());
             }
 
-            deck = new Deck(cards);
+            return new Deck(cards);
         }
     }
 
@@ -57,7 +56,7 @@ namespace CardGame
 
         public Croupier(int deckLenght)
         {
-            CreateByRandom.Create(Math.Max(deckLenght, 0), out Deck _deck);
+           _deck = new CreatorByRandom().CreateDeck(Math.Max(deckLenght, 0));
         }
 
         public bool TryAskForCards(uint requiredСardsCount, out IEnumerable<Card> getedCards)

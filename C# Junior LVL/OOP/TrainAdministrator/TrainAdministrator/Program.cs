@@ -19,7 +19,7 @@ namespace TrainAdministrator
 
     public class CreatorByUserInput
     {
-        public void Create(int requiredСapacity, out TrainPlan train)
+        public TrainPlan CreateTrainPlan(int requiredСapacity)
         {
             var carriages = new Stack<Carriage>();
 
@@ -40,7 +40,7 @@ namespace TrainAdministrator
                 }
             }
 
-            train = new TrainPlan(carriages);
+            return new TrainPlan(carriages);
         }
 
         public bool TryCreate(out TrainRoute trainRoute)
@@ -220,11 +220,7 @@ namespace TrainAdministrator
 
         private TrainPlan CreateTrainPlane(int selledTicetsCount)
         {
-            TrainPlan trainPlan;
-
-            new CreatorByUserInput().Create(selledTicetsCount, out trainPlan);
-
-            return trainPlan;
+            return new CreatorByUserInput().CreateTrainPlan(selledTicetsCount);
         }
 
         private void AddRailWayVoyage(TrainRoute route, TrainPlan plan)

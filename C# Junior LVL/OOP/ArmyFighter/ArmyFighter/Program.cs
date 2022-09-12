@@ -9,7 +9,23 @@ namespace ArmyFighter
     {
         static void Main(string[] args)
         {
-            
+            var firstArmyWariors = new List<ArmyFightSimulator.Army.ClonableWarior>();
+
+            firstArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 15, 4));
+            firstArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 15, 6));
+            firstArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(400, 40, 20));
+
+            var secondArmyWariors = new List<ArmyFightSimulator.Army.ClonableWarior>();
+
+            secondArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(400, 30, 20));
+            secondArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(500, 20, 30));
+            secondArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(600, 10, 40));
+            secondArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(200, 5, 10));
+            secondArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 15, 4));
+            secondArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 20, 4));
+
+            ArmyFightSimulator armyFightSimulator = new ArmyFightSimulator(firstArmyWariors, secondArmyWariors);
+            armyFightSimulator.StartFigth();
         }
     }
 
@@ -60,6 +76,8 @@ namespace ArmyFighter
                 _firstArmy.TryDamage(_secondArmy);
                 _secondArmy.TryDamage(_firstArmy);
 
+                step++;
+
                 Console.ReadKey(true);
             }
 
@@ -87,7 +105,7 @@ namespace ArmyFighter
                 $"\n{_secondArmy.GetInfo()}");
         }
 
-        public class Army : Damager, IToInfoConvertable
+        public class Army : Damager<Army.Warior>, IToInfoConvertable
         {
             private readonly IReadOnlyList<Warior> _wariors;
 
@@ -133,7 +151,7 @@ namespace ArmyFighter
                 if (IsAnyWariorAlive == false)
                     return false;
 
-                return ListExtention.TrySellectRandom<Warior>((IReadOnlyList<Warior>)_wariors.Select(warior => warior.IsDead == false).ToList(), out anyWarior);
+                return ListExtention.TrySellectRandom<Warior>(_wariors.Where(warior => warior.IsDead == false).ToList(), out anyWarior);
             }
 
             private IEnumerable<Warior> GetAlliweWariors()
@@ -141,35 +159,80 @@ namespace ArmyFighter
                 return _wariors.Where(warior => warior.IsDead == false);
             }
 
-            public class Infantryman : ClonableWarior
+            public class Pusher : ClonableWarior
             {
-                public Infantryman(int health, int damageForce, int shotCount) : base(health, damageForce)
+                private readonly int _extraDamageForPassedShots;
+
+                private int _shotCount;
+
+                public Pusher(int health, int damageForce, int extraDamageForPassedShots) : base(health, damageForce)
                 {
+                    _extraDamageForPassedShots = Math.Max(extraDamageForPassedShots, 0);
+                    _shotCount = 0;
                 }
 
                 public override ClonableWarior Clone()
                 {
-                    throw new NotImplementedException();
+                    return new Pusher(Health, DamageForce, _extraDamageForPassedShots);
                 }
 
                 public override string GetInfo()
                 {
-                    throw new NotImplementedException();
+                    return $"Pusher: {GetBaseInfo()}.";
                 }
 
                 protected override int ApplayDamageModifier(int damage)
                 {
-                    throw new NotImplementedException();
+                    return damage;
                 }
 
                 protected override int ApplayTakeDamageModifier(int damage)
                 {
-                    throw new NotImplementedException();
+                    var modifiedDamage = damage + _shotCount * _extraDamageForPassedShots;
+
+                    _shotCount++;
+
+                    return modifiedDamage;
                 }
 
                 protected override int GetShotCount()
                 {
-                    throw new NotImplementedException();
+                    return DefaultShotCount;
+                }
+            }
+
+            public class Infantryman : ClonableWarior
+            {
+                private readonly int _shotCount;
+
+                public Infantryman(int health, int damageForce, int shotCount) : base(health, damageForce)
+                {
+                    _shotCount = Math.Max(shotCount, 0);
+                }
+
+                public override ClonableWarior Clone()
+                {
+                    return new Infantryman(Health, DamageForce, _shotCount);
+                }
+
+                public override string GetInfo()
+                {
+                    return $"Infantryman: {GetBaseInfo()} , Shot count {_shotCount}.";
+                }
+
+                protected override int ApplayDamageModifier(int damage)
+                {
+                    return damage;
+                }
+
+                protected override int ApplayTakeDamageModifier(int damage)
+                {
+                    return damage;
+                }
+
+                protected override int GetShotCount()
+                {
+                    return _shotCount;
                 }
             }
 
@@ -182,10 +245,12 @@ namespace ArmyFighter
                 public abstract ClonableWarior Clone();
             }
 
-            public abstract class Warior : Damager, Damager.IDamagable, IToInfoConvertable
+            public abstract class Warior : Damager<Warior>, IDamagable, IToInfoConvertable
             {
+                public static readonly int DefaultShotCount = 1; 
+                   
                 public readonly int DamageForce;
-
+                
                 public int Health { get; private set; }
 
                 public bool IsDead => Health <= 0;
@@ -241,20 +306,21 @@ namespace ArmyFighter
         }
     }
 
-    public class Damager
+    public class Damager<Damagable>
+        where Damagable : IDamagable
     {
-        protected bool TryDamage(IDamagable damagable, int damage)
+        protected bool TryDamage(Damagable damagable, int damage)
         {
             if (damage <= 0)
                 return false;
 
             return damagable.TryTakeDamage(damage);
         }
+    }
 
-        public interface IDamagable
-        {
-            bool TryTakeDamage(int damage);
-        }
+    public interface IDamagable
+    {
+        bool TryTakeDamage(int damage);
     }
 
     public interface IToInfoConvertable

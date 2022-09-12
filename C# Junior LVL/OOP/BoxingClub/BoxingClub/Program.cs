@@ -130,7 +130,7 @@ namespace BoxingClub
             private readonly int _extraDamagePerDrugEffectLevel;
             private int _drugEffectLevel;
 
-            public DrugBoxer(string name, int health, int damage, int drugEffectLevel, int extraDamagePerDrugEffectLevel) : base(name,health, damage)
+            public DrugBoxer(string name, int health, int damage, int drugEffectLevel, int extraDamagePerDrugEffectLevel) : base(name, health, damage)
             {
                 _extraDamagePerDrugEffectLevel = Math.Max(extraDamagePerDrugEffectLevel, 0);
                 _drugEffectLevel = Math.Max(drugEffectLevel, 0);
@@ -210,7 +210,7 @@ namespace BoxingClub
 
             public override Boxer Clone()
             {
-               return new SpitefulBoxer(Name, Health, DamageForce, _hitsForIncreasedDamage, _increasedDamage);
+                return new SpitefulBoxer(Name, Health, DamageForce, _hitsForIncreasedDamage, _increasedDamage);
             }
 
             public override string GetInfo()
@@ -313,7 +313,7 @@ namespace BoxingClub
             public abstract Boxer Clone();
         }
 
-        public abstract class Boxer : Damager, Damager.IDamagable, IToInfoConvertable
+        public abstract class Boxer : Damager<Boxer>, IDamagable, IToInfoConvertable
         {
             public readonly string Name;
 
@@ -347,7 +347,7 @@ namespace BoxingClub
                 return true;
             }
 
-            public bool TryDamage(IDamagable damagable)
+            public bool TryDamage(Boxer damagable)
             {
                 var modifiedDamage = ApplayDamageModifier(DamageForce);
 
@@ -367,19 +367,15 @@ namespace BoxingClub
         }
     }
 
-    public class Damager
+    public class Damager<Damagable>
+         where Damagable : IDamagable
     {
-        protected bool TryDamage(IDamagable damagable, int damage)
+        protected bool TryDamage(Damagable damagable, int damage)
         {
             if (damage <= 0)
                 return false;
 
             return damagable.TryTakeDamage(damage);
-        }
-
-        public interface IDamagable
-        {
-            bool TryTakeDamage(int damage);
         }
     }
 
@@ -391,7 +387,7 @@ namespace BoxingClub
 
         public Procent(int procent)
         {
-             Value = Math.Max(Math.Min(procent, MaximalProcent), 0);
+            Value = Math.Max(Math.Min(procent, MaximalProcent), 0);
         }
 
         public string GetInfo()
@@ -401,15 +397,20 @@ namespace BoxingClub
 
         public bool TryWithChance(Random random)
         {
-           var randomProcent = random.NextDouble() * MaximalProcent;
+            var randomProcent = random.NextDouble() * MaximalProcent;
 
-           return Value >= randomProcent;
+            return Value >= randomProcent;
         }
 
         public float ToFloat()
         {
             return Value / MaximalProcent;
         }
+    }
+
+    public interface IDamagable
+    {
+        bool TryTakeDamage(int damage);
     }
 
     public interface IToInfoConvertable

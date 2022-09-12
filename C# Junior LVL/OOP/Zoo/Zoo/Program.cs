@@ -100,7 +100,7 @@ namespace Zoo
         public class Valer : ICloneable<Valer>, IToInfoConvertable
         {
             public readonly string Name;
-            private IReadOnlyList<Animal> _animals;
+            private readonly IReadOnlyList<Animal> _animals;
 
             public Valer(string name, IEnumerable<Animal> animals)
             {

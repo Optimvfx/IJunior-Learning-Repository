@@ -11,7 +11,7 @@ namespace ArmyFighter
         {
             var firstArmyWariors = new List<ArmyFightSimulator.Army.ClonableWarior>();
 
-            firstArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 15, 4));
+            firstArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(20, 15, 4));
             firstArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 15, 6));
             firstArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(400, 40, 20));
 
@@ -21,7 +21,7 @@ namespace ArmyFighter
             secondArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(500, 20, 30));
             secondArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(600, 10, 40));
             secondArmyWariors.Add(new ArmyFightSimulator.Army.Pusher(200, 5, 10));
-            secondArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 15, 4));
+            secondArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(2000, 15, 4));
             secondArmyWariors.Add(new ArmyFightSimulator.Army.Infantryman(200, 20, 4));
 
             ArmyFightSimulator armyFightSimulator = new ArmyFightSimulator(firstArmyWariors, secondArmyWariors);
@@ -73,8 +73,8 @@ namespace ArmyFighter
                 Console.WriteLine($"Step {step}:");
                 SeeArmys();
 
-                _firstArmy.TryDamage(_secondArmy);
-                _secondArmy.TryDamage(_firstArmy);
+                _firstArmy.TryDamageArmy(_secondArmy);
+                _secondArmy.TryDamageArmy(_firstArmy);
 
                 step++;
 
@@ -105,7 +105,7 @@ namespace ArmyFighter
                 $"\n{_secondArmy.GetInfo()}");
         }
 
-        public class Army : Damager<Army.Warior>, IToInfoConvertable
+        public class Army : Damagable, IToInfoConvertable
         {
             private readonly IReadOnlyList<Warior> _wariors;
 
@@ -116,22 +116,37 @@ namespace ArmyFighter
                 _wariors = wariors.Select(warior => warior.Clone()).ToList();
             }
 
-            public bool TryDamage(Army damagableArmy)
+            public bool TryDamageArmy(Army damagableArmy)
             {
                 if (IsAnyWariorAlive == false)
                     return false;
 
                 foreach (var warior in GetAlliweWariors())
                 {
-                    if (damagableArmy.TryGetAnyAlliweWarior(out Warior damagableWarior))
+                    if (damagableArmy.TryTakeDamage(warior) == false)
                     {
-                        warior.GiveDamage(damagableWarior);
+                        return false;
                     }
                 }
-                
-                return false;
+
+                return true;
             }
 
+            public bool TryTakeDamage(Warior from)
+            {
+                return from.TryGiveDamage(this);
+            }
+
+            public bool TryTakeDamage(int damage)
+            {
+                if(TryGetAnyAlliweWarior(out Warior damagableWarior))
+                {
+                    return damagableWarior.TryTakeDamage(damage);
+                }
+
+                return false;
+            }
+           
             public string GetInfo()
             {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -161,24 +176,24 @@ namespace ArmyFighter
 
             public class Pusher : ClonableWarior
             {
-                private readonly int _extraDamageForPassedShots;
+                private readonly int _extraDamagePerPassedShot;
 
-                private int _shotCount;
+                private int _passedShotCount;
 
-                public Pusher(int health, int damageForce, int extraDamageForPassedShots) : base(health, damageForce)
+                public Pusher(int health, int damageForce, int extraDamagePerPassedShot) : base(health, damageForce)
                 {
-                    _extraDamageForPassedShots = Math.Max(extraDamageForPassedShots, 0);
-                    _shotCount = 0;
+                    _extraDamagePerPassedShot = Math.Max(extraDamagePerPassedShot, 0);
+                    _passedShotCount = 0;
                 }
 
                 public override ClonableWarior Clone()
                 {
-                    return new Pusher(Health, DamageForce, _extraDamageForPassedShots);
+                    return new Pusher(Health, DamageForce, _extraDamagePerPassedShot);
                 }
 
                 public override string GetInfo()
                 {
-                    return $"Pusher: {GetBaseInfo()}.";
+                    return $"Pusher: {GetBaseInfo()}, extra damage per passed shots {_extraDamagePerPassedShot}, passed shots {_passedShotCount}.";
                 }
 
                 protected override int ApplayDamageModifier(int damage)
@@ -188,9 +203,9 @@ namespace ArmyFighter
 
                 protected override int ApplayTakeDamageModifier(int damage)
                 {
-                    var modifiedDamage = damage + _shotCount * _extraDamageForPassedShots;
+                    var modifiedDamage = damage + _passedShotCount * _extraDamagePerPassedShot;
 
-                    _shotCount++;
+                    _passedShotCount++;
 
                     return modifiedDamage;
                 }
@@ -245,7 +260,7 @@ namespace ArmyFighter
                 public abstract ClonableWarior Clone();
             }
 
-            public abstract class Warior : Damager<Warior>, IDamagable, IToInfoConvertable
+            public abstract class Warior : Damager<Army>, Damagable, IToInfoConvertable
             {
                 public static readonly int DefaultShotCount = 1; 
                    
@@ -277,17 +292,22 @@ namespace ArmyFighter
                     return true;
                 }
 
-                public void GiveDamage(Warior damagable)
+                public bool TryGiveDamage(Army damagable)
                 {
+                    if (IsDead)
+                        return false;  
+
                     var modifiedDamage = ApplayDamageModifier(DamageForce);
 
                     for (int i = 0; i < GetShotCount(); i++)
                     {
                         if (TryDamage(damagable, modifiedDamage) == false)
                         {
-                            return;
+                            return false;
                         }
                     }
+                    
+                    return true;
                 }
 
                 protected string GetBaseInfo()
@@ -307,7 +327,7 @@ namespace ArmyFighter
     }
 
     public class Damager<Damagable>
-        where Damagable : IDamagable
+       where Damagable : ArmyFighter.Damagable
     {
         protected bool TryDamage(Damagable damagable, int damage)
         {
@@ -318,7 +338,7 @@ namespace ArmyFighter
         }
     }
 
-    public interface IDamagable
+    public interface Damagable
     {
         bool TryTakeDamage(int damage);
     }

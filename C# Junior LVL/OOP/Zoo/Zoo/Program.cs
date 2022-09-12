@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Aquarium
+namespace Zoo
 {
     internal class Program
     {
@@ -15,9 +17,9 @@ namespace Aquarium
         }
     }
 
-    public class CreatorByUserInput
+    public class CreateByUserInput
     {
-        public bool TryCreate(out AquariumTerminal.Aquarium.Fish fish)
+        public static bool TryCreate(out AquariumTerminal.Aquarium.Fish fish)
         {
             fish = default(AquariumTerminal.Aquarium.Fish);
 
@@ -26,7 +28,7 @@ namespace Aquarium
 
             Console.Write("Life expectancy in years: ");
 
-            if(int.TryParse(Console.ReadLine(),out int lifeExpectancyInYears))
+            if (int.TryParse(Console.ReadLine(), out int lifeExpectancyInYears))
             {
                 fish = new AquariumTerminal.Aquarium.Fish(name, lifeExpectancyInYears);
 
@@ -54,8 +56,8 @@ namespace Aquarium
             const string ExitCommand = "EXIT";
 
             bool isOpen = true;
-            
-            while(isOpen)
+
+            while (isOpen)
             {
                 Console.WriteLine($"\nPosible coommands:" +
                     $"\n{AddFishCommand}" +
@@ -98,14 +100,12 @@ namespace Aquarium
 
             Console.WriteLine("Creat fish:");
 
-            CreatorByUserInput createByUserInput = new CreatorByUserInput();
-
-            while (createByUserInput.TryCreate(out fish) == false)
+            while (CreateByUserInput.TryCreate(out fish) == false)
             {
                 Console.WriteLine("Create fish unseccess, re create:");
             }
 
-            if(_aquarium.TryAddFish(fish))
+            if (_aquarium.TryAddFish(fish))
             {
                 Console.WriteLine("Add fish is seccess.");
             }
@@ -121,7 +121,7 @@ namespace Aquarium
 
             Console.Write("Remove index:");
 
-            while(int.TryParse(Console.ReadLine(), out removeIndex))
+            while (int.TryParse(Console.ReadLine(), out removeIndex))
             {
                 Console.Write("Invalid index, remove index:");
             }
@@ -156,7 +156,7 @@ namespace Aquarium
 
             public void SkipTime()
             {
-                foreach(var fish in _fishes)
+                foreach (var fish in _fishes)
                 {
                     fish.GrowOld();
                 }

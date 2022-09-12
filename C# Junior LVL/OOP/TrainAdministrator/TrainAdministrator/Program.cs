@@ -17,9 +17,9 @@ namespace TrainAdministrator
         }
     }
 
-    public static class CreateByUserInput
+    public class CreatorByUserInput
     {
-        public static void Create(int requiredСapacity, out TrainPlan train)
+        public void Create(int requiredСapacity, out TrainPlan train)
         {
             var carriages = new Stack<Carriage>();
 
@@ -196,7 +196,7 @@ namespace TrainAdministrator
             Console.WriteLine("Train route:");
             TrainRoute trainRoute;
 
-            while (CreateByUserInput.TryCreate(out trainRoute) == false)
+            while (CreatorByUserInput.TryCreate(out trainRoute) == false)
             {
                 Console.WriteLine("Create invalid, to retry press any key!");
                 Console.ReadKey(true);
@@ -219,7 +219,9 @@ namespace TrainAdministrator
         private TrainPlan CreateTrainPlane(int selledTicetsCount)
         {
             TrainPlan trainPlan;
-            CreateByUserInput.Create(selledTicetsCount, out trainPlan);
+
+            new CreatorByUserInput().Create(selledTicetsCount, out trainPlan);
+
             return trainPlan;
         }
 

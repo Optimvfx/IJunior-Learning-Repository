@@ -29,16 +29,16 @@ namespace ArmyFighter
         }
     }
 
-    public static class ListExtention
+    public class ListExtention
     {
-        private static readonly Random _random;
+        private readonly Random _random;
 
-        static ListExtention()
+        public ListExtention()
         {
             _random = new Random();
         }
 
-        public static bool TrySellectRandom<T>(IReadOnlyList<T> array, out T randomElement)
+        public bool TrySellectRandom<T>(IReadOnlyList<T> array, out T randomElement)
         {
             randomElement = default(T);
 
@@ -166,7 +166,7 @@ namespace ArmyFighter
                 if (IsAnyWariorAlive == false)
                     return false;
 
-                return ListExtention.TrySellectRandom<Warior>(_wariors.Where(warior => warior.IsDead == false).ToList(), out anyWarior);
+                return new ListExtention().TrySellectRandom<Warior>(_wariors.Where(warior => warior.IsDead == false).ToList(), out anyWarior);
             }
 
             private IEnumerable<Warior> GetAlliweWariors()

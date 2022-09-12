@@ -183,7 +183,8 @@ namespace BoxingClub
 
             protected override int ApplayDamageModifier(int damage)
             {
-                Health += _healPerHit;
+                AddHealth(_healPerHit);
+
                 return damage;
             }
 
@@ -319,7 +320,7 @@ namespace BoxingClub
 
             public readonly int DamageForce;
 
-            public int Health { get; protected set; }
+            public int Health { get; private set; }
 
             public bool IsDead => Health <= 0;
 
@@ -352,6 +353,11 @@ namespace BoxingClub
                 var modifiedDamage = ApplayDamageModifier(DamageForce);
 
                 return TryDamage(damagable, modifiedDamage);
+            }
+
+            protected void AddHealth(int health)
+            {
+                Health += Math.Max(health, 0);
             }
 
             protected string GetBaseInfo()

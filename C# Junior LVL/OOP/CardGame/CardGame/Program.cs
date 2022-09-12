@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CardGame
@@ -20,33 +21,15 @@ namespace CardGame
         }
     }
 
-    public class CreatorByRandom
+    public class CollectinsExtentions
     {
-        private readonly Random _random;
-
-        public CreatorByRandom()
+        public IEnumerable<T> Reverse<T>(IEnumerable<T> collection)
         {
-            _random = new Random();
-        }
+            var array = collection.ToArray();
 
-        public Card CreateCard()
-        {
-            var randomCardType = (Card.CardType)_random.Next((int)Card.CardType.One, (int)Card.CardType.Jester);
-            var randomCardFraction = (Card.CardFraction)_random.Next((int)Card.CardFraction.Heart, (int)Card.CardFraction.Club);
+            Array.Reverse(array);
 
-            return new Card(randomCardType, randomCardFraction);
-        }
-
-        public Deck CreateDeck(int lenght)
-        {
-            var cards = new List<Card>();
-
-            for (int i = 0; i < lenght; i++)
-            {
-                cards.Add(CreateCard());
-            }
-
-            return new Deck(cards);
+            return array;
         }
     }
 
@@ -56,7 +39,7 @@ namespace CardGame
 
         public Croupier(int deckLenght)
         {
-           _deck = new CreatorByRandom().CreateDeck(Math.Max(deckLenght, 0));
+            _deck = new Deck(Deck.GetOrderedCards(deckLenght));
         }
 
         public bool TryAskForCards(uint requiredСardsCount, out IEnumerable<Card> getedCards)
@@ -75,7 +58,7 @@ namespace CardGame
                     _deck.AddCards(cards);
 
                     return false;
-                }    
+                }
 
                 cards.Push(card);
             }
@@ -141,7 +124,7 @@ namespace CardGame
                     Console.WriteLine("You get new cards frow croupier." +
                         "\nGeted cards:");
 
-                    foreach(var card in getedCards)
+                    foreach (var card in new CollectinsExtentions().Reverse(getedCards))
                     {
                         Console.WriteLine(card.GetInfo());
                     }
@@ -180,15 +163,33 @@ namespace CardGame
         {
             _cards = new Stack<Card>();
 
-            foreach (var card in cards)
+            AddCards(cards);
+        }
+
+        public static IEnumerable<Card> GetOrderedCards(int needCardCount)
+        {
+            var orderedCards = GetOrderedCards().ToArray();
+
+            for(int i = 0; i < needCardCount; i++)
             {
-                _cards.Push(card);
+                yield return orderedCards[i % (orderedCards.Length - 1)];
+            }
+        }
+
+        private static IEnumerable<Card> GetOrderedCards()
+        {
+            foreach (var fraction in Card.GetAllCardFractions())
+            {
+                foreach (var type in Card.GetAllCardTypes())
+                {
+                    yield return new Card(type, fraction);
+                }
             }
         }
 
         public bool TryTakeCard(out Card card)
         {
-            card = Card.StandartCard;
+            card = default(Card);
 
             if (_cards.Count == 0)
                 return false;
@@ -199,7 +200,7 @@ namespace CardGame
 
         public void AddCards(IEnumerable<Card> cards)
         {
-            foreach(var card in cards)
+            foreach (var card in cards)
             {
                 AddCard(card);
             }
@@ -221,13 +222,10 @@ namespace CardGame
 
             return stringBuilder.ToString();
         }
-
     }
 
     public struct Card
     {
-        public static readonly Card StandartCard = new Card(CardType.One, CardFraction.Heart);
-
         public readonly CardType Type;
         public readonly CardFraction Fraction;
 
@@ -235,6 +233,32 @@ namespace CardGame
         {
             Type = type;
             Fraction = fraction;
+        }
+
+        public static IEnumerable<CardFraction> GetAllCardFractions()
+        {
+            yield return CardFraction.Heart;
+            yield return CardFraction.Spades;
+            yield return CardFraction.Diamond;
+            yield return CardFraction.Club;
+        }
+
+        public static IEnumerable<CardType> GetAllCardTypes()
+        {
+            yield return CardType.One;
+            yield return CardType.Two;
+            yield return CardType.Three;
+            yield return CardType.Four;
+            yield return CardType.Five;
+            yield return CardType.Six;
+            yield return CardType.Seven;
+            yield return CardType.Eight;
+            yield return CardType.Nine;
+            yield return CardType.Ten;
+            yield return CardType.Jack;
+            yield return CardType.Lady;
+            yield return CardType.King;
+            yield return CardType.Jester;
         }
 
         public string GetInfo()

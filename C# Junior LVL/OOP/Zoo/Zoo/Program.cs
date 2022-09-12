@@ -30,6 +30,7 @@ namespace Zoo
             valerArimals.Add(new Zoo.Valer.Animal("Lion", "Kuvi", "Rrrrrr!!!", Zoo.Valer.Animal.AnimalGender.Female));
             valerArimals.Add(new Zoo.Valer.Animal("Lion", "Chuka", "Rrrrrr!!!", Zoo.Valer.Animal.AnimalGender.Female));
             valers.Add(new Zoo.Valer("Lions", valerArimals));
+
             valerArimals = new List<Zoo.Valer.Animal>();
             valerArimals.Add(new Zoo.Valer.Animal("Tirex", "Scar", "Arrr!!!", Zoo.Valer.Animal.AnimalGender.Male));
 

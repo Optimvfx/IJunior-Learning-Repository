@@ -130,7 +130,7 @@ namespace BoxingClub
             private readonly int _extraDamagePerDrugEffectLevel;
             private int _drugEffectLevel;
 
-            public DrugBoxer(string name, int maximalHealth, int damage, int drugEffectLevel, int extraDamagePerDrugEffectLevel) : base(name, maximalHealth, damage)
+            public DrugBoxer(string name, int health, int damage, int drugEffectLevel, int extraDamagePerDrugEffectLevel) : base(name,health, damage)
             {
                 _extraDamagePerDrugEffectLevel = Math.Max(extraDamagePerDrugEffectLevel, 0);
                 _drugEffectLevel = Math.Max(drugEffectLevel, 0);
@@ -138,7 +138,7 @@ namespace BoxingClub
 
             public override Boxer Clone()
             {
-                return new DrugBoxer(Name, MaximalHealth, DamageForce, _drugEffectLevel, _extraDamagePerDrugEffectLevel);
+                return new DrugBoxer(Name, Health, DamageForce, _drugEffectLevel, _extraDamagePerDrugEffectLevel);
             }
 
             public override string GetInfo()
@@ -166,14 +166,14 @@ namespace BoxingClub
         {
             private readonly int _healPerHit;
 
-            public VampairBoxer(string name, int maximalHealth, int damage, int healPerHit) : base(name, maximalHealth, damage)
+            public VampairBoxer(string name, int health, int damage, int healPerHit) : base(name, health, damage)
             {
                 _healPerHit = Math.Max(healPerHit, 0);
             }
 
             public override Boxer Clone()
             {
-                return new VampairBoxer(Name, MaximalHealth, DamageForce, _healPerHit);
+                return new VampairBoxer(Name, Health, DamageForce, _healPerHit);
             }
 
             public override string GetInfo()
@@ -200,7 +200,7 @@ namespace BoxingClub
 
             private int _givedHits;
 
-            public SpitefulBoxer(string name, int maximalHealth, int damage, int hitsForIncreasedDamage, int increasedDamage) : base(name, maximalHealth, damage)
+            public SpitefulBoxer(string name, int health, int damage, int hitsForIncreasedDamage, int increasedDamage) : base(name, health, damage)
             {
                 _hitsForIncreasedDamage = Math.Max(hitsForIncreasedDamage, 0);
                 _increasedDamage = Math.Max(increasedDamage, 0);
@@ -210,7 +210,7 @@ namespace BoxingClub
 
             public override Boxer Clone()
             {
-               return new SpitefulBoxer(Name, MaximalHealth, DamageForce, _hitsForIncreasedDamage, _increasedDamage);
+               return new SpitefulBoxer(Name, Health, DamageForce, _hitsForIncreasedDamage, _increasedDamage);
             }
 
             public override string GetInfo()
@@ -242,14 +242,14 @@ namespace BoxingClub
         {
             private readonly int _maximalExtraDamage;
 
-            public PowerfullBoxer(string name, int maximalHealth, int damage, int maximalExtraDamage) : base(name, maximalHealth, damage)
+            public PowerfullBoxer(string name, int Health, int damage, int maximalExtraDamage) : base(name, Health, damage)
             {
-                _maximalExtraDamage = maximalExtraDamage;
+                _maximalExtraDamage = Math.Max(maximalExtraDamage, 0);
             }
 
             public override Boxer Clone()
             {
-                return new PowerfullBoxer(Name, MaximalHealth, DamageForce, _maximalExtraDamage);
+                return new PowerfullBoxer(Name, Health, DamageForce, _maximalExtraDamage);
             }
 
             public override string GetInfo()
@@ -275,14 +275,14 @@ namespace BoxingClub
 
             private readonly Procent _damageDodgeChange;
 
-            public DodgyBoxer(string name, int maximalHealth, int damage, Procent damageDodgeChange) : base(name, maximalHealth, damage)
+            public DodgyBoxer(string name, int Health, int damage, Procent damageDodgeChange) : base(name, Health, damage)
             {
                 _damageDodgeChange = damageDodgeChange;
             }
 
             public override Boxer Clone()
             {
-                return new DodgyBoxer(Name, MaximalHealth, DamageForce, _damageDodgeChange);
+                return new DodgyBoxer(Name, Health, DamageForce, _damageDodgeChange);
             }
 
             public override string GetInfo()
@@ -317,22 +317,19 @@ namespace BoxingClub
         {
             public readonly string Name;
 
-            public readonly int MaximalHealth;
-
             public readonly int DamageForce;
 
             public int Health { get; protected set; }
 
             public bool IsDead => Health <= 0;
 
-            public Boxer(string name, int maximalHealth, int damageForce)
+            public Boxer(string name, int health, int damageForce)
             {
                 Name = name;
 
-                MaximalHealth = maximalHealth;
-                Health = maximalHealth;
+                Health = Math.Max(health, 0);
 
-                DamageForce = damageForce;
+                DamageForce = Math.Max(damageForce, 0);
             }
 
             public bool TryTakeDamage(int damage)
@@ -359,7 +356,7 @@ namespace BoxingClub
 
             protected string GetBaseInfo()
             {
-                return $"{Name}: {MaximalHealth} MAXHP, {Health} HP, {DamageForce} DMG, Is dead {IsDead}";
+                return $"{Name}: {Health} HP, {DamageForce} DMG, Is dead {IsDead}";
             }
 
             public abstract string GetInfo();

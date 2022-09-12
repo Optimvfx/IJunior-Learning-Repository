@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Zoo
 {
@@ -10,236 +9,154 @@ namespace Zoo
     {
         static void Main(string[] args)
         {
-            int maximalFishCapacity = 5;
+            var valers = new List<Zoo.Valer>();
 
-            AquariumTerminal aquariumTerminal = new AquariumTerminal(maximalFishCapacity);
-            aquariumTerminal.Activate();
+            var valerArimals = new List<Zoo.Valer.Animal>();
+            valerArimals.Add(new Zoo.Valer.Animal("Monky","Abu","Aaaaa!!!",Zoo.Valer.Animal.AnimalGender.Male));
+            valerArimals.Add(new Zoo.Valer.Animal("Monky", "Kuri", "Aaaaa!!!", Zoo.Valer.Animal.AnimalGender.Female));
+            valerArimals.Add(new Zoo.Valer.Animal("Monky", "Su", "Aaaaa!!!", Zoo.Valer.Animal.AnimalGender.Female));
+            valers.Add(new Zoo.Valer("Monkys", valerArimals));
+
+            valerArimals = new List<Zoo.Valer.Animal>();
+            valerArimals.Add(new Zoo.Valer.Animal("Flamingo", "Abu", "Iaiaiaaiaiai!!!", Zoo.Valer.Animal.AnimalGender.Male));
+            valerArimals.Add(new Zoo.Valer.Animal("Crab", "Kapaui", "Chrcrhchr!!!", Zoo.Valer.Animal.AnimalGender.Female));
+            valerArimals.Add(new Zoo.Valer.Animal("Crab", "Kapa", "Chrcrhchr!!!", Zoo.Valer.Animal.AnimalGender.Male));
+            valerArimals.Add(new Zoo.Valer.Animal("Semga", "Praki", "Bulbulbul!!!", Zoo.Valer.Animal.AnimalGender.Female));
+            valers.Add(new Zoo.Valer("River", valerArimals));
+
+            valerArimals = new List<Zoo.Valer.Animal>();
+            valerArimals.Add(new Zoo.Valer.Animal("Lion", "Adam", "Rrrrrr!!!" , Zoo.Valer.Animal.AnimalGender.Male));
+            valerArimals.Add(new Zoo.Valer.Animal("Lion", "Kari", "Rrrrrr!!!", Zoo.Valer.Animal.AnimalGender.Female));
+            valerArimals.Add(new Zoo.Valer.Animal("Lion", "Kuvi", "Rrrrrr!!!", Zoo.Valer.Animal.AnimalGender.Female));
+            valerArimals.Add(new Zoo.Valer.Animal("Lion", "Chuka", "Rrrrrr!!!", Zoo.Valer.Animal.AnimalGender.Female));
+            valers.Add(new Zoo.Valer("Lions", valerArimals));
+            valerArimals = new List<Zoo.Valer.Animal>();
+            valerArimals.Add(new Zoo.Valer.Animal("Tirex", "Scar", "Arrr!!!", Zoo.Valer.Animal.AnimalGender.Male));
+
+            valers.Add(new Zoo.Valer("Juristic", valerArimals));
+
+            Zoo zoo = new Zoo(valers);
+            zoo.Enter();
         }
     }
 
-    public class CreatorByUserInput
+    public class Zoo
     {
-        public bool TryCreate(out AquariumTerminal.Aquarium.Fish fish)
+        private readonly IReadOnlyList<Valer> _valers;
+
+        public Zoo(IEnumerable<Valer> valers)
         {
-            fish = default(AquariumTerminal.Aquarium.Fish);
+            _valers = valers.Select(valer => valer.Clone()).ToList();
+        }
 
-            Console.Write("Name: ");
-            string name = Console.ReadLine();
-
-            Console.Write("Life expectancy in years: ");
-
-            if (int.TryParse(Console.ReadLine(), out int lifeExpectancyInYears))
+        public void Enter()
+        {
+            if (_valers.Count == 0)
             {
-                fish = new AquariumTerminal.Aquarium.Fish(name, lifeExpectancyInYears);
-
-                return true;
+                Console.WriteLine("No valers");
+                return;
             }
 
-            return false;
-        }
-    }
+            Console.WriteLine($"Valers count {_valers.Count}");
+            Console.WriteLine("Sellect waler where to go:");
+            Console.WriteLine($"Posible valere index from {0} to {_valers.Count - 1}");
 
-    public class AquariumTerminal
-    {
-        private readonly Aquarium _aquarium;
+            ShowValiersNames();
 
-        public AquariumTerminal(int maximalFishCapacity)
-        {
-            _aquarium = new Aquarium(Math.Max(maximalFishCapacity, 0));
-        }
-
-        public void Activate()
-        {
-            const string AddFishCommand = "ADD";
-            const string RemoveFishCommand = "REMOVE";
-            const string SeeFishesCommand = "SEE";
-            const string ExitCommand = "EXIT";
-
-            bool isOpen = true;
-
-            while (isOpen)
+            while(int.TryParse(Console.ReadLine(), out int valerIndex) == false || TryShowValer(valerIndex) == false)
             {
-                Console.WriteLine($"\nPosible coommands:" +
-                    $"\n{AddFishCommand}" +
-                    $"\n{RemoveFishCommand}" +
-                    $"\n{SeeFishesCommand}" +
-                    $"\n{ExitCommand}\n");
+                Console.WriteLine($"Invalid input, posible valere index from {0} to {_valers.Count - 1}");
+            }
 
-                var userInput = Console.ReadLine().ToUpper();
+            Console.ReadKey();
+        }
+       
+        public bool TryShowValer(int index)
+        {
+            if(InBounds(index) == false)
+            {
+                return false;
+            }
 
-                switch (userInput)
-                {
-                    case AddFishCommand:
-                        AddFish();
-                        break;
-                    case RemoveFishCommand:
-                        RemoveFish();
-                        break;
-                    case SeeFishesCommand:
-                        ShowAllFishes();
-                        break;
-                    case ExitCommand:
-                        isOpen = false;
-                        break;
-                    default:
-                        Console.WriteLine("Uncnovn command, you skip time!");
-                        SkipTime();
-                        break;
-                }
+            Console.WriteLine($"\n{_valers[index].GetInfo()}\n");
+
+            return true;
+        }
+
+        private void ShowValiersNames()
+        {
+           for(int i = 0; i < _valers.Count; i++)
+            {
+                Console.WriteLine($"{i}: {_valers[i].Name}");
             }
         }
 
-        private void ShowAllFishes()
+        private bool InBounds(int index)
         {
-            Console.WriteLine(_aquarium.GetInfo());
+            return index >= 0 && index < _valers.Count;
         }
 
-        private void AddFish()
+        public class Valer : ICloneable<Valer>, IToInfoConvertable
         {
-            Aquarium.Fish fish;
+            public readonly string Name;
+            private IReadOnlyList<Animal> _animals;
 
-            Console.WriteLine("Creat fish:");
-
-            CreatorByUserInput createByUserInput = new CreatorByUserInput();
-
-            while (createByUserInput.TryCreate(out fish) == false)
+            public Valer(string name, IEnumerable<Animal> animals)
             {
-                Console.WriteLine("Create fish unseccess, re create:");
+                Name = name;
+
+                _animals = animals.ToList();
             }
 
-            if (_aquarium.TryAddFish(fish))
+            public Valer Clone()
             {
-                Console.WriteLine("Add fish is seccess.");
-            }
-            else
-            {
-                Console.WriteLine("Add fish is unseccess!");
-            }
-        }
-
-        private void RemoveFish()
-        {
-            int removeIndex;
-
-            Console.Write("Remove index:");
-
-            while (int.TryParse(Console.ReadLine(), out removeIndex) == false)
-            {
-                Console.Write("Invalid index, remove index:");
-            }
-
-            if (_aquarium.TryRemoveFish(removeIndex))
-            {
-                Console.WriteLine("Remove fish is seccess.");
-            }
-            else
-            {
-                Console.WriteLine("Remove fish is unseccess!");
-            }
-        }
-
-        private void SkipTime()
-        {
-            _aquarium.SkipTime();
-        }
-
-        public class Aquarium : IToInfoConvertable
-        {
-            private readonly int _maximalFishCapacity;
-
-            private readonly List<Fish> _fishes;
-
-            public Aquarium(int maximalFishCapacity)
-            {
-                _maximalFishCapacity = Math.Max(maximalFishCapacity, 0);
-
-                _fishes = new List<Fish>();
-            }
-
-            public void SkipTime()
-            {
-                foreach (var fish in _fishes)
-                {
-                    fish.GrowOld();
-                }
-            }
-
-            public bool TryAddFish(Fish fish)
-            {
-                if (_fishes.Count >= _maximalFishCapacity)
-                    return false;
-
-                _fishes.Add(fish);
-
-                return true;
-            }
-
-            public bool TryRemoveFish(int index)
-            {
-                if (IsInBounds(index) == false)
-                    return false;
-
-                _fishes.RemoveAt(index);
-
-                return true;
+                return new Valer(Name, _animals);
             }
 
             public string GetInfo()
             {
                 StringBuilder stringBuilder = new StringBuilder();
 
-                stringBuilder.AppendLine($"Maximal fish capacity: {_maximalFishCapacity}");
-                stringBuilder.AppendLine($"Fishes in aquarium count: {_fishes.Count}");
-                stringBuilder.AppendLine("Fishes in aquarium:");
+                stringBuilder.AppendLine($"Valer {Name}:");
+                stringBuilder.AppendLine($"Animal count: {_animals.Count}");
+                stringBuilder.AppendLine($"Animals:");
 
-                int numberOfFish = 0;
-
-                foreach (Fish fish in _fishes)
+                foreach(var animal in _animals)
                 {
-                    stringBuilder.AppendLine($"{numberOfFish}: {fish.GetInfo()}");
-
-                    numberOfFish++;
+                    stringBuilder.AppendLine(animal.GetInfo());
                 }
 
                 return stringBuilder.ToString();
             }
 
-            private bool IsInBounds(int index)
+            public struct Animal : IToInfoConvertable
             {
-                return index >= 0 && index < _fishes.Count;
-            }
+                private readonly string Kind;
+                private readonly string Name;
 
-            public class Fish : IToInfoConvertable, ICloneable<Fish>
-            {
-                public readonly string Name;
+                private readonly string Sound;
 
-                public readonly int LifeExpectancyInYears;
+                private readonly AnimalGender Gender;
 
-                public int AgeInYears { get; private set; }
-
-                public bool IsDieByGrowOld => AgeInYears >= LifeExpectancyInYears;
-
-                public Fish(string name, int lifeExpectancyInYear)
+                public Animal(string kind, string name, string sound, AnimalGender gender)
                 {
+                    Kind = kind;
                     Name = name;
 
-                    LifeExpectancyInYears = Math.Max(lifeExpectancyInYear, 0);
-                    AgeInYears = 0;
-                }
+                    Sound = sound;
 
-                public void GrowOld()
-                {
-                    AgeInYears++;
-                }
-
-                public Fish Clone()
-                {
-                    return new Fish(Name, LifeExpectancyInYears);
+                    Gender = gender;
                 }
 
                 public string GetInfo()
                 {
-                    return $"Name: {Name}, Life expectancy in years {LifeExpectancyInYears}, Age {AgeInYears}, Is dead {IsDieByGrowOld}.";
+                    return $"Kind {Kind}, Name {Name}, Sound {Sound}, Gender {Gender}.";
+                }
+
+                public enum AnimalGender
+                {
+                    Male,
+                    Female
                 }
             }
         }

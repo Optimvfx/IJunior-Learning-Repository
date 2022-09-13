@@ -105,15 +105,10 @@ namespace ArmyFighter
                 $"\n{_secondArmy.GetInfo()}");
         }
 
-        public class Army : Damagable, IToInfoConvertable
+        public class Army : DamagableArmy
         {
-            private readonly IReadOnlyList<Warior> _wariors;
-
-            public bool IsAnyWariorAlive => _wariors.Any(warior => warior.IsDead == false);
-
-            public Army(IEnumerable<ClonableWarior> wariors)
+            public Army(IEnumerable<ClonableWarior> wariors) : base(wariors)
             {
-                _wariors = wariors.Select(warior => warior.Clone()).ToList();
             }
 
             public bool TryDamageArmy(Army damagableArmy)
@@ -123,55 +118,13 @@ namespace ArmyFighter
 
                 foreach (var warior in GetAlliweWariors())
                 {
-                    if (damagableArmy.TryTakeDamage(warior) == false)
+                    if (warior.TryGiveDamage(this) == false)
                     {
                         return false;
                     }
                 }
 
                 return true;
-            }
-
-            public bool TryTakeDamage(Warior from)
-            {
-                return from.TryGiveDamage(this);
-            }
-
-            public bool TryTakeDamage(int damage)
-            {
-                if(TryGetAnyAlliweWarior(out Warior damagableWarior))
-                {
-                    return damagableWarior.TryTakeDamage(damage);
-                }
-
-                return false;
-            }
-           
-            public string GetInfo()
-            {
-                StringBuilder stringBuilder = new StringBuilder();
-
-                foreach (var warior in _wariors)
-                {
-                    stringBuilder.AppendLine(warior.GetInfo());
-                }
-
-                return stringBuilder.ToString();
-            }
-
-            private bool TryGetAnyAlliweWarior(out Warior anyWarior)
-            {
-                anyWarior = default(Warior);
-
-                if (IsAnyWariorAlive == false)
-                    return false;
-
-                return new ListExtention().TrySellectRandom<Warior>(_wariors.Where(warior => warior.IsDead == false).ToList(), out anyWarior);
-            }
-
-            private IEnumerable<Warior> GetAlliweWariors()
-            {
-                return _wariors.Where(warior => warior.IsDead == false);
             }
 
             public class Pusher : ClonableWarior
@@ -260,7 +213,7 @@ namespace ArmyFighter
                 public abstract ClonableWarior Clone();
             }
 
-            public abstract class Warior : Damager<Army>, Damagable, IToInfoConvertable
+            public abstract class Warior : Damager<DamagableArmy>, IDamagable, IToInfoConvertable
             {
                 public static readonly int DefaultShotCount = 1; 
                    
@@ -292,7 +245,7 @@ namespace ArmyFighter
                     return true;
                 }
 
-                public bool TryGiveDamage(Army damagable)
+                public bool TryGiveDamage(DamagableArmy damagable)
                 {
                     if (IsDead)
                         return false;  
@@ -324,10 +277,59 @@ namespace ArmyFighter
                 protected abstract int ApplayTakeDamageModifier(int damage);
             }
         }
+
+        public class DamagableArmy : IDamagable, IToInfoConvertable
+        {
+            private readonly IReadOnlyList<Army.Warior> _wariors;
+
+            public bool IsAnyWariorAlive => _wariors.Any(warior => warior.IsDead == false);
+
+            public DamagableArmy(IEnumerable<Army.ClonableWarior> wariors)
+            {
+                _wariors = wariors.Select(warior => warior.Clone()).ToList();
+            }
+
+            public bool TryTakeDamage(int damage)
+            {
+                if (TryGetAnyAlliweWarior(out Army.Warior damagableWarior))
+                {
+                    return damagableWarior.TryTakeDamage(damage);
+                }
+
+                return false;
+            }
+
+            public string GetInfo()
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+
+                foreach (var warior in _wariors)
+                {
+                    stringBuilder.AppendLine(warior.GetInfo());
+                }
+
+                return stringBuilder.ToString();
+            }
+
+            protected bool TryGetAnyAlliweWarior(out Army.Warior anyWarior)
+            {
+                anyWarior = default(Army.Warior);
+
+                if (IsAnyWariorAlive == false)
+                    return false;
+
+                return new ListExtention().TrySellectRandom<Army.Warior>(_wariors.Where(warior => warior.IsDead == false).ToList(), out anyWarior);
+            }
+
+            protected IEnumerable<Army.Warior> GetAlliweWariors()
+            {
+                return _wariors.Where(warior => warior.IsDead == false);
+            }
+        }
     }
 
     public class Damager<Damagable>
-       where Damagable : ArmyFighter.Damagable
+       where Damagable : ArmyFighter.IDamagable
     {
         protected bool TryDamage(Damagable damagable, int damage)
         {
@@ -338,7 +340,7 @@ namespace ArmyFighter
         }
     }
 
-    public interface Damagable
+    public interface IDamagable
     {
         bool TryTakeDamage(int damage);
     }

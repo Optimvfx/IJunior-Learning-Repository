@@ -125,7 +125,7 @@ namespace ShopUpgrade
     {
         protected readonly Basket _basket;
 
-        private Wallet _wallet;
+        private readonly Wallet _wallet;
 
         public ReadOnlyBasket Basket => _basket;
 
@@ -177,7 +177,7 @@ namespace ShopUpgrade
 
     public class Basket : ReadOnlyBasket
     {
-        private Random _random; 
+        private readonly Random _random; 
 
         public Basket(IEnumerable<Product> products) : base(products)
         {

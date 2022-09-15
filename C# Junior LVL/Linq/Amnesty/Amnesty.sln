@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Amnesty", "Amnesty\Amnesty.csproj", "{9E39385C-8914-418E-B553-9A03BA912CFB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E39385C-8914-418E-B553-9A03BA912CFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E39385C-8914-418E-B553-9A03BA912CFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E39385C-8914-418E-B553-9A03BA912CFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E39385C-8914-418E-B553-9A03BA912CFB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F85E9AB-4B1D-4FCE-8519-7D0880B66FBA}
+	EndGlobalSection
+EndGlobal

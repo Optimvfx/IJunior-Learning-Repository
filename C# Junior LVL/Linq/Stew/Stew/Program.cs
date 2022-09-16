@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stew
 {
@@ -45,6 +43,7 @@ namespace Stew
             _stews = stews;
         }
 
+        //переменная currentYear не ограничена по причине того что год так же может быть до нашей еры.
         public IEnumerable<Stew> GetOverdueStews(int currentYear)
         {
             return _stews.Where(stew => stew.IsOverdue(currentYear));
@@ -66,6 +65,7 @@ namespace Stew
             ShelfLifeInYears = Math.Max(shelfLifeYears, 0);
         }
 
+        //переменная currentYear не ограничена по причине того что год так же может быть до нашей еры.
         public bool IsOverdue(int currentYear)
         {
             return ManufacturetInYears + ShelfLifeInYears < currentYear;

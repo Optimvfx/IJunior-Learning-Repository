@@ -18,6 +18,8 @@ namespace Hospital
             patients.Add(new Patient(new FullName("Ka", "Tep", "Kawr"), 25, "knife wound"));
             patients.Add(new Patient(new FullName("Jui", "Lii", "Pads"), 32, "knife wound"));
             patients.Add(new Patient(new FullName("Davi", "Paku", "Damst"), 8, "knife wound"));
+            patients.Add(new Patient(new FullName("Joo", "Lear", "Joler"), 32, "energy damage"));
+            patients.Add(new Patient(new FullName("Maxim", "Darv", "Dasart"), 8, "energy damage"));
 
             var patientsDatabaseTerminal = new PatientsDatabaseTerminal(patients);
             patientsDatabaseTerminal.Activate();

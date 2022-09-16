@@ -82,7 +82,6 @@ namespace SoldiersUpgrade
         {
             _soldiers.AddRange(soldiers);
         }
-
     }
 
     public struct Soldier

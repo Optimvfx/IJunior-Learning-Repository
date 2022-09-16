@@ -17,6 +17,9 @@ namespace SoldiersUpgrade
             firstSquadSoldiers.Add(new Soldier("Alex", "AK47", "Regular", 20));
             firstSquadSoldiers.Add(new Soldier("Bakar", "AK47", "Field Marshal", 20));
             firstSquadSoldiers.Add(new Soldier("Oleg", "MK 26.5 (21.5)", "General", 20));
+            firstSquadSoldiers.Add(new Soldier("Oleg", "MK 26.5 (21.5)", "General", 20));
+            firstSquadSoldiers.Add(new Soldier("Bin", "GLOK", "General", 20));
+            firstSquadSoldiers.Add(new Soldier("Boku", "MK26", "Regular", 20));
             firstSquadSoldiers.Add(new Soldier("Bin", "GLOK", "General", 20));
             firstSquadSoldiers.Add(new Soldier("Boku", "MK26", "Regular", 20));
 
@@ -31,9 +34,16 @@ namespace SoldiersUpgrade
             var firstSquad = new Squad(firstSquadSoldiers);
             var secondSquad = new Squad(secondSquadSoldiers);
 
-            secondSquad.AddSoldiers(firstSquad.GetSoldiersByFirstNameChar(searchingFirstNameChar));
+            secondSquad.AddSoldiers(firstSquad.TakeSoldiersByFirstNameChar(searchingFirstNameChar));
 
-            foreach(var soldier in secondSquad.GetAllSoldiers())
+            Console.WriteLine("First squad:");
+            foreach(var soldier in firstSquad.GetAllSoldiers())
+            {
+                Console.WriteLine(soldier.GetInfo());
+            }
+
+            Console.WriteLine("Second squad:");
+            foreach (var soldier in secondSquad.GetAllSoldiers())
             {
                 Console.WriteLine(soldier.GetInfo());
             }
@@ -44,7 +54,7 @@ namespace SoldiersUpgrade
 
     public class Squad
     {
-        private readonly List<Soldier> _soldiers;
+        private List<Soldier> _soldiers;
 
         public Squad(IEnumerable<Soldier> soldiers)
         {
@@ -56,12 +66,16 @@ namespace SoldiersUpgrade
             return _soldiers;
         }
 
-        public IEnumerable<Soldier> GetSoldiersByFirstNameChar(char firstNameChar)
+        public IEnumerable<Soldier> TakeSoldiersByFirstNameChar(char firstNameChar)
         {
             int nameFirstCharIndex = 0;
 
-            return _soldiers.Where(soldier => soldier.Name.Length > 0)
+            var suitableSoldiers = _soldiers.Where(soldier => soldier.Name.Length > 0)
                             .Where(soldier => char.ToUpper(soldier.Name[nameFirstCharIndex]) == char.ToUpper(firstNameChar));
+
+            _soldiers = _soldiers.Where(soldier => suitableSoldiers.Contains(soldier) == false).ToList();
+
+            return suitableSoldiers;
         }
 
         public void AddSoldiers(IEnumerable<Soldier> soldiers)

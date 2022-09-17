@@ -78,6 +78,9 @@ namespace AutoWorkshop
                     case AutoWorkshop.RepairResult.NotEnoughMoney:
                         Console.WriteLine("Client not enough money!");
                         break;
+                    case AutoWorkshop.RepairResult.NotBroken:
+                        Console.WriteLine("Auto is not broken");
+                        break;
                     case AutoWorkshop.RepairResult.InvalidDetail:
                         Console.WriteLine("You fail repair and pay a penalty!");
                         break;
@@ -195,6 +198,11 @@ namespace AutoWorkshop
                     return RepairResult.InvalidDetail;
                 }
 
+                if(_brokenCar.IsBroken == false)
+                {
+                    return RepairResult.NotBroken;
+                }
+
                 if (priceOfRepair < 0 || _wallet.TrySpend(detail.Price + priceOfRepair) == false)
                 {
                     return RepairResult.NotEnoughMoney;
@@ -223,6 +231,7 @@ namespace AutoWorkshop
         public enum RepairResult
         {
             NotEnoughMoney,
+            NotBroken,
             InvalidDetail,
             Seccess
         }
@@ -260,7 +269,8 @@ namespace AutoWorkshop
 
         public string GetInfo()
         {
-            return $"Broke: {BrokenDetail.GetInfo()}";
+            return $"IsBroken: {IsBroken}" +
+                $"\nBroke: {BrokenDetail.GetInfo()}";
         }
     }
 

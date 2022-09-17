@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AutoWorkshop
 {
@@ -10,143 +9,258 @@ namespace AutoWorkshop
     {
         static void Main(string[] args)
         {
-            var buyers = new List<SmartBuyer>();
+            int penaltyForInvalidDetail = 100;
+            int priceOfRepair = 100;
 
-            buyers.Add(new SmartBuyer(2000, new Detail[]{new Product(new Item("Sword"), 200),
-                new Product(new Item("2LVL Sword"), 1000),
-                new Product(new Item("3LVL Sword"), 2000),
-                new Product(new Item("4LVL Sword"), 10000)}));
+            var clients = new List<AutoWorkshop.Client>();
 
-            buyers.Add(new SmartBuyer(100, new Detail[]{new Product(new Item("HP Heal Food"), 10),
-                new Product(new Item("2LVL HP Heal Food"), 20),
-                new Product(new Item("3LVL HP Heal Food"), 25),
-                new Product(new Item("4LVL HP Heal Food"), 30)}));
+            clients.Add(new AutoWorkshop.Client(300, new BrokenCar(new Detail("Fuil Tank",150))));
+            clients.Add(new AutoWorkshop.Client(500, new BrokenCar(new Detail("Fuil Tank", 150))));
+            clients.Add(new AutoWorkshop.Client(100, new BrokenCar(new Detail("Fuil Tank", 150))));
+            clients.Add(new AutoWorkshop.Client(250, new BrokenCar(new Detail("Fuil Tank", 150))));
+            clients.Add(new AutoWorkshop.Client(2000, new BrokenCar(new Detail("Wheel", 1500))));
+            clients.Add(new AutoWorkshop.Client(5000, new BrokenCar(new Detail("Wheel", 1500))));
+            clients.Add(new AutoWorkshop.Client(1000, new BrokenCar(new Detail("Wheel", 1500))));
+            clients.Add(new AutoWorkshop.Client(6000, new BrokenCar(new Detail("Wheel", 1500))));
 
-            buyers.Add(new SmartBuyer(200, new Detail[]{new Product(new Item("Sword"), 200),
-                new Product(new Item("2LVL Sword"), 1000),
-                new Product(new Item("3LVL Sword"), 2000),
-                new Product(new Item("4LVL Sword"), 10000)}));
+            var autoWorkshopDetails = new List<Detail>();
 
-            buyers.Add(new SmartBuyer(5, new Detail[]{new Product(new Item("HP Heal Food"), 10),
-                new Product(new Item("2LVL HP Heal Food"), 20),
-                new Product(new Item("3LVL HP Heal Food"), 25),
-                new Product(new Item("4LVL HP Heal Food"), 30)}));
+            autoWorkshopDetails.Add(new Detail("Fuil Tank", 150));
+            autoWorkshopDetails.Add(new Detail("Fuil Tank", 150));
+            autoWorkshopDetails.Add(new Detail("Wheel", 1500));
+            autoWorkshopDetails.Add(new Detail("Fuil Tank", 150));
 
-
-            var shop = new Shop();
-            shop.ServeBuyers(buyers);
+            var autoWorkshopTerminal = new AutoWorkshopTerminal(autoWorkshopDetails, penaltyForInvalidDetail, priceOfRepair);
+            autoWorkshopTerminal.ServeClients(clients);
 
             Console.ReadKey();
         }
     }
 
-    public class Shop
+    public class AutoWorkshopTerminal
     {
-        private readonly AutoWorkshop _cashRegister;
+        private readonly AutoWorkshop _autoWorkshop;
 
-        public Shop()
+        public AutoWorkshopTerminal(IEnumerable<Detail> details, int penaltyForInvalidDetail, int priceOfRepair)
         {
-            _cashRegister = new AutoWorkshop();
+            _autoWorkshop = new AutoWorkshop(details, penaltyForInvalidDetail, priceOfRepair);
         }
 
-        public void ServeBuyers(IEnumerable<SmartBuyer> buyers)
+        public void ServeClients(IEnumerable<AutoWorkshop.Client> clients)
         {
             int servicedBuyerIndex = 0;
 
-            foreach (var buyer in buyers)
+            foreach (var client in clients)
             {
-                Console.WriteLine($"\nShop money {_cashRegister.Wallet.Money}");
-                Console.WriteLine($"Shop serve {servicedBuyerIndex} buyer:");
-                ServeBuyer(buyer);
+                Console.WriteLine($"\nAutoWorkshop money {_autoWorkshop.Wallet.Money}");
+                Console.WriteLine($"AutoWorkshop serve {servicedBuyerIndex} client:");
+                ServeClient(client);
 
                 servicedBuyerIndex++;
             }
         }
 
-        private void ServeBuyer(SmartBuyer buyer)
+        private void ServeClient(AutoWorkshop.Client client)
         {
-            Console.WriteLine("Client:" +
-                $"{buyer.GetInfo()}");
+            Console.WriteLine("Details in auto workshop:");
+            ShowDetails(_autoWorkshop.GetAllDetails());
 
-            buyer.PayMaximalPosibleProducts(_cashRegister, out IEnumerable<Detail> payedProducts);
+            Console.WriteLine($"\nClient info: {client.GetInfo()}");
 
-            Console.WriteLine("Client enough money to pay products:");
+            Console.Write("Index of detail to repair: ");
 
-            foreach (var payedProduct in payedProducts)
+            if (int.TryParse(Console.ReadLine(), out int detailIndex))
             {
-                Console.WriteLine(payedProduct.GetInfo());
+                var repairResult = _autoWorkshop.TryServeClient(client, detailIndex);
+
+                switch (repairResult)
+                {
+                    case AutoWorkshop.RepairResult.NotEnoughMoney:
+                        Console.WriteLine("Client not enough money!");
+                        break;
+                    case AutoWorkshop.RepairResult.InvalidDetail:
+                        Console.WriteLine("You fail repair and pay a penalty!");
+                        break;
+                    case AutoWorkshop.RepairResult.Seccess:
+                        Console.WriteLine("Repair secces.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input!");
+            }
+        }
+
+        private void ShowDetails(IEnumerable<Detail> details)
+        {
+            var stringBuilder = new StringBuilder();
+
+            Console.WriteLine($"Details in workshop:");
+
+            int detailIndex = 0;
+
+            foreach (var detail in details)
+            {
+                Console.WriteLine($"{detailIndex} : {detail.GetInfo()}");
+
+                detailIndex++;
             }
         }
     }
 
     public class AutoWorkshop
     {
-         
+        private readonly List<Detail> _details;
+
         private readonly Wallet _wallet;
+
+        private readonly int _penaltyForInvalidDetail;
+        private readonly int _priceOfRepair;
 
         public ReadOnlyWallet Wallet => _wallet;
 
-        public AutoWorkshop()
+        public AutoWorkshop(IEnumerable<Detail> details, int penaltyForInvalidDetail, int priceOfRepair)
         {
+            _details = details.ToList();
+
             _wallet = new Wallet(0);
+
+            _penaltyForInvalidDetail = Math.Max(penaltyForInvalidDetail, 0);
+            _priceOfRepair = Math.Max(priceOfRepair, 0);
         }
 
-        public bool TryAskPayProducts(Client buyer)
+        public IEnumerable<Detail> GetAllDetails()
         {
-            if (buyer.TryPayAllProducts())
-            {
-                _wallet.TryAddMoney(buyer.Basket.GetTotalPrice());
+            return _details;
+        }
 
-                return true;
+        public RepairResult TryServeClient(Client client, int detailIndex)
+        {
+            var repairResult = default(RepairResult);
+
+            if (DetailIndexInBounds(detailIndex) == false)
+            {
+                repairResult = RepairResult.InvalidDetail;
+            }
+            else
+            {
+                repairResult = client.TryRepair(_details[detailIndex], _priceOfRepair);
             }
 
-            return false;
+            if (repairResult == RepairResult.InvalidDetail)
+            {
+                PayPenalty();
+            }
+            else if (repairResult == RepairResult.Seccess)
+            {
+                _details.RemoveAt(detailIndex);
+                _wallet.TryAddMoney(client.BrokenCar.BrokenDetail.Price + _priceOfRepair);
+            }
+
+            return repairResult;
+        }
+
+        private bool DetailIndexInBounds(int detailIndex)
+        {
+            return detailIndex >= 0 && detailIndex < _details.Count;
+        }
+
+        private void PayPenalty()
+        {
+            var moneyPanalty = Math.Min(_penaltyForInvalidDetail, _wallet.Money);
+
+            _wallet.TrySpend(moneyPanalty);
+        }
+
+        public class Client
+        {
+            private readonly BrokenCar _brokenCar;
+            private readonly Wallet _wallet;
+
+            public ReadOnlyBrokenCar BrokenCar => _brokenCar;
+            public ReadOnlyWallet Wallet => _wallet;
+
+            public Client(int money, BrokenCar brokenCar)
+            {
+                _wallet = new Wallet(money);
+
+                _brokenCar = brokenCar;
+            }
+
+            public RepairResult TryRepair(in Detail detail, int priceOfRepair)
+            {
+                if(_brokenCar.BrokenDetail.Equals(detail) == false)
+                {
+                    return RepairResult.InvalidDetail;
+                }
+
+                if (priceOfRepair < 0 || _wallet.TrySpend(detail.Price + priceOfRepair) == false)
+                {
+                    return RepairResult.NotEnoughMoney;
+                }
+
+                if (_brokenCar.TryRepair(detail))
+                {
+                    return RepairResult.Seccess;
+                }
+                else
+                {
+                    _wallet.TryAddMoney(detail.Price);
+
+                    return RepairResult.InvalidDetail;
+                }
+            }
+
+            public string GetInfo()
+            {
+                return $"\nMoney {_wallet.Money}." +
+                       $"\nBroken car:" +
+                       $"\n{_brokenCar.GetInfo()}";
+            }
+        }
+
+        public enum RepairResult
+        {
+            NotEnoughMoney,
+            InvalidDetail,
+            Seccess
         }
     }
 
-    public class Client
+    public class BrokenCar : ReadOnlyBrokenCar
     {
-        private readonly BrokenCar _brokenCar;
-        private readonly Wallet _wallet;
-
-        public Client(int money, BrokenCar brokenCar)
+        public BrokenCar(Detail brokenDetail) : base(brokenDetail)
         {
-            _wallet = new Wallet(money);
-
-            _brokenCar = brokenCar;
-        }
-
-        public string GetInfo()
-        {
-           return $"\nMoney {_wallet.Money}." + 
-                  $"\nBroken car:" +
-                  $"\n{_brokenCar.GetInfo()}";
-        }
-    }
-
-    public class BrokenCar
-    {
-        public readonly Detail _brokenDetail;
-
-        public bool IsBroken { get; private set; }
-
-        public BrokenCar(Detail brokenDetail)
-        {
-            _brokenDetail = brokenDetail;
-
-            IsBroken = true;
         }
 
         public bool TryRepair(in Detail detailToRepair)
         {
-            IsBroken = detailToRepair.Equals(_brokenDetail) == false;
+            if (IsBroken == false)
+                return false;
 
-            return IsBroken;
+            IsBroken = BrokenDetail.Equals(detailToRepair) == false;
+
+            return IsBroken == false;
+        }
+    }
+
+    public class ReadOnlyBrokenCar
+    {
+        public readonly Detail BrokenDetail;
+
+        public bool IsBroken { get; protected set; }
+
+        public ReadOnlyBrokenCar(Detail brokenDetail)
+        {
+            BrokenDetail = brokenDetail;
+
+            IsBroken = true;
         }
 
         public string GetInfo()
         {
-            return $"Broke: {_brokenDetail.GetInfo()}";
+            return $"Broke: {BrokenDetail.GetInfo()}";
         }
     }
 
@@ -158,7 +272,7 @@ namespace AutoWorkshop
 
         public bool TrySpend(int moneyToSpend)
         {
-            if (moneyToSpend >= 0 && Money >= moneyToSpend)
+            if (moneyToSpend > 0 && Money >= moneyToSpend)
             {
                 Money -= moneyToSpend;
                 return true;
@@ -188,25 +302,31 @@ namespace AutoWorkshop
             Money = Math.Max(money, 0);
         }
     }
-
+    
     public struct Detail
     {
-        public readonly int Id;
-
         public readonly string Title;
         public readonly int Price;
 
-        public Detail(int id, string title, int price)
+        public Detail(string title, int price)
         {
-            Id = id;
-
             Title = title;
             Price = Math.Max(price, 0);
         }
 
         public string GetInfo()
         {
-            return $"ID: {Id} , Title {Title}, Price {Price}.";
+            return $"Title {Title}, Price {Price}.";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Detail other)
+            {
+                return Title == other.Title;
+            }
+
+            return false;
         }
     }
 }

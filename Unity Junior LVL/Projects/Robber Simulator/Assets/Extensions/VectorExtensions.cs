@@ -4,11 +4,6 @@ namespace Extensions
 {
     public static class VectorExtensions
     {
-        public static float GetDistance(Vector2 first, Vector2 second)
-        {
-            return Mathf.Sqrt(((first.x - second.x) * (first.x - second.x)) + ((first.y - second.y) * (first.y - second.y)));
-        }
-
         public static Degree GetAngleBetwinPoints(Vector2 from, Vector2 target, Vector2 fromLookDirection)
         {
             var targetDirection = target - from;

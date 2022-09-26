@@ -71,7 +71,7 @@ public class ObservationCamera2d : GameObjectExtensions.MonoBehivour2D
         if (robber == null)
             throw new NullReferenceException();
 
-        if (VectorExtensions.GetDistance(transform.position, robber.transform.position) > _detectionDistance)
+        if (Vector2.Distance(transform.position, robber.transform.position) > _detectionDistance)
             return false;
 
         if (VectorExtensions.GetAngleBetwinPoints(transform.position, robber.transform.position, Forward) > _detectionAngle)
@@ -86,6 +86,6 @@ public class ObservationCamera2d : GameObjectExtensions.MonoBehivour2D
     {
         var gizmosColor = IsRobberInDetectionZone(robber) ? _detectedColor : _unDetectedColor;
 
-        GizmosExtensions.DrawLine(transform.position, (Vector2)transform.position + VectorExtensions.GetNormal(transform.position, robber.transform.position) * VectorExtensions.GetDistance(transform.position, robber.transform.position), gizmosColor);
+        GizmosExtensions.DrawLine(transform.position, (Vector2)transform.position + VectorExtensions.GetNormal(transform.position, robber.transform.position) * Vector2.Distance(transform.position, robber.transform.position), gizmosColor);
     }
 }

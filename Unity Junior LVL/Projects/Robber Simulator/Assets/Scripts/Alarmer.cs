@@ -1,26 +1,22 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using Extensions;
 using UnityEngine;
 
 [RequireComponent(typeof(ObservationCamera2d))]
-public class AlarmSystem : MonoBehaviour
+public class Alarmer : MonoBehaviour
 {
     public static readonly float MaximalThreatLevel = 100;
     public static readonly float MinimalThreatLevel = 0;
+
+    [SerializeField] private AudioSource _audioSource;
 
     [SerializeField] private float _calmThreatLevelModifierPerSecond;
     [SerializeField] private float _hackingThreatLevelModifierPerSecond;
 
     private float _threatLevel;
 
-    private Coroutine _hackingThreatLevelCorutine;
-    private Coroutine _calmTheatLevelCorutine;
+    private Coroutine _threatLevelModfierCorutine;
 
     private ObservationCamera2d _observationCamera2D;
-
-    public float ThreatLevel => _threatLevel;
 
     public float NormolizedThreatLevel => (_threatLevel - MinimalThreatLevel) / (MaximalThreatLevel - MinimalThreatLevel);
 
@@ -46,46 +42,46 @@ public class AlarmSystem : MonoBehaviour
         _observationCamera2D.SawRobber -= ActivateHackingThreatLevel;
         _observationCamera2D.LostRobberOutOfSight -= ActivateCalmTheatLevel;
 
-        StopAllTheatLevelCoroutines();
+        StopThreatLevelModifierCorutione();
+    }
+
+    private void Update()
+    {
+        if (_audioSource != null)
+            ChangeAudioVolume();
+    }
+
+    private void ChangeAudioVolume()
+    {
+        _audioSource.volume = NormolizedThreatLevel;
     }
 
     private void ActivateCalmTheatLevel()
     {
-        StopAllTheatLevelCoroutines();
+        StopThreatLevelModifierCorutione();
 
-      _calmTheatLevelCorutine = StartCoroutine(ActivateCalmTheatLevelCoroutine());
+        _threatLevelModfierCorutine = StartCoroutine(ActivateThreatLevelModifierCoroutine(MinimalThreatLevel, _calmThreatLevelModifierPerSecond));
     }
 
     private void ActivateHackingThreatLevel()
     {
-        StopAllTheatLevelCoroutines();
+        StopThreatLevelModifierCorutione();
 
-        _hackingThreatLevelCorutine = StartCoroutine(ActivateHackingThreatLevelCoroutine());
+        _threatLevelModfierCorutine = StartCoroutine(ActivateThreatLevelModifierCoroutine(MaximalThreatLevel, _hackingThreatLevelModifierPerSecond));
     }
 
-    private IEnumerator ActivateHackingThreatLevelCoroutine()
+    private IEnumerator ActivateThreatLevelModifierCoroutine(float target, float speedPerSecond)
     {
         while (true)
         { 
-            _threatLevel = Mathf.MoveTowards(_threatLevel, MaximalThreatLevel, _hackingThreatLevelModifierPerSecond * Time.deltaTime);
+            _threatLevel = Mathf.MoveTowards(_threatLevel, target, Mathf.Abs(speedPerSecond) * Time.deltaTime);
             yield return null;
         }
     }
 
-    private IEnumerator ActivateCalmTheatLevelCoroutine()
+    private void StopThreatLevelModifierCorutione()
     {
-        while (true)
-        {
-            _threatLevel = Mathf.MoveTowards(_threatLevel, MinimalThreatLevel, -_calmThreatLevelModifierPerSecond * Time.deltaTime);
-            yield return null;
-        }
-    }
-
-    private void StopAllTheatLevelCoroutines()
-    {
-        if (_calmTheatLevelCorutine != null)
-            StopCoroutine(_calmTheatLevelCorutine);
-        if (_hackingThreatLevelCorutine != null)
-            StopCoroutine(_hackingThreatLevelCorutine);
+        if (_threatLevelModfierCorutine != null)
+            StopCoroutine(_threatLevelModfierCorutine);
     }
 }

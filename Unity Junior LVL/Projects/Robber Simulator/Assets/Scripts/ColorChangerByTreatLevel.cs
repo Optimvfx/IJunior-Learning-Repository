@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ColorChangerByTreatLevel : MonoBehaviour
 {
-    [SerializeField] private AlarmSystem _threatController;
+    [SerializeField] private Alarmer _threatController;
     [SerializeField] private List<ColorLerpChanger> _colorLerpChangers;
 
     private void Update()

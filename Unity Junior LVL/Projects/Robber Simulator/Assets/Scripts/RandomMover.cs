@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using Extensions;
 
 public class RandomMover : MonoBehaviour
 {
@@ -26,7 +25,7 @@ public class RandomMover : MonoBehaviour
         var nextMoveTarget = (Vector2)transform.position;
         while(true)
         {
-            if (VectorExtensions.GetDistance(nextMoveTarget, transform.position) <= _minimalDistanceToTarget)
+            if (Vector2.Distance(nextMoveTarget, transform.position) <= _minimalDistanceToTarget)
                 nextMoveTarget = Random.insideUnitCircle * _maximalMoveDistnace;
 
             transform.position += (Vector3)(nextMoveTarget - (Vector2)transform.position).normalized * _speed * Time.deltaTime;

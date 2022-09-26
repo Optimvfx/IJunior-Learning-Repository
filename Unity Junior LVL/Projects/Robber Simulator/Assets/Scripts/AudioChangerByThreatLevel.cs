@@ -4,23 +4,16 @@ using UnityEngine;
 
 public class AudioChangerByThreatLevel : MonoBehaviour
 {
-    [SerializeField] private ThreatController _threatController;
+    [SerializeField] private AlarmSystem _threatController;
     [SerializeField] private AudioSource _audioSource;
 
-    public void OnEnable()
+    private void Update()
     {
-        _threatController.ThreatLevelChanged += ChangeAudioVolume;
+        ChangeAudioVolume();
     }
 
-    public void OnDisable()
+    private void ChangeAudioVolume()
     {
-        _threatController.ThreatLevelChanged += ChangeAudioVolume;
-    }
-
-    private void ChangeAudioVolume(float threatLevel)
-    {
-        var audioVolume = (threatLevel - ThreatController.MinimalThreatLevel) / (ThreatController.MaximalThreatLevel - ThreatController.MinimalThreatLevel);
-
-        _audioSource.volume = audioVolume;
+        _audioSource.volume = _threatController.NormolizedThreatLevel;
     }
 }

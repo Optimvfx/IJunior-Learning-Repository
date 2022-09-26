@@ -1407,6 +1407,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8443349574379932326, guid: 9a77a41bab654004cb7153471a85e50d, type: 3}
+      propertyPath: _calmThreatLevelModifierPerSecond
+      value: -20
+      objectReference: {fileID: 0}
     - target: {fileID: 8443349574379932327, guid: 9a77a41bab654004cb7153471a85e50d, type: 3}
       propertyPath: m_RootOrder
       value: 1

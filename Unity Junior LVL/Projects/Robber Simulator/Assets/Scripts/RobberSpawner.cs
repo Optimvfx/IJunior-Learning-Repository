@@ -33,7 +33,7 @@ public class RobberSpawner : MonoBehaviour
         }
     }
 
-    public Robber SpawnRobber(Vector2 spawnPoint)
+    private Robber SpawnRobber(Vector2 spawnPoint)
     {
         return Instantiate(_robberPrefab, spawnPoint, Quaternion.identity, _container);
     }

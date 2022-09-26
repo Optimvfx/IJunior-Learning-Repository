@@ -3,26 +3,19 @@ using UnityEngine;
 
 public class ColorChangerByTreatLevel : MonoBehaviour
 {
-    [SerializeField] private ThreatController _threatController;
+    [SerializeField] private AlarmSystem _threatController;
     [SerializeField] private List<ColorLerpChanger> _colorLerpChangers;
 
-    public void OnEnable()
+    private void Update()
     {
-        _threatController.ThreatLevelChanged += ChangeColors;
+        ChangeColors();
     }
 
-    public void OnDisable()
+    private void ChangeColors()
     {
-        _threatController.ThreatLevelChanged += ChangeColors;
-    }
-
-    private void ChangeColors(float threatLevel)
-    {
-        var lerpValue = (threatLevel - ThreatController.MinimalThreatLevel) / (ThreatController.MaximalThreatLevel - ThreatController.MinimalThreatLevel);
-
         foreach(var colorLerpChanger in _colorLerpChangers)
         {
-            colorLerpChanger.ChangeColor(lerpValue);
+            colorLerpChanger.ChangeColor(_threatController.NormolizedThreatLevel);
         }
     }
 }

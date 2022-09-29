@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Extensions;
 
 [RequireComponent(typeof(TilemapEditor))]
 public class TileMapEditorFillCommand : MonoBehaviour

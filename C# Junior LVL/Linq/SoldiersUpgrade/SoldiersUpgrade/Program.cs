@@ -16,7 +16,7 @@ namespace SoldiersUpgrade
 
             firstSquadSoldiers.Add(new Soldier("Alex", "AK47", "Regular", 20));
             firstSquadSoldiers.Add(new Soldier("Bakar", "AK47", "Field Marshal", 20));
-            firstSquadSoldiers.Add(new Soldier("Oleg", "MK 26.5 (21.5)", "General", 20));
+            firstSquadSoldiers.Add(new Soldier("Anvar", "MK 26.5 (21.5)", "General", 20));
             firstSquadSoldiers.Add(new Soldier("Oleg", "MK 26.5 (21.5)", "General", 20));
             firstSquadSoldiers.Add(new Soldier("Bin", "GLOK", "General", 20));
             firstSquadSoldiers.Add(new Soldier("Boku", "MK26", "Regular", 20));
@@ -37,12 +37,14 @@ namespace SoldiersUpgrade
             secondSquad.AddSoldiers(firstSquad.TakeSoldiersByFirstNameChar(searchingFirstNameChar));
 
             Console.WriteLine("First squad:");
+
             foreach(var soldier in firstSquad.GetAllSoldiers())
             {
                 Console.WriteLine(soldier.GetInfo());
             }
 
             Console.WriteLine("Second squad:");
+
             foreach (var soldier in secondSquad.GetAllSoldiers())
             {
                 Console.WriteLine(soldier.GetInfo());
@@ -54,7 +56,7 @@ namespace SoldiersUpgrade
 
     public class Squad
     {
-        private List<Soldier> _soldiers;
+        private IEnumerable<Soldier> _soldiers;
 
         public Squad(IEnumerable<Soldier> soldiers)
         {
@@ -68,19 +70,16 @@ namespace SoldiersUpgrade
 
         public IEnumerable<Soldier> TakeSoldiersByFirstNameChar(char firstNameChar)
         {
-            int nameFirstCharIndex = 0;
+            var suitableSoldiers = _soldiers.Where(soldier => char.ToUpper(soldier.Name.FirstOrDefault()) == char.ToUpper(firstNameChar));
 
-            var suitableSoldiers = _soldiers.Where(soldier => soldier.Name.Length > 0)
-                            .Where(soldier => char.ToUpper(soldier.Name[nameFirstCharIndex]) == char.ToUpper(firstNameChar));
-
-            _soldiers = _soldiers.Where(soldier => suitableSoldiers.Contains(soldier) == false).ToList();
+            _soldiers = _soldiers.Except(suitableSoldiers);
 
             return suitableSoldiers;
         }
 
         public void AddSoldiers(IEnumerable<Soldier> soldiers)
         {
-            _soldiers.AddRange(soldiers);
+            _soldiers = _soldiers.Concat(soldiers);
         }
     }
 
@@ -91,6 +90,7 @@ namespace SoldiersUpgrade
         public readonly string Weapon;
 
         public readonly string Rank;
+
         public readonly int ServiceLifeInMonth;
 
         public Soldier(string name, string weapon, string rank, int serviceLifeInMounth)

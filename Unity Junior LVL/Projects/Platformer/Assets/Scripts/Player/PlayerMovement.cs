@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    private static readonly int _hitBufferLength = 16;
+    private static readonly uint _hitBufferLength = 16;
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask _layerMask;
@@ -31,13 +31,26 @@ public class PlayerMovement : MonoBehaviour
     private bool _isGrounded;
     private Vector2 _groundNormal;
 
-    private Rigidbody2D _rigedbody;
+    private Rigidbody2D _rigidbody;
 
     public float TargetVelocityX => _targetVelocityX;
 
+    private void OnValidate()
+    {
+        _speed = Mathf.Max(_speed, 0);
+        _jumpForce = Mathf.Max(_jumpForce, 0);
+        _runModifier = Mathf.Max(_runModifier, 2);
+
+        _minimalGroundNormalY = Mathf.Max(_minimalGroundNormalY, 0);
+        _gravityModifier = Mathf.Max(_gravityModifier, 0);
+
+        _minimalMoveDistance = Mathf.Max(_minimalMoveDistance, 0);
+        _shellRadius = Mathf.Max(_shellRadius, 0);
+    }
+
     private void Start()
     {
-        _rigedbody = GetComponent<Rigidbody2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
 
         _contactFilter.useTriggers = false;
         _contactFilter.SetLayerMask(_layerMask);
@@ -88,13 +101,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void DoMovement(Vector2 move, bool doYMovement)
     {
-        Debug.Log(move + " " + doYMovement);
-
         float distance = move.magnitude;
 
         if (distance > _minimalMoveDistance)
         {
-            foreach (var hit in GetProjectionContacts(move))
+            foreach (var hit in _rigidbody.GetProjectionContacts(move, _hitBufferLength, _contactFilter, _shellRadius))
             {
                 Vector2 currentNormal = hit.normal;
 
@@ -116,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        _rigedbody.position += move.normalized * distance;
+        _rigidbody.position += move.normalized * distance;
     }
 
     private void ApplayProjection(Vector2 normal)
@@ -129,17 +140,6 @@ public class PlayerMovement : MonoBehaviour
         {
             _velocity = _velocity - projection * normal;
         }
-    }
-
-    private IEnumerable<RaycastHit2D> GetProjectionContacts(Vector2 move)
-    {
-        float distance = move.magnitude;
-
-        var hitBuffer = new RaycastHit2D[_hitBufferLength];
-
-        int count = _rigedbody.Cast(move, _contactFilter, hitBuffer, distance + _shellRadius);
-
-        return hitBuffer.Take(count).ToList();
     }
 }
 

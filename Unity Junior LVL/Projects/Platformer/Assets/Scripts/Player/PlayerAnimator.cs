@@ -17,10 +17,8 @@ public class PlayerAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (_movement.TargetVelocityX < 0)
-            _spriteRenderer.flipX = false;
-        else if(_movement.TargetVelocityX > 0)
-            _spriteRenderer.flipX = true;
+        if (Mathf.Approximately(_movement.TargetVelocityX, 0) == false)
+            _spriteRenderer.flipX = _movement.TargetVelocityX > 0;
 
         _animator.SetFloat(_speedProperty, Mathf.Abs(_movement.TargetVelocityX));
     }

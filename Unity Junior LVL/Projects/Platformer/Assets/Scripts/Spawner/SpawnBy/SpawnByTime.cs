@@ -20,11 +20,13 @@ public class SpawnByTime<Arguments> : MonoBehaviour
         if (secondsBreakBetweenSpawning <= 0)
             throw new ArgumentException();
 
-        while(true)
+        var waitBetweenSpawns = new WaitForSeconds(secondsBreakBetweenSpawning);
+
+        while (true)
         {
             _spawner.TrySpawn();
 
-            yield return new WaitForSeconds(secondsBreakBetweenSpawning);
+            yield return waitBetweenSpawns;
         }
     }
 }

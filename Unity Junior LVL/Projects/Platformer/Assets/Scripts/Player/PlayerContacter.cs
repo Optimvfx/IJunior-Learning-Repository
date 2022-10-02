@@ -14,27 +14,18 @@ public class PlayerContacter : MonoBehaviour
         _health = GetComponent<PlayerHealth>();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        OnContactEnter(other.gameObject);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        OnContactEnter(collision.gameObject);
-    }
-
-    private void OnContactEnter(GameObject otherGameObject)
-    {
-        if (otherGameObject.TryGetComponent(out Coin coin))
+        if (collision.gameObject.TryGetComponent(out Coin coin))
         {
             _wallet.AddMoney();
 
             coin.Destroy();
         }
-        if (otherGameObject.TryGetComponent(out Enemy enemy))
+        if (collision.gameObject.TryGetComponent(out Enemy enemy))
         {
             _health.TakeDamage();
         }
     }
+
 }

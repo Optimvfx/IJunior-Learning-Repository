@@ -22,13 +22,6 @@ public class PlayerHealth : MonoBehaviour
     {
         Dieing?.Invoke();
 
-        StartCoroutine(DiePassTime(_dieingTimeInSeconds));
-    }
-
-    private IEnumerator DiePassTime(float timeInSeconds)
-    {
-        yield return new WaitForSeconds(timeInSeconds);
-
-        Destroy(gameObject);
+        Destroy(gameObject, _dieingTimeInSeconds);
     }
 }

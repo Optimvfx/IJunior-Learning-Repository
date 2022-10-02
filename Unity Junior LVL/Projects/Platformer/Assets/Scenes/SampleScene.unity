@@ -445,6 +445,7 @@ GameObject:
   - component: {fileID: 1255356525}
   - component: {fileID: 1255356527}
   - component: {fileID: 1255356528}
+  - component: {fileID: 1255356529}
   m_Layer: 2
   m_Name: Enemy
   m_TagString: Untagged
@@ -616,6 +617,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fabceac3c9006443ab28d57ad642d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &1255356529
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255356520}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &1280304384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1075,6 +1092,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2536003633707067709, guid: 735ac85c450e4d24694f70e6787ccc37, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2536003633707067711, guid: 735ac85c450e4d24694f70e6787ccc37, type: 3}
+      propertyPath: m_UseAutoMass
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

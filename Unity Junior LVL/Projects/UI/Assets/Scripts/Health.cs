@@ -3,23 +3,22 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public event Action<float> HealthValueChanged;
-    public event Action Died;
-
-    [SerializeField] private float _health;
+    [SerializeField] private float _value;
 
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _minHealth;
 
-    public float MaxHealth => _maxHealth;
-    public float MinHealth => _minHealth;
+    public float NormalizedValue => (_value - _minHealth) / _maxHealth;
+
+    public event Action Changed;
+    public event Action Died;
 
     private void OnValidate()
     {
         _minHealth = Mathf.Max(_minHealth, 0);
         _maxHealth = Mathf.Max(_maxHealth, _minHealth);
 
-        _health = Mathf.Clamp(_health, _minHealth, _maxHealth);
+        _value = Mathf.Clamp(_value, _minHealth, _maxHealth);
     }
 
     public bool TryHeal(float addingHealth)
@@ -27,13 +26,13 @@ public class Health : MonoBehaviour
         if (addingHealth < 0)
             throw new ArgumentException();
 
-        if (_health <= _minHealth || _health >= _maxHealth)
+        if (_value <= _minHealth || _value >= _maxHealth)
             return false;
 
-        _health += addingHealth;
-        _health = Mathf.Min(_health, _maxHealth);
+        _value += addingHealth;
+        _value = Mathf.Min(_value, _maxHealth);
 
-        HealthValueChanged?.Invoke(_health);
+        Changed?.Invoke();
 
         return true;
     }
@@ -43,15 +42,15 @@ public class Health : MonoBehaviour
         if(damage < 0)
             throw new ArgumentException();
 
-        if (_health <= _minHealth)
+        if (_value <= _minHealth)
             return false;
 
-        _health -= damage;
-        _health = Mathf.Max(_health, _minHealth);
+        _value -= damage;
+        _value = Mathf.Max(_value, _minHealth);
 
-        HealthValueChanged?.Invoke(_health);
+        Changed?.Invoke();
 
-        if (_health <= _minHealth)
+        if (_value <= _minHealth)
             Died?.Invoke();
 
         return true;

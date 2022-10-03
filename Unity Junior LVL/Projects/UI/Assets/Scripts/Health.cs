@@ -21,29 +21,27 @@ public class Health : MonoBehaviour
         _value = Mathf.Clamp(_value, _minHealth, _maxHealth);
     }
 
-    public bool TryHeal(float addingHealth)
+    public void Heal(float addingHealth)
     {
         if (addingHealth < 0)
             throw new ArgumentException();
 
         if (_value <= _minHealth || _value >= _maxHealth)
-            return false;
+            return;
 
         _value += addingHealth;
         _value = Mathf.Min(_value, _maxHealth);
 
-        Changed?.Invoke();
-
-        return true;
+        Changed?.Invoke();;
     }
     
-    public bool TryTakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         if(damage < 0)
             throw new ArgumentException();
 
         if (_value <= _minHealth)
-            return false;
+            return;
 
         _value -= damage;
         _value = Mathf.Max(_value, _minHealth);
@@ -52,7 +50,5 @@ public class Health : MonoBehaviour
 
         if (_value <= _minHealth)
             Died?.Invoke();
-
-        return true;
     }
 }

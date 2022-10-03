@@ -14,11 +14,6 @@ public class HealthMenu : MonoBehaviour
     [SerializeField] private Button _removeHealthButton;
     [SerializeField] private float _removingHealth;
 
-    [Header("Error")]
-    [SerializeField] private InfoLableShower _infoLableShower;
-    [SerializeField] private string _errorMessage;
-    [SerializeField] private Transform _messagePositon;
-
     private void OnValidate()
     {
         _addingHealth = Mathf.Max(_addingHealth, 0);
@@ -39,13 +34,11 @@ public class HealthMenu : MonoBehaviour
 
     private void AddHealth()
     {
-        if(_health.TryHeal(_addingHealth) == false)
-            _infoLableShower.Show(_errorMessage, _messagePositon.position);
+        _health.Heal(_addingHealth);
     }
 
     private void RemoveHealth()
     {
-        if (_health.TryTakeDamage(_removingHealth) == false)
-            _infoLableShower.Show(_errorMessage, _messagePositon.position);
+        _health.TakeDamage(_removingHealth);
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerAnimator : MonoBehaviour
 {
-    private static readonly string _speedProperty = "Speed";
+    private readonly string _speedProperty = "Speed";
 
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;

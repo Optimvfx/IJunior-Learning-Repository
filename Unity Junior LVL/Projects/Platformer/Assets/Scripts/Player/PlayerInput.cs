@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerInput : MonoBehaviour
 {
-    private static readonly string _horizontalAxis = "Horizontal";
+    private readonly string _horizontalAxis = "Horizontal";
 
     [SerializeField] private KeyCode _jumpButton;
     [SerializeField] private KeyCode _runButton;

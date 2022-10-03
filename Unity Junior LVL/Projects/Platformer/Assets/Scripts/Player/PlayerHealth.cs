@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public event Action Dieing;
-
     [SerializeField] private float _dieingTimeInSeconds;
+
+    public event Action Dieing;
 
     private void OnValidate()
     {

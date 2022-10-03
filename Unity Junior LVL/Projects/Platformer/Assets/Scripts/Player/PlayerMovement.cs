@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
-    private static readonly uint _hitBufferLength = 16;
+    private readonly uint _hitBufferLength = 16;
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask _layerMask;

@@ -6,13 +6,10 @@ using System.Linq;
 
 public class ObservationCamera2d : GameObjectExtensions.MonoBehivour2D
 {
-    private static readonly Color _unDetectedColor = new Color(1, 0.1f, 0.1f);
-    private static readonly Color _detectedColor = new Color(0.1f, 0.9f, 0.3f);
+    private readonly Color _unDetectedColor = new Color(1, 0.1f, 0.1f);
+    private readonly Color _detectedColor = new Color(0.1f, 0.9f, 0.3f);
 
-    private static readonly uint _hitBufferLength = 1;
-
-    public event Action SawPlayer;
-    public event Action LostPlayerOutOfSight;
+    private readonly uint _hitBufferLength = 1;
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask _layerMask;
@@ -28,6 +25,9 @@ public class ObservationCamera2d : GameObjectExtensions.MonoBehivour2D
     private bool _isPlayerDetected = false;
 
     private ContactFilter2D _contactFilter;
+
+    public event Action SawPlayer;
+    public event Action LostPlayerOutOfSight;
 
     private void OnValidate()
     {

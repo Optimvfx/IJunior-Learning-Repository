@@ -5,12 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class RandomMover : MonoBehaviour
 {
-    private static readonly uint _sellectNextMoveTryMaximalCount = 100;
+    private readonly uint _sellectNextMoveTryMaximalCount = 100;
 
-    private static readonly uint _hitBufferLength = 16;
+    private readonly uint _hitBufferLength = 16;
 
-    private static readonly Color _gizmosColor = Color.cyan;
-    private static readonly float _gizmosRadius = 1;
+    private readonly Color _gizmosColor = Color.cyan;
+    private readonly float _gizmosRadius = 1;
 
     [Header("Layer Mask")]
     [SerializeField] private LayerMask _layerMask;

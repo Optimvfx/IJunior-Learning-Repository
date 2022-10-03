@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class LookerToMoveDirection : MonoBehaviour
 {
-private static readonly float _fullSphareAngle = 360;
+    private readonly float _fullSphareAngle = 360;
 
     private Vector2 _lastPosition;
 

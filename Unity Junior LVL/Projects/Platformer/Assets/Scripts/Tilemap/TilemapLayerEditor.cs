@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Tilemap))]
 public class TilemapEditor : MonoBehaviour
 {
-    private static readonly int _standartTileZPosition = 0;
+    private readonly int _standartTileZPosition = 0;
 
     [SerializeField] private Tilemap _tilemap;
 

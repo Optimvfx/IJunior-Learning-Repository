@@ -514,9 +514,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weapons:
-  - _weapon: {fileID: 2578384947963280926, guid: 68c268580c9bc6e428c5868377fa89e5, type: 3}
+  - _weapon: {fileID: 6432907561191199069, guid: 68c268580c9bc6e428c5868377fa89e5, type: 3}
     _price: 1
-    _icon: {fileID: 21300000, guid: 5b7d73d9425f71a4e8383b12bcbe2b25, type: 3}
+    _icon: {fileID: 21300000, guid: ab041c52fa8a35e47b63b4c6c177a6b0, type: 3}
     _isBuyed: 0
   _inventory: {fileID: 1456784575}
   _template: {fileID: -8952122256126499699, guid: 165126ac0c26d674c9f4cdc10e70f55c, type: 3}

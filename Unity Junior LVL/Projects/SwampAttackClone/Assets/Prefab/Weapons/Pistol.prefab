@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _label: "\u041F\u0438\u0441\u0442\u043E\u043B\u0435\u0442"
-  _bullet: {fileID: 7411000815468289610, guid: 6d7f1b77be9e9684d921f713d6a5f829, type: 3}
+  _bullet: {fileID: 3691194927079751642, guid: bc7c372f827594f46be87867d9eb73c5, type: 3}
   _rechargeTimeInSeconds:
     _value: 1

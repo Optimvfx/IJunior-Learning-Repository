@@ -10,7 +10,8 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(Vector2.left * _speed * Time.deltaTime, Space.World);
+        Debug.Log(transform.forward);
+        transform.Translate(Vector2.left * _speed * Time.deltaTime, Space.Self);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -18,7 +19,6 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out ReadOnlyEnemy enemy))
         {
             enemy.TakeDamage((int)_damage);
-
         }
 
         OnDestroy?.Invoke(this);

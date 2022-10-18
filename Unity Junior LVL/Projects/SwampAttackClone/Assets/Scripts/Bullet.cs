@@ -10,7 +10,6 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(transform.forward);
         transform.Translate(Vector2.left * _speed * Time.deltaTime, Space.Self);
     }
 

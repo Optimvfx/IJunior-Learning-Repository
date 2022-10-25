@@ -103,7 +103,7 @@ namespace MiniGame
         #endregion draw
 
         #region move
-        private static void TryMovePlayer(char[,] map,ref int playerPositionX,ref int playerPositionY, int playerMoveDirectionX, int playerMoveDirectionY)
+        private static void TyMovePlayer(char[,] map,ref int playerPositionX,ref int playerPositionY, int playerMoveDirectionX, int playerMoveDirectionY)
         {
             if(IsWall(map,playerPositionX + playerMoveDirectionX,playerPositionY + playerMoveDirectionY) == false)
             {

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MenuScene.unity
+    guid: a11f151b4669cc44781cbe0aa9f8f9a3
+  - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Imported Assets/Tools/WaterExample/ToonWater_Scene.unity
+    guid: d753a8894410195469f001a7d83f083d
+  - enabled: 1
+    path: Assets/Imported Assets/MobileDepthWater/Scenes/DemoScene.unity
+    guid: 56af498a20d7fb14ab9dd5bbde060f9d
+  m_configObjects: {}

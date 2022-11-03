@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class PlayerMover : MonoBehaviour
 {
-    private readonly Vector3 _rotationVector = new Vector3(0, 1, 0);
+    private readonly Vector3 _rotationDirection = new Vector3(0, 1, 0);
 
     [SerializeField] private Player _self;
     [Header("Rotation")]
@@ -56,7 +56,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Rotate()
     {
-        _currentPivotTransform.transform.Rotate(_rotationVector * _rotationSpeed * Time.deltaTime * (int)_currentState);
+        _currentPivotTransform.transform.Rotate(_rotationDirection * _rotationSpeed * Time.deltaTime * (int)_currentState);
     }
 
     public enum CurrentState

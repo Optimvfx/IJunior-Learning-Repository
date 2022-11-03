@@ -18,15 +18,15 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnEnable()
     {
-        _mover.OnChangeState += TryDie;
+        _mover.OnChangeState += OnChangeState;
     }
 
     private void OnDisable()
     {
-        _mover.OnChangeState -= TryDie;
+        _mover.OnChangeState -= OnChangeState;
     }
 
-    private void TryDie(PlayerMover.CurrentState state)
+    private void OnChangeState(PlayerMover.CurrentState state)
     {
         var sellectedSaw = _firstSaw;
 

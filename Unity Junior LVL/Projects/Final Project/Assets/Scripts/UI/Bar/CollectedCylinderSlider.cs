@@ -4,7 +4,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Slider))]
 public class CollectedCylinderSlider : MonoBehaviour
 {
-    private readonly UFloat _sliderStandartMaxValue = 1;
+    private readonly UFloat SliderStandartMaxValue = 1;
 
     [SerializeField] private CylinderSpawnCounter _cylinderSpawnCounter;
     [Header("Color")]
@@ -17,20 +17,20 @@ public class CollectedCylinderSlider : MonoBehaviour
     private void Awake()
     {
         _slider = GetComponent<Slider>();
-        _slider.maxValue = _sliderStandartMaxValue;
+        _slider.maxValue = SliderStandartMaxValue;
     }
 
     private void OnEnable()
     {
-        _cylinderSpawnCounter.OnCylinderActivationCountChange += ShowActivatedProcent;
+        _cylinderSpawnCounter.OnCylinderActivationCountChange += OnCylinderActivationCountChange;
     }
 
     private void OnDisable()
     {
-        _cylinderSpawnCounter.OnCylinderActivationCountChange -= ShowActivatedProcent;
+        _cylinderSpawnCounter.OnCylinderActivationCountChange -= OnCylinderActivationCountChange;
     }
 
-    private void ShowActivatedProcent(int activated, int allCount)
+    private void OnCylinderActivationCountChange(int activated, int allCount)
     {
         if (allCount < activated)
             throw new System.ArgumentException("Activated must by smaller then all!");

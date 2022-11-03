@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CylinderMapGeneratorByImage : CylinderMapGenerator<CylinderMapGeneratorImageArguments>
 {
+    private readonly Color _noAlphaColor = new Color(1, 1, 1, 0);
+
     [SerializeField] private Color _cylinderColor;
     [SerializeField] private Color _nonColor;
-
-    private readonly Color _noAlphaColor = new Color(1, 1, 1, 0);
 
     public override ReadOnlyCylinderMap GetMapByArguments(CylinderMapGeneratorImageArguments arguments)
     {

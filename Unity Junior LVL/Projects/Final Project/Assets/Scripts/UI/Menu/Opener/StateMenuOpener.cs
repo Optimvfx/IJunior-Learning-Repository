@@ -11,22 +11,22 @@ public class StateMenuOpener : MonoBehaviour
 
     private void OnEnable()
     {
-        _gameState.OnWin += OpenWinMenu;
-        _gameState.OnLosse += OpenLosseMenu;
+        _gameState.OnWin += OnWin;
+        _gameState.OnLosse += OnLosse;
     }
 
     private void OnDisable()
     {
-        _gameState.OnWin -= OpenWinMenu;
-        _gameState.OnLosse -= OpenLosseMenu;
+        _gameState.OnWin -= OnWin;
+        _gameState.OnLosse -= OnLosse;
     }
 
-    private void OpenWinMenu()
+    private void OnWin()
     {
        _menuManger.OpenMenu(_winMenu);
     }
 
-    private void OpenLosseMenu()
+    private void OnLosse()
     {
         _menuManger.OpenMenu(_losseMenu);
     }

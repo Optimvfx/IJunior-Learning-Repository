@@ -10,9 +10,9 @@ public class CylinderMapObjectPlacer : CylinderMapPlacer
 
     private Dictionary<ReadOnlyCylinderMap.MapObjectType, Placer> _mapObjectToPlacerConvertor;
 
-    private delegate Cylinder Placer(Vector2Int positon);
-
     private Vector2Int _mapSize = new Vector2Int(0, 0);
+
+    private delegate Cylinder Placer(Vector2Int positon);
 
     protected override void OnStartPlace(ReadOnlyCylinderMap cylinderMap)
     {

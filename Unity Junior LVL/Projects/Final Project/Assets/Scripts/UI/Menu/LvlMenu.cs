@@ -68,10 +68,10 @@ public class LvlMenu : Menu
 
         newVisualize.Visualize(info);
 
-        newVisualize.OnSellected += GoToGame;
+        newVisualize.OnSellected += OnSellected;
     }
 
-    private void GoToGame(ReadOnlyLvlInfo info)
+    private void OnSellected(ReadOnlyLvlInfo info)
     {
         if (IsPrewiusLvlComplited(info) == false)
             return;

@@ -6,11 +6,16 @@ public class WinPastAllCollected : WinCondition
 
     private void OnEnable()
     {
-        _cylinderSpawnCounter.OnAllCollected += Win;
+        _cylinderSpawnCounter.OnAllCollected += OnAllCollected;
     }
 
     private void OnDisable()
     {
-        _cylinderSpawnCounter.OnAllCollected += Win;
+        _cylinderSpawnCounter.OnAllCollected += OnAllCollected;
+    }
+
+    private void OnAllCollected()
+    {
+        Win();
     }
 }

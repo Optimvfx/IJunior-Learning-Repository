@@ -26,22 +26,22 @@ public class CameraScalerByMove : MonoBehaviour
 
     private void OnEnable()
     {
-        _moveObserver.OnStop += AddStopedFildOfViewModiffer;
-        _moveObserver.OnMove += AddMovedFildOfViewModiffer;
+        _moveObserver.OnStop += OnStop;
+        _moveObserver.OnMove += OnMove;
     }
 
     private void OnDisable()
     {
-        _moveObserver.OnStop -= AddStopedFildOfViewModiffer;
-        _moveObserver.OnMove -= AddMovedFildOfViewModiffer;
+        _moveObserver.OnStop -= OnStop;
+        _moveObserver.OnMove -= OnMove;
     }
 
-    private void AddStopedFildOfViewModiffer()
+    private void OnStop()
     {
         AddFildOfViewModiffer(_stopFieldOfViewModiffier);
     }
 
-    private void AddMovedFildOfViewModiffer(Vector3 offset)
+    private void OnMove(Vector3 offset)
     {
         AddFildOfViewModiffer(_moveFieldOfViewModiffier);
     }

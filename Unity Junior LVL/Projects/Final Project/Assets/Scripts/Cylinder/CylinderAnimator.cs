@@ -16,7 +16,7 @@ public class CylinderAnimator : MonoBehaviour
     private void Awake()
     {
         _standartRotation = transform.rotation;
-        _targetRotation = transform.rotation;   
+        _targetRotation = transform.rotation;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,22 +25,22 @@ public class CylinderAnimator : MonoBehaviour
             RotateFromContact(other.transform.position);
     }
 
-    private void Update()
-    {
-        Rotate();
-    }
-
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.TryGetComponent(out PlayerSaw saw))
         {
             _conectedSawCount--;
 
-            if(_conectedSawCount <= 0)
+            if (_conectedSawCount <= 0)
             {
                 BackStandartRotation();
             }
-        }    
+        }
+    }
+
+    private void Update()
+    {
+        Rotate();
     }
 
     private void RotateFromContact(Vector3 conectionPoint)
@@ -52,8 +52,9 @@ public class CylinderAnimator : MonoBehaviour
 
         var rotationFromConectPoint = normalizedOffset * _fullCircle;
 
-       _targetRotation = Quaternion.Lerp(_standartRotation, Quaternion.Euler(rotationFromConectPoint), _rotationModiffier);
+        _targetRotation = Quaternion.Lerp(_standartRotation, Quaternion.Euler(rotationFromConectPoint), _rotationModiffier);
     }
+
 
     private void BackStandartRotation()
     {

@@ -11,10 +11,115 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Imported Assets/Tools/WaterExample/ToonWater_Scene.unity
     guid: d753a8894410195469f001a7d83f083d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Imported Assets/MobileDepthWater/Scenes/DemoScene.unity
     guid: 56af498a20d7fb14ab9dd5bbde060f9d
+  - enabled: 0
+    path: Assets/Imported Assets/unity-typed-scenes-master/unity-typed-scenes-master/Assets/Plugins/TypedScenes/Samples/SampleScene.unity
+    guid: b80ae8f106a78d948b7d939d5fb9ec0b
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/StormySky.unity
+    guid: bf24e59655903b945acf508e417148ed
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/BrightMorning.unity
+    guid: 4df2d2394306cf84fa7210e4fe7484ab
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/MoodySunrise02.unity
+    guid: 51c05ebea62d69942b4afef6790921c4
+  - enabled: 0
+    path: Assets/Imported Assets/VolumetricLines/BuiltInRenderPipeline/ExampleScenes/StaticLines.unity
+    guid: 272ba8d0ddc690a49b4f2ca2888387b6
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/PinkSunset.unity
+    guid: fabb95ba4708a954dbc533ef0e75805a
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/BlueSky02.unity
+    guid: 8daff99bb03a61240bb092da7628d9cb
+  - enabled: 0
+    path: Assets/Imported Assets/VolumetricLines/BuiltInRenderPipeline/ExampleScenes/LineGenerationScripts.unity
+    guid: 5b2755a8fdfb8dc43a73d7fa7608323a
+  - enabled: 0
+    path: Assets/Imported Assets/!VibrantEffectTexturesFreePack/ParticleTestScene.unity
+    guid: e687b0c4b843c8e42bb6018027725380
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/BlueSky.unity
+    guid: 4f4a91c9c0fbc3c4a81969f25bfa8fd5
+  - enabled: 0
+    path: Assets/Imported Assets/VolumetricLines/BuiltInRenderPipeline/ExampleScenes/LaserCannon.unity
+    guid: ad00a3bf6d3c5e94cbc53a7d0d337aca
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/MoodySunrise.unity
+    guid: 7d67e75c13e8d0d40b1b1705799133d9
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_18___ScrollRect___Masking___Layout.unity
+    guid: 20fac632f9cb92442859313b364cf46f
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_10___Bullets___Numbered_List_Example.unity
+    guid: 810450c71d2ef134a84309913c8c0a8d
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_16___Linked_text_overflow_mode_example.unity
+    guid: 9e73ec2e76fd415408993e93d208517f
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_09___Margin_Tag_Example.unity
+    guid: c56949b8736d24c4ea8d8169b898b8e5
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_03___Line_Justification.unity
+    guid: 6b5cd6aa1c46a9b4096fa5d6917c5496
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_25___Sunny_Days_Example.unity
+    guid: c9e64a349c0acf34393859c42ec80591
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_24___Surface_Shader_Example.unity
+    guid: f5f9bd4d9540981498458a4c10933383
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_04___Word_Wrapping.unity
+    guid: bb73145af229b70469f1bad1b46ecd6c
+  - enabled: 0
+    path: Assets/Imported Assets/JMO Assets/Cartoon FX (legacy)/Demo/CFX_Free_Demo.unity
+    guid: 6b4b3800ba9bfa747ac97facefb29528
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_02___Multi_line_TextMesh_Pro.unity
+    guid: 767fd816dfb5e5c4c991b0a902460375
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_26___Dropdown_Placeholder_Example.unity
+    guid: aacf6e61eb228e940a27df13c0a78d4c
+  - enabled: 0
+    path: Assets/Imported Assets/Simple city plain/scene/Demo_Scene.unity
+    guid: 4957c7601d6f27344997652fc6b8064e
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_17___Old_Computer_Terminal.unity
+    guid: 7f0c787aeb32ded4e87bad05135d9873
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_12___Link_Example.unity
+    guid: fefef37aa4d473b45bf0094745eec017
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_08___Improved_Text_Alignment.unity
+    guid: a1abf079a0fd479409c6ef1fdd3ce4aa
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_20___Input_Field_with_Scrollbar.unity
+    guid: fb21ab38e08e7cf41b9b978de0706b5f
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_22___Basic_Scripting_Example.unity
+    guid: aa7a5dfcb8eaa4544a24ad2fbcc58fad
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_14___Multi_Font___Sprites.unity
+    guid: 33fc587e951bcb24e9fd78b5f0a46dae
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_07___Superscript___Subscript_Example.unity
+    guid: 3304b490d0dc0a5478ab4e79a9626ce7
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_15___Inline_Graphics___Sprites.unity
+    guid: a734a1880551d42419a4c49f73e71efe
+  - enabled: 0
+    path: Assets/Imported Assets/TextMesh Pro/Examples & Extras/Scenes/_23___Animating_Vertex_Attributes.unity
+    guid: eda0e207e9bbca0468608aea08077ff8
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/GoldenHorizon.unity
+    guid: 9fc2927ee7247e1439fd87b6d8319585
+  - enabled: 0
+    path: Assets/Imported Assets/BrokenVector/Arkham Interactive/Toony/Skies/Scenes/PinkSunset02.unity
+    guid: 88983027ad0cedf4a9f94b51efd6bab2
   m_configObjects: {}

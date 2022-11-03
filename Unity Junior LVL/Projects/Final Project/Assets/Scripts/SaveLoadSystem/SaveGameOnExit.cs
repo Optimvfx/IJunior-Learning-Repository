@@ -6,20 +6,20 @@ public class SaveGameOnExit : MonoBehaviour
 
     private void OnEnable()
     {
-        _savable.OnGameLoading += Save; 
+        _savable.OnGameLoading += OnGameLoading; 
     }
 
     private void OnDisable()
     {
-        _savable.OnGameLoading -= Save;
+        _savable.OnGameLoading -= OnGameLoading;
     }
 
     private void OnApplicationQuit()
     {
-        Save();
+        OnGameLoading();
     }
 
-    public void Save()
+    public void OnGameLoading()
     {
         GameSaveLoader.Save(_savable.Lvls);
     }

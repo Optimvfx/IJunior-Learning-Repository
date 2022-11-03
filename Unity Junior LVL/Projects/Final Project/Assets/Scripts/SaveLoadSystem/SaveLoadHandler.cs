@@ -3,7 +3,7 @@ using System;
 
 public class SaveLoadHandler<T>
 {
-    private const string _playerPrefsHeader = "SaveLoadHandler";
+    private const string PlayerPrefsHeader = "SaveLoadHandler";
 
     public T Load(string key)
     {
@@ -47,6 +47,6 @@ public class SaveLoadHandler<T>
 
     private string GenerateKey(string baseKey)
     {
-        return _playerPrefsHeader + baseKey;
+        return PlayerPrefsHeader + baseKey;
     }
 }

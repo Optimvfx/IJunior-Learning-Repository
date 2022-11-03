@@ -20,15 +20,15 @@ public class CylinderColorChanger : MonoBehaviour
 
     private void OnEnable()
     {
-        _cylinder.OnActivate += SetActivateColor;   
+        _cylinder.OnActivate += OnActivate;   
     }
 
     private void OnDisable()
     {
-        _cylinder.OnActivate -= SetActivateColor;
+        _cylinder.OnActivate -= OnActivate;
     }
 
-    private void SetActivateColor(Cylinder cylinder)
+    private void OnActivate(Cylinder cylinder)
     {
         _renderer.material = _activatedMaterial;
 

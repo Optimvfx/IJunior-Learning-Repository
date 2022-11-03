@@ -21,7 +21,7 @@ MonoBehaviour:
   m_ShowMode: 4
   m_Title: Project
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 875, y: 542}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 0
 --- !u!114 &2
@@ -45,10 +45,10 @@ MonoBehaviour:
     y: 30
     width: 1903
     height: 931
-  m_MinSize: {x: 677, y: 492}
-  m_MaxSize: {x: 14001, y: 14042}
+  m_MinSize: {x: 679, y: 492}
+  m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 77
+  controlID: 150
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -68,8 +68,8 @@ MonoBehaviour:
     y: 0
     width: 635
     height: 931
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -94,8 +94,8 @@ MonoBehaviour:
     y: 0
     width: 400
     height: 440
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -225,10 +225,10 @@ MonoBehaviour:
     y: 0
     width: 1268
     height: 931
-  m_MinSize: {x: 402, y: 492}
+  m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 110
+  controlID: 37
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -250,10 +250,10 @@ MonoBehaviour:
     y: 0
     width: 1268
     height: 440
-  m_MinSize: {x: 402, y: 221}
-  m_MaxSize: {x: 8002, y: 4021}
+  m_MinSize: {x: 403, y: 221}
+  m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 111
+  controlID: 38
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -435,23 +435,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scenes
+    - Assets/Scripts
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scenes
+  - Assets/Scripts
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\lesons\Repositories\IJunior-Learning-Repository\Unity Junior
     LVL\Projects\Final Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 494}
-    m_SelectedIDs: 02420000
-    m_LastClickedID: 16898
-    m_ExpandedIDs: 00000000e4410000e6410000e8410000ea410000f6410000fe4100000442000014420000a4450000884d00008a4d00008c4d00008e4d000054580000706b0100746b010000ca9a3b
+    scrollPos: {x: 0, y: 190}
+    m_SelectedIDs: 5af20000
+    m_LastClickedID: 62042
+    m_ExpandedIDs: 0000000036f2000038f200003af200003cf200005af20000720501007a0501007c050100c20a010000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -479,7 +479,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000e4410000e6410000e8410000ea410000
+    m_ExpandedIDs: 0000000036f2000038f200003af200003cf20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -600,23 +600,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 02420000
+      m_SelectedIDs: 7a4d0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 04017cff80017cff28797eff427e7eff447e7eff72ba7ffff6ba7fff86bb7fff9ebc7fff22bd7fffe4fb80ffeefb80ff6efc80ffdefd80ff2e0382ff380382ff860582ff180a82ff220a82ffc60d82ff2e1782ff841882ff961882ff96df83ff12e083ffa0b687ffe2bd87ffecbd87ff0e188fff02198fff6a5490ff985590ffca8e91ff58ca92ffa8cc92ff62ce92ff8c0794fff04295ff404595ff3a4695ffa67f96fff28196ffb4bb97ff00be97ff6ebf97ffa8f898fff8fa98ff78fb98ff86fc98ff32fd98ffb2fd98ffdc369aff28399aff083a9affe4759bff48b19cff06279fff4c62a0ffc269a1ff106ca1ff0c6da1ff5a72a2ffb074a2ff3475a2ff4876a2ff5276a2ff06b8a6ff56baa6ff6ac1a6ff02b7afffdab7afff1e66d1ffe88aedff6c8bedffc08eedffca8eedff488fedffc48fedff4090edffbc90edff0097f6ff5298f6ff5c98f6ffb4bffcff72bafdff7e77feffde37ffff1efbfffff4ffffffc63f0000e23f00001e400000f44a0000586500006c6d00004c7700007c770000baae00007ebd0000d2bf0000eebf00008a13010024180100a41c0100b62001009a210100ca2401009e260100102c0100e42d0100ba2f0100ec3201002e35010040390100243a0100563d0100bc4301009045010074460100fa4a0100ce4c0100b24d0100c6510100ec6e0100b874010014760100a27a01008c7b01004a94010066940100
+      m_ExpandedIDs: f6acfaff3aaefaff122affff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Ocean
-        m_OriginalName: Ocean
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: -8487370
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_ClientGUIView: {fileID: 4}
       m_SearchString: 

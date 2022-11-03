@@ -6,11 +6,16 @@ public class LossePastDie : LosseCondition
 
     private void OnEnable()
     {
-        _spectableHealth.OnDie += Losse;
+        _spectableHealth.OnDie += OnDie;
     }
 
     private void OnDisable()
     {
-        _spectableHealth.OnDie -= Losse;
+        _spectableHealth.OnDie -= OnDie;
+    }
+
+    private void OnDie()
+    {
+        Losse();
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMover))]
 public class PlayerInput : MonoBehaviour
 {
-    private const int _rmb = 0;
+    public const int Rmb = 0;
 
     private PlayerMover _playerMover;
 
@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(_rmb))
+        if (Input.GetMouseButtonDown(Rmb))
             _playerMover.FlipState();
     }
 }

@@ -16,15 +16,15 @@ public class PlayerFolower : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerMover.OnChangeState += SpectateCurrentStateSaw;
+        _playerMover.OnChangeState += OnChangeState;
     }
 
     private void OnDisable()
     {
-        _playerMover.OnChangeState -= SpectateCurrentStateSaw;
+        _playerMover.OnChangeState -= OnChangeState;
     }
 
-    private void SpectateCurrentStateSaw(PlayerMover.CurrentState state)
+    private void OnChangeState(PlayerMover.CurrentState state)
     {
         if (state == PlayerMover.CurrentState.RotateAroundFirst)
         {

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 150
+  controlID: 149
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 37
+  controlID: 65
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 38
+  controlID: 66
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -435,23 +435,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Extenstions
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Extenstions
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\lesons\Repositories\IJunior-Learning-Repository\Unity Junior
     LVL\Projects\Final Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 190}
-    m_SelectedIDs: 5af20000
-    m_LastClickedID: 62042
-    m_ExpandedIDs: 0000000036f2000038f200003af200003cf200005af20000720501007a0501007c050100c20a010000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 0e440000
+    m_LastClickedID: 17422
+    m_ExpandedIDs: 00000000e8430000ea430000ec430000ee4300000e44000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -479,7 +479,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000036f2000038f200003af200003cf20000
+    m_ExpandedIDs: 00000000e8430000ea430000ec430000ee430000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -600,9 +600,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 7a4d0000
+      m_SelectedIDs: 0e440000
       m_LastClickedID: 0
-      m_ExpandedIDs: f6acfaff3aaefaff122affff
+      m_ExpandedIDs: 52fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -713,7 +713,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.06372819, y: 0.72424114, z: -0.067549065, w: 0.68326867}
     speed: 2
-    m_Value: {x: 0.06372802, y: 0.7242392, z: -0.06754888, w: 0.6832668}
+    m_Value: {x: 0.06372819, y: 0.7242411, z: -0.067549065, w: 0.68326867}
   m_Size:
     m_Target: 12.124356
     speed: 2
@@ -808,23 +808,23 @@ MonoBehaviour:
     m_DrawArea:
       serializedVersion: 2
       x: 0
-      y: 21
+      y: 0
       width: 866
-      height: 398
-    m_Scale: {x: 0.4975, y: 0.4975}
-    m_Translation: {x: 433, y: 199}
+      height: 419
+    m_Scale: {x: 0.52375, y: 0.52375}
+    m_Translation: {x: 433, y: 209.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -870.35175
+      x: -826.7303
       y: -400
-      width: 1740.7035
+      width: 1653.4606
       height: 800
     m_MinimalGUI: 1
-  m_defaultScale: 0.4975
+  m_defaultScale: 0.52375
   m_LastWindowPixelSize: {x: 866, y: 419}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
